@@ -1,0 +1,10 @@
+.element::-webkit-scrollbar {
+  display: none;
+  /* Chrome, Safari, and Opera */
+}
+
+.element {
+
+  -ms-overflow-style: none;
+  /* IE and Edge */
+}
