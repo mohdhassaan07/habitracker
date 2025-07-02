@@ -6,6 +6,6 @@ const router = express.Router();
 router.get('/:userId', getHabits);
 router.post('/createHabit',isLoggedIn, createHabit);
 router.put('/editHabit/:id', editHabit);
-router.get('/logHabit/:id', logHabit);
+router.post('/logHabit/:id', logHabit);
 
 export default router;
