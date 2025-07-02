@@ -4,11 +4,12 @@ import api from '../utils/api';
 import { useTimeOfDay } from './TimeofDay.tsx';
 
 interface JournalDataContextType {
-  habitData: any;
-  timeOfDayData: any;
+  habitData: any[];
+  timeOfDayData: any[];
   fetchHabitData: () => Promise<void>;
   fetchTimeOfDayData: () => Promise<void>;
   updateHabitValue: any;
+  updateHabitCurrentValue: (habitId: string, increment: number) => void;
   loading: boolean;
 }
 
@@ -70,17 +71,29 @@ const HabitProvider = ({ children }: { children: React.ReactNode }) => {
       setHabitData((prev: any[]) =>
         prev.map(habit =>
           habit.id === habitId
-            ? { ...habit, currentValue: habit.currentValue + increment }
+            ? habit.currentValue === habit.unitValue - 1 ? { ...habit, currentValue: habit.currentValue + increment, logs: [...(Array.isArray(habit.logs) ? habit.logs : []), { date: new Date().toISOString(), status: 'completed' }] }
+              : { ...habit, currentValue: habit.currentValue + increment }
             : habit
         )
       );
     }
 
   };
-  
+
+  const updateHabitCurrentValue = (habitId: string, increment: number) => {
+    setHabitData((prev: any[]) =>
+      prev.map(habit =>
+        habit.id === habitId
+          ? habit.currentValue === habit.unitValue ? { ...habit, currentValue: habit.currentValue + increment, logs: [...(Array.isArray(habit.logs) ? habit.logs : []), { date: new Date().toISOString(), status: 'completed' }] }
+            : { ...habit, currentValue: habit.currentValue + increment }
+          : habit
+      )
+    );
+  }
+
 
   return (
-    <HabitDataContext.Provider value={{ habitData, fetchHabitData, timeOfDayData, fetchTimeOfDayData, loading, updateHabitValue }}>
+    <HabitDataContext.Provider value={{ habitData, fetchHabitData, timeOfDayData, fetchTimeOfDayData, loading, updateHabitValue, updateHabitCurrentValue }}>
       {children}
     </HabitDataContext.Provider>
   );

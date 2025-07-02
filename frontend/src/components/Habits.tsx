@@ -9,6 +9,7 @@ import { useSelector } from 'react-redux'
 import { useHabitData } from '../store/HabitProvider'
 import EditHabit from './EditHabit'
 import api from '@/utils/api'
+import { Link } from 'react-router-dom'
 const Habits = () => {
   const [toggleRightSidebar, settoggleRightSidebar] = useState(false)
   const [disabled, setdisabled] = useState(false)
@@ -86,10 +87,14 @@ const Habits = () => {
   const logHabit = async (habitId: any) => {
     try {
       setdisabled(true)
-      let res = await api.get(`/habit/logHabit/${habitId}`)
+      let res = await api.post(`/habit/logHabit/${habitId}`)
       updateHabitValue(habitId)
       if (res.status === 200) {
         toast.success('Habit logged successfully!')
+        setOpenGroups((prev) => ({
+          ...prev,
+          ["completed"]: true,
+        }));
       }
       console.log(res.data)
     } catch (error) {
@@ -102,13 +107,13 @@ const Habits = () => {
   const finalLogHabit = async (habitId: any, status: Status) => {
     try {
       setdisabled(true)
-      let res = await api.get(`/habit/logHabit/${habitId}?status=${status}`)
+      let res = await api.post(`/habit/logHabit/${habitId}?status=${status}`)
       if (res.status === 200) {
         sethabitData((prev) =>
           prev.map((habit) => {
             if (habit.id !== habitId) return habit;
             let safeLogs = Array.isArray(habit.logs) ? habit.logs : [];
-            return { ...habit, logs: [...safeLogs, {  date: new Date().toISOString(), status: status}] }
+            return { ...habit, logs: [...safeLogs, { date: new Date().toISOString(), status: status }] }
           })
         )
 
@@ -118,9 +123,9 @@ const Habits = () => {
         }));
 
         if (status === 'completed') {
-          toast.success('Habit logged successfully!')
+          toast.success('Habit completed successfully!')
         } else if (status === 'skipped') {
-          toast.success('Habit skipped successfully!')
+          toast.success('Habit skipped!')
         } else if (status === 'failed') {
           toast.error('Habit failed!')
         }
@@ -158,20 +163,20 @@ const Habits = () => {
 
   habitData.forEach((habit: any) => {
     const status = getHabitStatus(habit) as Status;
-    statusGroups[status].push(habit);
+    statusGroups[status].push(habit)
   });
 
   if (loading) {
     return <div className="w-full flex justify-center items-center h-screen">
-      <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-500"></div>
+      <div className="animate-spin rounded-full h-20 w-20 border-b-3 border-blue-500"></div>
     </div>
   }
 
   return (
     <>
-      <EditHabit isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} habitId={habitId} />
       {currentUser && (
         <div className="w-full">
+          <EditHabit isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} habitId={habitId} />
           <Header />
           <div className="element px-4 py-4 h-[92vh] overflow-y-auto">
             <div className="flex justify-between ">
@@ -280,11 +285,7 @@ const Habits = () => {
                                 </p>
                               </div>
                               <div className="flex gap-2">
-                                {status === 'pending' && (habit.unitType === "times" ?
-                                  <button disabled={disabled} onClick={(e) => { e.stopPropagation(), logHabit(habit.id) }} className='border-1 border-gray-300 h-8 flex gap-1 p-1  items-center justify-center font-semibold px-2 active:bg-gray-100' >
-                                    <Plus width={16} />1</button> : <button onClick={(e) => e.stopPropagation()} className='border-1 border-gray-300 w-[43px] h-8 flex p-1 items-center justify-center font-semibold px-2 ' ><Timer width={19} /></button>)
-
-                                }
+                               
                                 <Menu as="div" className="relative inline-block text-left">
                                   <div>
                                     <MenuButton
@@ -337,7 +338,7 @@ const Habits = () => {
                     <div className="flex gap-2">
                       {(habit.unitType === "times" ?
                         <button disabled={disabled} onClick={(e) => { e.stopPropagation(), logHabit(habit.id) }} className='border-1 border-gray-300 h-8 flex gap-1 p-1  items-center justify-center font-semibold px-2 active:bg-gray-100' >
-                          <Plus width={16} />1</button> : <button onClick={(e) => e.stopPropagation()} className='border-1 border-gray-300 w-[43px] h-8 flex p-1 items-center justify-center font-semibold px-2 ' ><Timer width={19} /></button>)
+                          <Plus width={16} />1</button> : <Link to={`/journal/timer/${habit.id}`} onClick={(e) => e.stopPropagation()} className='border-1 border-gray-300 w-[43px] h-8 flex p-1 items-center justify-center font-semibold px-2 ' ><Timer width={19} /></Link>)
                       }
                       <Menu as="div" className="relative inline-block text-left">
                         <div>
@@ -390,8 +391,6 @@ const Habits = () => {
                                 <Pencil width={16} /> Edit
                               </a>
                             </MenuItem>
-
-
                           </div>
                         </MenuItems>
                       </Menu>
