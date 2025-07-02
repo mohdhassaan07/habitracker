@@ -201,7 +201,39 @@ const logHabit = async (req, res) => {
       return res.status(200).json({ message: "Habit logged successfully", logHabit });
     }
 
-    if (habit.currentValue === habit.unitValue - 1) {
+    if (habit.currentValue >= habit.unitValue) {
+      return res.status(400).json({ error: "Current value exceeds unit value" });
+    }
+    // Increment the current value of the habit
+    if (habit.unitType === "times") {
+      if (habit.currentValue === habit.unitValue - 1) {
+        let addValue = await prisma.habit.update({
+          where: {
+            id: req.params.id
+          },
+          data: {
+            currentValue: {
+              increment: 1
+            },
+            totalValue: {
+              increment: 1
+            }
+
+          }
+        })
+        console.log(addValue);
+        // If the current value reaches the unit value, log the habit as completed
+        let date = new Date();
+        let logHabit = await prisma.habitLog.create({
+          data: {
+            date: date.toISOString(),
+            habitId: req.params.id,
+            status: "completed"
+          }
+        })
+        return res.status(200).json({ message: "Habit logged in successfully", logHabit });
+      }
+
       let addValue = await prisma.habit.update({
         where: {
           id: req.params.id
@@ -213,48 +245,50 @@ const logHabit = async (req, res) => {
           totalValue: {
             increment: 1
           }
-
         }
       })
       console.log(addValue);
-      // If the current value reaches the unit value, log the habit as completed
-      let date = new Date();
-      let logHabit = await prisma.habitLog.create({
-        data: {
-          date: date.toISOString(),
-          habitId: req.params.id,
-          status: "completed"
+      return res.status(200).json({ message: "Habit logged successfully", addValue });
+    }
+
+    if (habit.unitType === "minutes"){
+      const {sessionValue} = req.body;
+      if (!sessionValue || sessionValue <= 0) {
+        return res.status(400).json({ error: "Session value is required and must be greater than 0" });
+      }
+      const loggedHabit = await prisma.habit.update({
+        where : {
+          id : req.params.id
+        },
+        data : {
+          currentValue : {
+            increment: sessionValue
+          },
+          totalValue : habit.totalValue + sessionValue
         }
       })
-      return res.status(200).json({ message: "Habit logged in successfully", logHabit });
-    }
-    else if (habit.currentValue >= habit.unitValue) {
-      return res.status(400).json({ error: "Current value exceeds unit value" });
-    }
-    // Increment the current value of the habit
-    let addValue = await prisma.habit.update({
-      where: {
-        id: req.params.id
-      },
-      data: {
-        currentValue: {
-          increment: 1
-        },
-        totalValue: {
-          increment: 1
-        }
+      console.log(loggedHabit);
+      if (loggedHabit.currentValue >= loggedHabit.unitValue) {
+        let date = new Date();
+        let logHabit = await prisma.habitLog.create({
+          data: {
+            date: date.toISOString(),
+            habitId: req.params.id,
+            status: "completed"
+          }
+        })
+        // Reset current value to 0 after logging
+        return res.status(200).json({ message: "Habit logged successfully", logHabit });
       }
-    })
-    console.log(addValue);
-    return res.status(200).json({ message: "Habit logged successfully", addValue });
+      return res.status(200).json({ message: "Habit logged successfully", loggedHabit });
+    }
+
   } catch (error) {
     console.error("Error logging habit:", error);
     res.status(500).json({ error: "Error Logging Habit" });
 
   }
-
 }
-
 
 export {
   getHabits,
