@@ -5,6 +5,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux"
 import { useEffect } from "react"
 import { signout } from "./redux/userSlice"
+import Timer from "./pages/Timer"
 
 const App = () => {
   const { currentUser, loginTime } = useSelector((state: any) => state.user)
@@ -25,6 +26,8 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/journal" element={<Journal />} />
         <Route path="/logout" element={<Logout />} />
+        <Route path="*" element={<div className="w-full h-screen flex justify-center items-center text-3xl font-semibold">404 Not Found</div>} />
+        <Route path="/journal/timer/:habitId" element={<Timer/>} />
       </Routes>
 
     </BrowserRouter>
