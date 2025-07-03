@@ -42,11 +42,10 @@ const Habits = () => {
 
   type Status = 'completed' | 'skipped' | 'failed' | 'pending';
 
-  const isSamePeriod = (logDate: string, frequency: string): boolean => {
+  const isSamePeriod = (logDate: string, habit: any): boolean => {
     const today = new Date();
     const log = new Date(logDate);
-    // console.log("logDate", logDate, "frequency", frequency, "today", today, "log", log)
-    switch (frequency) {
+    switch (habit.frequency) {
       case "daily":
         return log.toDateString() === today.toDateString();
 
@@ -54,13 +53,13 @@ const Habits = () => {
         const startOfWeek = new Date(log);
         const endOfWeek = new Date(startOfWeek);
         endOfWeek.setDate(startOfWeek.getDate() + 6);
-        return log >= startOfWeek && log <= endOfWeek;
+        return today >= startOfWeek && today <= endOfWeek;
 
       case "monthly":
         const startOfMonth = new Date(log);
         const endOfMonth = new Date(startOfMonth);
         endOfMonth.setDate(endOfMonth.getDate() + 6);
-        return log >= startOfMonth && log <= endOfMonth;
+        return today >= startOfMonth && today <= endOfMonth;
 
       default:
         return false;
@@ -78,7 +77,7 @@ const Habits = () => {
     const logs = habit.logs;
     const lastLog = logs && logs.length > 0 ? logs[logs.length - 1] : null;
     // console.log(habit.name,"lastLog", lastLog)
-    if (lastLog && isSamePeriod(lastLog.date, habit.frequency)) {
+    if (lastLog && isSamePeriod(lastLog.date, habit)) {
       return lastLog.status;
     }
     return 'pending';
@@ -109,7 +108,7 @@ const Habits = () => {
           prev.map((habit) => {
             if (habit.id !== habitId) return habit;
             let safeLogs = Array.isArray(habit.logs) ? habit.logs : [];
-            return { ...habit, logs: [...safeLogs, { date: new Date().toISOString(), status: status }] }
+            return { ...habit,currentValue : habit.unitValue , logs: [...safeLogs, { date: new Date().toISOString(), status: status }] }
           })
         )
 
@@ -132,6 +131,28 @@ const Habits = () => {
       toast.error('Error logging habit!')
     }
     finally {
+      setdisabled(false)
+    }
+  }
+
+  const undoLog = async (habitId: any, logId: any) => {
+    try {
+      setdisabled(true)
+      let res = await api.delete(`/habit/undoLog/${habitId}/${logId}`)
+      if (res.status === 200) {
+        sethabitData((prev) =>
+          prev.map((habit) => {
+            if (habit.id !== habitId) return habit;
+            return { ...habit, logs: habit.logs.filter((log: any) => log.id !== logId) }
+          })
+        )
+        toast.success('Habit log undone successfully!')
+      }
+      console.log(res.data)
+    } catch (error) {
+      console.error(error)
+      toast.error('Error undoing habit log!')
+    } finally {
       setdisabled(false)
     }
   }
@@ -164,7 +185,7 @@ const Habits = () => {
 
   if (loading) {
     return <div className="w-full flex justify-center items-center h-screen">
-      <div className="animate-spin rounded-full h-20 w-20 border-b-3 border-blue-500"></div>
+      <div className="animate-spin rounded-full h-32 w-32 border-b-3 border-blue-500"></div>
     </div>
   }
 
@@ -293,9 +314,9 @@ const Habits = () => {
                                   </div>
                                   <MenuItems onClick={(e) => e.stopPropagation()} className="absolute z-10 mt-2 w-44 -left-36 rounded-md bg-white shadow-lg ring-1 ring-black/5 transition focus:outline-hidden data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in ">
                                     <div className="py-1">
-                                      <MenuItem>
-                                        <a className="flex gap-2 px-4 py-2 text-sm cursor-pointer">
-                                          <Undo width={16} /> Undo Log
+                                      <MenuItem  >
+                                        <a onClick={() => undoLog(habit.id, habit.logs[habit.logs.length - 1].id)} className="flex gap-2 px-4 py-2 text-sm cursor-pointer">
+                                          <Undo width={16} /> Undo Log  
                                         </a>
                                       </MenuItem>
                                     </div>

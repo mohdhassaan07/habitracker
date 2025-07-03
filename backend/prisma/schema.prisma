@@ -13,6 +13,8 @@ model User {
   name    String?
   password String
   habits  Habit[]
+
+  @@index([email])
 }
 
 model Habit {
@@ -29,6 +31,8 @@ model Habit {
   logs      HabitLog[]
   user    User     @relation(fields: [userId], references: [id])
   userId  String
+
+  @@index([id,userId,createdAt])
 }
 
 model TimeOfDay {
@@ -46,6 +50,7 @@ model HabitLog {
   createdAt DateTime  @default(now())
 
   @@unique([habitId, date]) // ensures only one log per day per habit
+  @@index([id,habitId])
 }
 
 enum UnitType {
