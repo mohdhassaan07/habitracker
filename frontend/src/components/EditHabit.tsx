@@ -5,7 +5,7 @@ import api from "@/utils/api"
 import { toast } from 'react-hot-toast'
 
 const EditHabit = (props: any) => {
-    const { habitData, updateHabitValue } = useHabitData()
+    const { habitData, updateHabitValue, updateHabits } = useHabitData()
     const [formData, setFormData] = useState({
         name: '',
         unitValue: 1,
@@ -63,8 +63,6 @@ const EditHabit = (props: any) => {
         }
     }, [formData.timeOfDay]);
 
-
-
     useEffect(() => {
         const selected = Object.keys(selectedTimes).filter((time) => selectedTimes[time as keyof typeof selectedTimes]);
         setFormData((prev: any) => ({
@@ -113,6 +111,27 @@ const EditHabit = (props: any) => {
                 frequency: 'daily',
                 timeOfDay: [],
             })
+        }
+    }
+
+    const deleteHabit = async () => {
+        const c = confirm("Are you sure you want to delete this habit?")
+        try {
+            if (c === true) {
+                setloading(true)
+                const response = await api.delete(`/habit/deleteHabit/${props.habitId}`)
+                if (response.status === 200) {
+                    toast.success('Habit Deleted Successfully!')
+                    updateHabits(props.habitId)
+                    props.setIsModalOpen(false)
+                }
+            }
+
+        } catch (error) {
+            console.error("Error deleting habit:", error);
+            toast.error('Failed to delete habit. Please try again.')
+        } finally {
+            setloading(false)
         }
     }
 
@@ -199,7 +218,8 @@ const EditHabit = (props: any) => {
                             )}
                         </div>
                     </div>
-                    <button type="submit" className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600">Save</button>
+                    <button type="submit" className=" bg-blue-500 w-24 p-2 mx-2 text-white px-5 rounded-md hover:bg-blue-600">Save</button>
+                    <a onClick={deleteHabit} className=" bg-red-500 cursor-default text-white w-24 p-2 rounded-md hover:bg-red-600">Delete</a>
                 </form>
             </Modal>
         </div>

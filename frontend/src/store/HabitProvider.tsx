@@ -10,6 +10,7 @@ interface JournalDataContextType {
   fetchTimeOfDayData: () => Promise<void>;
   updateHabitValue: any;
   updateHabitCurrentValue: (habitId: string, increment: number) => void;
+  updateHabits: (habitId: string) => void;
   loading: boolean;
 }
 
@@ -56,6 +57,11 @@ const HabitProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }
 
+  const updateHabits = (habitId:string)=>{
+    let newdata = habitData.filter((h:any) => h.id !== habitId )
+    setHabitData(newdata)
+  }
+
   const updateHabitValue = (habitId: string, unitValue?: number, increment: number = 1) => {
     if (unitValue) {
       setHabitData((prev: any[]) =>
@@ -93,7 +99,7 @@ const HabitProvider = ({ children }: { children: React.ReactNode }) => {
 
 
   return (
-    <HabitDataContext.Provider value={{ habitData, fetchHabitData, timeOfDayData, fetchTimeOfDayData, loading, updateHabitValue, updateHabitCurrentValue }}>
+    <HabitDataContext.Provider value={{ habitData, fetchHabitData, timeOfDayData, fetchTimeOfDayData, loading, updateHabitValue, updateHabitCurrentValue, updateHabits }}>
       {children}
     </HabitDataContext.Provider>
   );
