@@ -289,6 +289,37 @@ const logHabit = async (req, res) => {
   }
 }
 
+const undoLog = async(req,res)=>{
+  try {
+    const habit = await prisma.habit.findUnique({
+      where : {
+        id : req.params.habitId
+      }
+    })
+    if(!habit) return res.status(400).json({message:"habit not found"})
+      await prisma.habit.update({
+      where : {
+        id : req.params.habitId
+      },
+      data : {
+        totalValue : habit.totalValue-habit.currentValue,
+        currentValue : {set : 0}
+      }
+    })
+    const deletedLog = await prisma.habitLog.delete({
+      where : {
+        id : req.params.logId,
+        habitId : req.params.habitId
+      }
+    })
+    
+    return res.status(200).json({message : "undo done",deletedLog})
+  } catch (error) {
+    console.error(error)
+    return res.status(500).json({ message: "Error deleting Habit", error });
+  }
+}
+
 const deleteHabit = async (req, res) => {
   try {
     await prisma.habitLog.deleteMany({
@@ -314,5 +345,6 @@ export {
   editHabit,
   createHabit,
   logHabit,
-  deleteHabit
+  deleteHabit,
+  undoLog
 }
