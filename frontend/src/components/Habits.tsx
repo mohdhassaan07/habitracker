@@ -45,7 +45,7 @@ const Habits = () => {
   const isSamePeriod = (logDate: string, frequency: string): boolean => {
     const today = new Date();
     const log = new Date(logDate);
-
+    // console.log("logDate", logDate, "frequency", frequency, "today", today, "log", log)
     switch (frequency) {
       case "daily":
         return log.toDateString() === today.toDateString();
@@ -77,7 +77,7 @@ const Habits = () => {
   const getHabitStatus = (habit: any) => {
     const logs = habit.logs;
     const lastLog = logs && logs.length > 0 ? logs[logs.length - 1] : null;
-
+    // console.log(habit.name,"lastLog", lastLog)
     if (lastLog && isSamePeriod(lastLog.date, habit.frequency)) {
       return lastLog.status;
     }
@@ -91,10 +91,6 @@ const Habits = () => {
       updateHabitValue(habitId)
       if (res.status === 200) {
         toast.success('Habit logged successfully!')
-        setOpenGroups((prev) => ({
-          ...prev,
-          ["completed"]: true,
-        }));
       }
       console.log(res.data)
     } catch (error) {
@@ -285,7 +281,7 @@ const Habits = () => {
                                 </p>
                               </div>
                               <div className="flex gap-2">
-                               
+
                                 <Menu as="div" className="relative inline-block text-left">
                                   <div>
                                     <MenuButton

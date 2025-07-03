@@ -251,20 +251,20 @@ const logHabit = async (req, res) => {
       return res.status(200).json({ message: "Habit logged successfully", addValue });
     }
 
-    if (habit.unitType === "minutes"){
-      const {sessionValue} = req.body;
+    if (habit.unitType === "minutes") {
+      const { sessionValue } = req.body;
       if (!sessionValue || sessionValue <= 0) {
         return res.status(400).json({ error: "Session value is required and must be greater than 0" });
       }
       const loggedHabit = await prisma.habit.update({
-        where : {
-          id : req.params.id
+        where: {
+          id: req.params.id
         },
-        data : {
-          currentValue : {
+        data: {
+          currentValue: {
             increment: sessionValue
           },
-          totalValue : habit.totalValue + sessionValue
+          totalValue: habit.totalValue + sessionValue
         }
       })
       console.log(loggedHabit);
@@ -286,7 +286,26 @@ const logHabit = async (req, res) => {
   } catch (error) {
     console.error("Error logging habit:", error);
     res.status(500).json({ error: "Error Logging Habit" });
+  }
+}
 
+const deleteHabit = async (req, res) => {
+  try {
+    await prisma.habitLog.deleteMany({
+      where: {
+        habitId: req.params.id
+      }
+    })
+    const habit = await prisma.habit.delete({
+      where: {
+        id: req.params.id
+      },
+    })
+    console.log("habit deleted",habit)
+    return res.status(200).json({ message: "habit deleted successfully", habit })
+  } catch (error) {
+    console.error(error)
+    return res.status(500).json({ message: "Error deleting Habit", error });
   }
 }
 
@@ -294,5 +313,6 @@ export {
   getHabits,
   editHabit,
   createHabit,
-  logHabit
+  logHabit,
+  deleteHabit
 }
