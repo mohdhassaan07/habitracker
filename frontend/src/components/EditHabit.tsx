@@ -136,10 +136,10 @@ const EditHabit = (props: any) => {
     }
 
     if (loading) {
-        return <div className="flex justify-center items-center h-screen">
-            <div className="animate-spin fixed left-1/2 rounded-full h-32 w-32 border-b-2 border-blue-500"></div>
-        </div>
-    }
+    return <div className="w-full flex justify-center items-center h-screen">
+      <div className="animate-spin rounded-full h-32 w-32 border-b-3 border-blue-500"></div>
+    </div>
+  }
 
     return (
         <div>
