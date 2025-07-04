@@ -289,31 +289,31 @@ const logHabit = async (req, res) => {
   }
 }
 
-const undoLog = async(req,res)=>{
+const undoLog = async (req, res) => {
   try {
     const habit = await prisma.habit.findUnique({
-      where : {
-        id : req.params.habitId
+      where: {
+        id: req.params.habitId
       }
     })
-    if(!habit) return res.status(400).json({message:"habit not found"})
-      await prisma.habit.update({
-      where : {
-        id : req.params.habitId
+    if (!habit) return res.status(400).json({ message: "habit not found" })
+    await prisma.habit.update({
+      where: {
+        id: req.params.habitId
       },
-      data : {
-        totalValue : habit.totalValue-habit.currentValue,
-        currentValue : {set : 0}
+      data: {
+        totalValue: habit.totalValue - habit.currentValue,
+        currentValue: { set: 0 }
       }
     })
     const deletedLog = await prisma.habitLog.delete({
-      where : {
-        id : req.params.logId,
-        habitId : req.params.habitId
+      where: {
+        id: req.params.logId,
+        habitId: req.params.habitId
       }
     })
-    
-    return res.status(200).json({message : "undo done",deletedLog})
+
+    return res.status(200).json({ message: "undo done", deletedLog })
   } catch (error) {
     console.error(error)
     return res.status(500).json({ message: "Error deleting Habit", error });
@@ -332,11 +332,30 @@ const deleteHabit = async (req, res) => {
         id: req.params.id
       },
     })
-    console.log("habit deleted",habit)
+    console.log("habit deleted", habit)
     return res.status(200).json({ message: "habit deleted successfully", habit })
   } catch (error) {
     console.error(error)
     return res.status(500).json({ message: "Error deleting Habit", error });
+  }
+}
+
+const getLoggedData = async (req, res) => {
+  try {
+    const groupedLogs = await prisma.habitLog.groupBy({
+      by: ['status'],
+      where: {
+        habitId: req.params.habitId
+      },
+      _count: {
+        status: true
+      }
+
+    });
+    return res.status(200).json(groupedLogs);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Error fetching logged data", error });
   }
 }
 
@@ -346,5 +365,6 @@ export {
   createHabit,
   logHabit,
   deleteHabit,
-  undoLog
+  undoLog,
+  getLoggedData
 }

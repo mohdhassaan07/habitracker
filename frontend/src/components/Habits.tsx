@@ -15,6 +15,7 @@ const Habits = () => {
   const [disabled, setdisabled] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [habitId, sethabitId] = useState("")
+  const [habit, sethabit] = useState<any>({})
   const [openGroups, setOpenGroups] = useState<{ [key in Status]: boolean }>({
     completed: false,
     skipped: false,
@@ -33,6 +34,7 @@ const Habits = () => {
       }
     }
     getData()
+
   }, [])
 
   useEffect(() => {
@@ -42,8 +44,8 @@ const Habits = () => {
 
   type Status = 'completed' | 'skipped' | 'failed' | 'pending';
 
+  const today = new Date();
   const isSamePeriod = (logDate: string, habit: any): boolean => {
-    const today = new Date();
     const log = new Date(logDate);
     switch (habit.frequency) {
       case "daily":
@@ -54,7 +56,6 @@ const Habits = () => {
         const endOfWeek = new Date(startOfWeek);
         endOfWeek.setDate(startOfWeek.getDate() + 6);
         return today >= startOfWeek && today <= endOfWeek;
-
       case "monthly":
         const startOfMonth = new Date(log);
         const endOfMonth = new Date(startOfMonth);
@@ -76,7 +77,6 @@ const Habits = () => {
   const getHabitStatus = (habit: any) => {
     const logs = habit.logs;
     const lastLog = logs && logs.length > 0 ? logs[logs.length - 1] : null;
-    // console.log(habit.name,"lastLog", lastLog)
     if (lastLog && isSamePeriod(lastLog.date, habit)) {
       return lastLog.status;
     }
@@ -104,14 +104,16 @@ const Habits = () => {
       setdisabled(true)
       let res = await api.post(`/habit/logHabit/${habitId}?status=${status}`)
       if (res.status === 200) {
-        sethabitData((prev) =>
-          prev.map((habit) => {
-            if (habit.id !== habitId) return habit;
-            let safeLogs = Array.isArray(habit.logs) ? habit.logs : [];
-            return { ...habit,currentValue : habit.unitValue , logs: [...safeLogs, { date: new Date().toISOString(), status: status }] }
-          })
-        )
-
+       
+          sethabitData((prev) =>
+            prev.map((habit) => {
+              if (habit.id !== habitId) return habit;
+              let safeLogs = Array.isArray(habit.logs) ? habit.logs : [];
+              if(status==="completed") return { ...habit, currentValue: habit.unitValue, logs: [...safeLogs, { date: new Date().toISOString(), status: status }] }
+              return { ...habit, currentValue: 0, logs: [...safeLogs, { date: new Date().toISOString(), status: status }] }
+            })
+          )
+      
         setOpenGroups((prev) => ({
           ...prev,
           [status]: true,
@@ -156,6 +158,16 @@ const Habits = () => {
       setdisabled(false)
     }
   }
+
+  // const checkDisabled = (habit: any) => {
+  //   const lastLog = habit.logs && habit.logs.length > 0 ? habit.logs[habit.logs.length - 1] : null;
+  //   if (lastLog.date.getHours()+5 > today.getHours()) {
+  //     return true;
+  //   }
+  //   else{
+  //     return false;
+  //   }
+  // }
 
   const getHabitColor = (status: Status) => {
     switch (status) {
@@ -286,7 +298,7 @@ const Habits = () => {
                           <div
                             key={habit.id}
                             className={`habit flex items-center p-3 rounded-md mb-2 ${bgColor}`}
-                            onClick={() => settoggleRightSidebar(!toggleRightSidebar)}
+                            onClick={() => { settoggleRightSidebar(!toggleRightSidebar); sethabit(habit) }}
                           >
                             <div className="circle bg-gray-400 w-10 h-10 rounded-full"></div>
                             <div className="ml-3 flex justify-between w-full">
@@ -314,9 +326,10 @@ const Habits = () => {
                                   </div>
                                   <MenuItems onClick={(e) => e.stopPropagation()} className="absolute z-10 mt-2 w-44 -left-36 rounded-md bg-white shadow-lg ring-1 ring-black/5 transition focus:outline-hidden data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in ">
                                     <div className="py-1">
-                                      <MenuItem  >
-                                        <a onClick={() => undoLog(habit.id, habit.logs[habit.logs.length - 1].id)} className="flex gap-2 px-4 py-2 text-sm cursor-pointer">
-                                          <Undo width={16} /> Undo Log  
+
+                                      <MenuItem >
+                                        <a onClick={() => undoLog(habit.id, habit.logs[habit.logs.length - 1].id)} className={`flex gap-2 px-4 py-2 text-sm cursor-pointer `}>
+                                          <Undo width={16} /> Undo Log
                                         </a>
                                       </MenuItem>
                                     </div>
@@ -338,7 +351,7 @@ const Habits = () => {
                 <div
                   key={habit.id}
                   className={`habit flex items-center p-3 rounded-md mb-2`}
-                  onClick={() => settoggleRightSidebar(!toggleRightSidebar)}
+                  onClick={() => { settoggleRightSidebar(!toggleRightSidebar); sethabit(habit) }}
                 >
                   <div className="circle bg-gray-400 w-10 h-10 rounded-full"></div>
                   <div className="ml-3 flex justify-between w-full">
@@ -428,7 +441,7 @@ const Habits = () => {
           </div>
         </div>
       ) : (
-        <RightSidebar />
+        <RightSidebar habit={habit} />
       )}
 
 
