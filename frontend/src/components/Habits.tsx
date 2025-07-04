@@ -16,6 +16,8 @@ const Habits = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [habitId, sethabitId] = useState("")
   const [habit, sethabit] = useState<any>({})
+
+  type Status = 'completed' | 'skipped' | 'failed' | 'pending';
   const [openGroups, setOpenGroups] = useState<{ [key in Status]: boolean }>({
     completed: false,
     skipped: false,
@@ -41,16 +43,14 @@ const Habits = () => {
     sethabitData(initialHabitData);
   }, [initialHabitData])
 
-
-  type Status = 'completed' | 'skipped' | 'failed' | 'pending';
+  
 
   const today = new Date();
   const isSamePeriod = (logDate: string, habit: any): boolean => {
     const log = new Date(logDate);
     switch (habit.frequency) {
       case "daily":
-        return log.toDateString() === today.toDateString();
-
+        return log.toDateString() === today.toDateString()
       case "weekly":
         const startOfWeek = new Date(log);
         const endOfWeek = new Date(startOfWeek);
