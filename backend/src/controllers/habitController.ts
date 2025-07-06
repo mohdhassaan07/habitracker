@@ -353,18 +353,40 @@ const logHabit = async (req, res) => {
         }
       })
       console.log(loggedHabit);
+      const logged = await prisma.habitLog.upsert({
+        where: {
+          habitId_date: { habitId: req.params.id, date: date }
+        },
+        update: {
+          status: "pending",
+          totalValue: habit.currentValue + sessionValue
+        },
+        create: {
+          date: date,
+          habitId: req.params.id,
+          status: "pending",
+          totalValue: habit.currentValue + sessionValue
+        }
+      })
       if (loggedHabit.currentValue >= loggedHabit.unitValue) {
-        let logHabit = await prisma.habitLog.create({
-          data: {
+        let logHabit = await prisma.habitLog.upsert({
+          where: {
+            habitId_date: { habitId: req.params.id, date: date }
+          },
+          update: {
+            status: "completed",
+            totalValue: habit.currentValue + sessionValue
+          },
+          create: {
             date: date,
             habitId: req.params.id,
-            status: "completed"
+            status: "completed",
+            totalValue: habit.currentValue + sessionValue
           }
         })
-        // Reset current value to 0 after logging
         return res.status(200).json({ message: "Habit logged successfully", logHabit });
       }
-      return res.status(200).json({ message: "Habit logged successfully", loggedHabit });
+      return res.status(200).json({ message: "Habit logged successfully", loggedHabit, "log" : logged });
     }
 
   } catch (error) {
@@ -435,13 +457,9 @@ const getLoggedData = async (req, res) => {
         status: true
       }
     });
-    const groupedByDate = await prisma.habitLog.groupBy({
-      by: ['date'],
+    const groupedByDate = await prisma.habitLog.findMany({
       where: {
         habitId: req.params.habitId
-      },
-      _count: {
-        date: true
       }
     })
     return res.status(200).json({ groupedLogs, groupedByDate });
