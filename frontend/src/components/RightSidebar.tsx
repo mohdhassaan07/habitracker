@@ -1,16 +1,20 @@
 import api from "@/utils/api";
 import { ArrowRight, ArrowUp, Check, Pencil, X } from "lucide-react";
 import { useEffect, useState, useRef } from "react";
+import { BarChart } from '@mui/x-charts/BarChart';
 
 const RightSidebar = ({ habit }: any) => {
-  const [width, setWidth] = useState(345); // Initial width
+  const [width, setWidth] = useState(800); // Initial width
   const isResizing = useRef(false);
   const [completed, setcompleted] = useState(0)
   const [failed, setfailed] = useState(0)
   const [skipped, setskipped] = useState(0)
   const [failedCount, setfailedCount] = useState(0)
   const [skippedCount, setskippedCount] = useState(0)
-
+  const [seriesData, setseriesData] = useState<any>([])
+  const [x_axisData, setx_axisData] = useState([5,5,6,3,2,6])
+  const dates:any = []
+  const data:any = []
   //checking the logs of the habit for this week
   const checkThisWeek = () => {
     setskippedCount(0);
@@ -20,6 +24,7 @@ const RightSidebar = ({ habit }: any) => {
     startOfWeek.setDate(today.getDate() - today.getDay());
     const endOfWeek = new Date();
     endOfWeek.setDate(startOfWeek.getDate() + 6);
+
     habit.logs.forEach((log: any) => {
       const logDate = new Date(log.date);
       if (logDate >= startOfWeek && logDate <= endOfWeek) {
@@ -32,14 +37,23 @@ const RightSidebar = ({ habit }: any) => {
     })
   }
 
+
   useEffect(() => {
     const fetchLoggedData = async () => {
       try {
         const res = await api.get(`/habit/loggedData/${habit.id}`);
         if (res.status === 200) {
-          const loggedData = res.data;
+          const loggedData = res.data.groupedLogs;
+          const datesData = res.data.groupedByDate
+
+          await datesData.forEach((log:any)=>{
+              dates.push(log.date.split('T')[0].slice(5,10))
+              data.push(log._count.date)
+          })
+          setseriesData(dates.slice(0,datesData.length>7 ? 7 : datesData.length))
+          setx_axisData(data)
           // Process loggedData as needed
-          console.log("Logged Data:", loggedData);
+          console.log("Logged Data:", res);
           loggedData.forEach((log: any) => {
             if (log.status === "completed") {
               setcompleted(log._count.status);
@@ -57,9 +71,7 @@ const RightSidebar = ({ habit }: any) => {
     fetchLoggedData()
     checkThisWeek()
   }, [habit])
-
-
-
+  console.log(seriesData)
 
   const handleMouseDown = () => {
     isResizing.current = true;
@@ -69,7 +81,7 @@ const RightSidebar = ({ habit }: any) => {
     if (!isResizing.current) return;
 
     const newWidth = window.innerWidth - e.clientX;
-    if (newWidth > 300 && newWidth < 650) {
+    if (newWidth > 500 && newWidth < 1000) {
       setWidth(newWidth);
     }
   };
@@ -88,7 +100,7 @@ const RightSidebar = ({ habit }: any) => {
     };
   }, []);
   return (
-    <div className="flex h-screen">
+    <div className="element flex h-screen overflow-auto">
       {/* Resizable Right Sidebar */}
       <div style={{ width: `${width}px` }} className="relative">
 
@@ -137,6 +149,25 @@ const RightSidebar = ({ habit }: any) => {
                 <p className="text-sm font-semibold text-green-600 flex gap-0.5" ><ArrowUp width={16} /> {habit.currentValue} {habit.unitType === "times" ? "times" : "minutes"}</p>
               </div>
             </div>
+          </div>
+
+          <div className="border border-gray-300 rounded-lg">
+            <BarChart
+            borderRadius={5}
+              xAxis={[
+                {
+                  id: 'barCategories',
+                  data: seriesData,
+                },
+              ]}
+              series={[
+                {
+                  data: x_axisData,
+                  color : '#4c8eff',
+                },
+              ]}
+              height={300}
+            />
           </div>
         </div>
         {/* Resizer Handle on the LEFT edge */}

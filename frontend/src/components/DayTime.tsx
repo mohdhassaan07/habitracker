@@ -7,16 +7,16 @@ import '../App.css'
 import RightSidebar from "../components/RightSidebar";
 import { useHabitData } from '@/store/HabitProvider'
 import api from '@/utils/api'
-import {toast} from 'react-hot-toast'
+import { toast } from 'react-hot-toast'
 import EditHabit from './EditHabit'
 import { Link } from 'react-router-dom'
 
-const Habits = (props:any) => {
+const Habits = (props: any) => {
   const [toggleRightSidebar, settoggleRightSidebar] = useState(false)
-  const { timeOfDayData:initialTimeOfDayData, fetchTimeOfDayData, loading, updateHabitValue } = useHabitData();
+  const { timeOfDayData: initialTimeOfDayData, fetchTimeOfDayData, loading, updateHabitValue } = useHabitData();
   const [habitId, sethabitId] = useState("")
   const [disabled, setdisabled] = useState(false)
-    const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(false)
   const [habit, sethabit] = useState<any>({})
   type Status = 'completed' | 'skipped' | 'failed' | 'pending';
   const [openGroups, setOpenGroups] = useState<{ [key in Status]: boolean }>({
@@ -41,7 +41,7 @@ const Habits = (props:any) => {
   useEffect(() => {
     sethabitData(initialTimeOfDayData)
   }, [initialTimeOfDayData])
-  
+
 
   const today = new Date();
   const isSamePeriod = (logDate: string, habit: any): boolean => {

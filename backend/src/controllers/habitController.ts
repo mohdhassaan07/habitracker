@@ -156,18 +156,34 @@ const logHabit = async (req, res) => {
     if (!habit) {
       return res.status(404).json({ error: "Habit not found" });
     }
+    if (habit.currentValue >= habit.unitValue) {
+      return res.status(400).json({ error: "Current value exceeds unit value" });
+    }
+    const now = new Date();
+    const date = new Date(Date.UTC(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate()
+    ));
 
     if (req.query.status && habit.currentValue != habit.unitValue) {
       // If a status is provided, update the habit log
-      let date = new Date();
-      let logHabit = await prisma.habitLog.create({
-        data: {
-          date: date.toISOString(),
-          habitId: req.params.id,
-          status: req.query.status
-        }
-      })
       if (req.query.status === "completed") {
+        let logHabit = await prisma.habitLog.upsert({
+          where: {
+            habitId_date: { habitId: req.params.id, date: date },
+          },
+          update: {
+            status: req.query.status,
+            totalValue: habit.unitValue
+          },
+          create: {
+            habitId: req.params.id,
+            date: date,
+            totalValue: habit.unitValue,
+            status: req.query.status
+          }
+        })
         // If the status is completed, increment the current value
         await prisma.habit.update({
           where: {
@@ -182,8 +198,24 @@ const logHabit = async (req, res) => {
             }
           }
         })
+        return res.status(200).json({ message: "Habit logged successfully", logHabit });
       }
       if (req.query.status === "failed") {
+        let logHabit = await prisma.habitLog.upsert({
+          where: {
+            habitId_date: { habitId: req.params.id, date: date },
+          },
+          update: {
+            status: req.query.status,
+            totalValue: 0
+          },
+          create: {
+            habitId: req.params.id,
+            date: date,
+            totalValue: 0,
+            status: req.query.status
+          }
+        })
         await prisma.habit.update({
           where: {
             id: req.params.id
@@ -197,15 +229,46 @@ const logHabit = async (req, res) => {
             }
           }
         })
+        return res.status(200).json({ message: "Habit logged successfully", logHabit });
       }
-      return res.status(200).json({ message: "Habit logged successfully", logHabit });
+
+      if (req.query.status === "skipped") {
+        let logHabit = await prisma.habitLog.upsert({
+          where: {
+            habitId_date: { habitId: req.params.id, date: date },
+          },
+          update: {
+            status: req.query.status,
+            totalValue: habit.currentValue
+          },
+          create: {
+            habitId: req.params.id,
+            date: date,
+            totalValue: habit.currentValue,
+            status: req.query.status
+          }
+        })
+        await prisma.habit.update({
+          where: {
+            id: req.params.id
+          },
+          data: {
+            currentValue: {
+              set: 0
+            },
+            totalValue: {
+              increment: habit.currentValue
+            }
+          }
+        })
+        return res.status(200).json({ message: "Habit logged successfully", logHabit });
+      }
+
     }
 
-    if (habit.currentValue >= habit.unitValue) {
-      return res.status(400).json({ error: "Current value exceeds unit value" });
-    }
     // Increment the current value of the habit
     if (habit.unitType === "times") {
+
       if (habit.currentValue === habit.unitValue - 1) {
         let addValue = await prisma.habit.update({
           where: {
@@ -218,16 +281,23 @@ const logHabit = async (req, res) => {
             totalValue: {
               increment: 1
             }
-
           }
         })
         console.log(addValue);
         // If the current value reaches the unit value, log the habit as completed
-        let date = new Date();
-        let logHabit = await prisma.habitLog.create({
-          data: {
-            date: date.toISOString(),
+
+        let logHabit = await prisma.habitLog.upsert({
+          where: {
+            habitId_date: { habitId: req.params.id, date: date },
+          },
+          update: {
+            status: "completed",
+            totalValue: habit.unitValue
+          },
+          create: {
             habitId: req.params.id,
+            date: date,
+            totalValue: habit.unitValue,
             status: "completed"
           }
         })
@@ -247,8 +317,23 @@ const logHabit = async (req, res) => {
           }
         }
       })
+      const logged = await prisma.habitLog.upsert({
+        where: {
+          habitId_date: { habitId: req.params.id, date: date }
+        },
+        update: {
+          status: "pending",
+          totalValue: habit.currentValue + 1
+        },
+        create: {
+          date: date,
+          habitId: req.params.id,
+          status: "pending",
+          totalValue: habit.currentValue + 1
+        }
+      })
       console.log(addValue);
-      return res.status(200).json({ message: "Habit logged successfully", addValue });
+      return res.status(200).json({ message: "Habit logged successfully", addValue, "loggedhabit": logged });
     }
 
     if (habit.unitType === "minutes") {
@@ -269,10 +354,9 @@ const logHabit = async (req, res) => {
       })
       console.log(loggedHabit);
       if (loggedHabit.currentValue >= loggedHabit.unitValue) {
-        let date = new Date();
         let logHabit = await prisma.habitLog.create({
           data: {
-            date: date.toISOString(),
+            date: date,
             habitId: req.params.id,
             status: "completed"
           }
@@ -350,9 +434,18 @@ const getLoggedData = async (req, res) => {
       _count: {
         status: true
       }
-
     });
-    return res.status(200).json(groupedLogs);
+    const groupedByDate = await prisma.habitLog.groupBy({
+      by: ['date'],
+      where: {
+        habitId: req.params.habitId
+      },
+      _count: {
+        date: true
+      }
+    })
+    return res.status(200).json({ groupedLogs, groupedByDate });
+
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: "Error fetching logged data", error });
