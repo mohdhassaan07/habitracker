@@ -48,6 +48,7 @@ model HabitLog {
   habit     Habit     @relation(fields: [habitId], references: [id])
   habitId   String
   createdAt DateTime  @default(now())
+  totalValue Int @default(0)
 
   @@unique([habitId, date]) // ensures only one log per day per habit
   @@index([id,habitId])
@@ -68,4 +69,5 @@ enum HabitStatus {
   completed
   failed
   skipped
+  pending
 }

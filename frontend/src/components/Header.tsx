@@ -1,5 +1,5 @@
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
-import { Ban, Plus, Infinity } from 'lucide-react'
+import { Ban, Plus, Infinity, ChevronDown } from 'lucide-react'
 import { useState, useEffect } from 'react';
 import Modal from './Modal'
 import toast, { Toaster } from 'react-hot-toast';
@@ -11,7 +11,7 @@ const Header = () => {
     const [open, setOpen] = useState(false);
     const [isInp, setisInp] = useState('times')
     const [loading, setLoading] = useState(false);
-    const {habitData} = useHabitData();
+    const { habitData } = useHabitData();
     //@ts-ignore
     const navigate = useNavigate();
     const [selectedTimes, setSelectedTimes] = useState({
@@ -118,6 +118,62 @@ const Header = () => {
                                 <Ban width={20} /> Break Bad Habit
                             </a>
                         </MenuItem>
+                    
+                        <Menu as="div" className="relative inline-block text-left">
+                            <div>
+                                <MenuButton className="inline-flex  items-center w-full justify-center gap-x-1 rounded-md  px-3 py-1 text-sm font-semibold text-blue-500">
+                                    <p className="text-blue-600"> Log your mood </p><ChevronDown className="mt-0.5" width={20} />
+                                </MenuButton>
+                            </div>
+
+                            <MenuItems
+                                transition
+                                className="mood absolute z-20 mt-2 w-50 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black/5 transition focus:outline-hidden data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
+                            >
+                                <div className="py-1">
+                                    <MenuItem>
+                                        <a
+                                            href="#"
+                                            className="flex gap-1 align-middle px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden"
+                                        >
+                                            😃 Happy
+                                        </a>
+                                    </MenuItem>
+                                    <MenuItem>
+                                        <a
+                                            href="#"
+                                            className="flex gap-1 align-middle px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden"
+                                        >
+                                            😊 Good
+                                        </a>
+                                    </MenuItem>
+                                    <MenuItem>
+                                        <a
+                                            href="#"
+                                            className="flex gap-1 align-middle px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden"
+                                        >
+                                            😐 Okay
+                                        </a>
+                                    </MenuItem>
+                                    <MenuItem>
+                                        <a
+                                            href="#"
+                                            className="flex gap-1 align-middle px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden"
+                                        >
+                                            😟 Bad
+                                        </a>
+                                    </MenuItem>
+                                    <MenuItem>
+                                        <a
+                                            href="#"
+                                            className="flex gap-1 align-middle px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden"
+                                        >
+                                            😩 Terrible
+                                        </a>
+                                    </MenuItem>
+                                </div>
+                            </MenuItems>
+                        </Menu>
                     </div>
                 </MenuItems>
             </Menu>

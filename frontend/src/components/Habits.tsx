@@ -43,8 +43,6 @@ const Habits = () => {
     sethabitData(initialHabitData);
   }, [initialHabitData])
 
-  
-
   const today = new Date();
   const isSamePeriod = (logDate: string, habit: any): boolean => {
     const log = new Date(logDate);
@@ -210,7 +208,7 @@ const Habits = () => {
           <div className="element px-4 py-4 h-[92vh] overflow-y-auto">
             <div className="flex justify-between ">
               <h2 className="text-xl font-bold mb-4">{'All Habits'}</h2>
-              <Menu as="div" className="relative inline-block text-left">
+              {/* <Menu as="div" className="relative inline-block text-left">
                 <div>
                   <MenuButton className="inline-flex  items-center w-full justify-center gap-x-1 rounded-md  px-3 py-1 text-sm font-semibold text-blue-500">
                     <p className="text-blue-600"> How are you feeling today </p><ChevronDown className="mt-0.5" width={20} />
@@ -264,7 +262,7 @@ const Habits = () => {
                     </MenuItem>
                   </div>
                 </MenuItems>
-              </Menu>
+              </Menu> */}
             </div>
 
             {renderOrder.map((status) =>
