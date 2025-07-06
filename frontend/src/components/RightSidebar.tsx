@@ -48,7 +48,7 @@ const RightSidebar = ({ habit }: any) => {
 
           await datesData.forEach((log:any)=>{
               dates.push(log.date.split('T')[0].slice(5,10))
-              data.push(log._count.date)
+              data.push(log.totalValue)
           })
           setseriesData(dates.slice(0,datesData.length>7 ? 7 : datesData.length))
           setx_axisData(data)
@@ -71,7 +71,6 @@ const RightSidebar = ({ habit }: any) => {
     fetchLoggedData()
     checkThisWeek()
   }, [habit])
-  console.log(seriesData)
 
   const handleMouseDown = () => {
     isResizing.current = true;
