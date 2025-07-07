@@ -29,6 +29,8 @@ model Habit {
   frequency Frequency
   timeOfDay TimeOfDay[]  @relation("HabitTimes")
   logs      HabitLog[]
+  streak  Int @default(0)
+  lastLogged   DateTime?
   user    User     @relation(fields: [userId], references: [id])
   userId  String
 

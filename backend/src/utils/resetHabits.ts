@@ -33,7 +33,6 @@ export const resetHabits = async () => {
     }
     console.log('✅ Habit progress reset:', today);
 }
-resetHabits()
 cron.schedule('0 0 * * *', () => {
   resetHabits().catch((err) => {
     console.error('❌ Error resetting habits:', err);
