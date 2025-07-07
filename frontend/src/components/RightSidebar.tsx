@@ -11,10 +11,11 @@ const RightSidebar = ({ habit }: any) => {
   const [skipped, setskipped] = useState(0)
   const [failedCount, setfailedCount] = useState(0)
   const [skippedCount, setskippedCount] = useState(0)
-  const [seriesData, setseriesData] = useState<any>([])
-  const [x_axisData, setx_axisData] = useState([5,5,6,3,2,6])
-  const dates:any = []
-  const data:any = []
+  let date = new Date()
+  const [seriesData, setseriesData] = useState<any>([`${date.toISOString().slice(0, 7)}`,`${date.toISOString().slice(0, 7)}`])
+  const [x_axisData, setx_axisData] = useState([5, 3, 5, 6, 2])
+  const dates: any = []
+  const data: any = []
   //checking the logs of the habit for this week
   const checkThisWeek = () => {
     setskippedCount(0);
@@ -36,7 +37,16 @@ const RightSidebar = ({ habit }: any) => {
       }
     })
   }
+  // convert "2025-07-06T00:00:00Z" to "6 July 2025"
+  function formatDateToDisplayString(date: Date): string {
+    const options: Intl.DateTimeFormatOptions = {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+    };
 
+    return date.toLocaleDateString('en-GB', options);
+  }
 
   useEffect(() => {
     const fetchLoggedData = async () => {
@@ -46,11 +56,12 @@ const RightSidebar = ({ habit }: any) => {
           const loggedData = res.data.groupedLogs;
           const datesData = res.data.groupedByDate
 
-          await datesData.forEach((log:any)=>{
-              dates.push(log.date.split('T')[0].slice(5,10))
-              data.push(log.totalValue)
+          await datesData.forEach((log: any) => {
+            let date = new Date(log.date)
+            dates.push(formatDateToDisplayString(date).slice(0, 6))
+            data.push(log.totalValue)
           })
-          setseriesData(dates.slice(0,datesData.length>7 ? 7 : datesData.length))
+          setseriesData(dates)
           setx_axisData(data)
           // Process loggedData as needed
           console.log("Logged Data:", res);
@@ -152,7 +163,7 @@ const RightSidebar = ({ habit }: any) => {
 
           <div className="border border-gray-300 rounded-lg">
             <BarChart
-            borderRadius={5}
+              borderRadius={5}
               xAxis={[
                 {
                   id: 'barCategories',
@@ -162,7 +173,7 @@ const RightSidebar = ({ habit }: any) => {
               series={[
                 {
                   data: x_axisData,
-                  color : '#4c8eff',
+                  color: '#4c8eff',
                 },
               ]}
               height={300}
