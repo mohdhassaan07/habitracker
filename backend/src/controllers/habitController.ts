@@ -1,7 +1,6 @@
 import { PrismaClient } from "@prisma/client";
-
 const prisma = new PrismaClient();
-
+import { isSameDay, differenceInCalendarDays } from 'date-fns';
 // const timeOfDay = async () => {
 //   await prisma.timeOfDay.createMany({
 //     data: [
@@ -159,6 +158,51 @@ const logHabit = async (req, res) => {
     if (habit.currentValue >= habit.unitValue) {
       return res.status(400).json({ error: "Current value exceeds unit value" });
     }
+
+    async function updateHabitStreak(habitId: string, logDate: Date) {
+      const habit = await prisma.habit.findUnique({ where: { id: habitId } });
+
+      if (!habit) return;
+
+      const lastDate = habit.lastLogged;
+      const todayDate = new Date(Date.UTC(
+        logDate.getUTCFullYear(),
+        logDate.getUTCMonth(),
+        logDate.getUTCDate()
+      ));
+
+      let newStreak = 1;
+
+      if (lastDate) {
+        const last = new Date(Date.UTC(
+          lastDate.getUTCFullYear(),
+          lastDate.getUTCMonth(),
+          lastDate.getUTCDate()
+        ));
+
+        const dayDiff = differenceInCalendarDays(todayDate, last);
+
+        if (dayDiff === 1) {
+          // continued streak
+          newStreak = habit.streak + 1;
+        } else if (dayDiff === 0) {
+          // already logged today — don't change streak
+          newStreak = habit.streak + 1;
+        } else {
+          // missed a day
+          newStreak = 1;
+        }
+      }
+
+      await prisma.habit.update({
+        where: { id: habitId },
+        data: {
+          streak: newStreak,
+          lastLogged: todayDate,
+        },
+      });
+    }
+
     const now = new Date();
     const date = new Date(Date.UTC(
       now.getFullYear(),
@@ -198,6 +242,7 @@ const logHabit = async (req, res) => {
             }
           }
         })
+        await updateHabitStreak(habit.id, date);
         return res.status(200).json({ message: "Habit logged successfully", logHabit });
       }
       if (req.query.status === "failed") {
@@ -301,6 +346,7 @@ const logHabit = async (req, res) => {
             status: "completed"
           }
         })
+        await updateHabitStreak(habit.id, date);
         return res.status(200).json({ message: "Habit logged in successfully", logHabit });
       }
 
@@ -384,9 +430,10 @@ const logHabit = async (req, res) => {
             totalValue: habit.currentValue + sessionValue
           }
         })
+        await updateHabitStreak(habit.id, date);
         return res.status(200).json({ message: "Habit logged successfully", logHabit });
       }
-      return res.status(200).json({ message: "Habit logged successfully", loggedHabit, "log" : logged });
+      return res.status(200).json({ message: "Habit logged successfully", loggedHabit, "log": logged });
     }
 
   } catch (error) {
@@ -409,7 +456,11 @@ const undoLog = async (req, res) => {
       },
       data: {
         totalValue: habit.totalValue - habit.currentValue,
-        currentValue: { set: 0 }
+        currentValue: { set: 0 },
+        lastLogged : null,
+        streak : {
+          decrement : 1
+        }
       }
     })
     const deletedLog = await prisma.habitLog.delete({

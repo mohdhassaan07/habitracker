@@ -10,13 +10,13 @@ import {HabitProvider} from './store/HabitProvider.tsx'
 createRoot(document.getElementById('root')!).render(
   <Provider store={store}>
     <PersistGate persistor={persistor}>
-      <StrictMode>
+      
         <TimeOfDayProvider>
           <HabitProvider>
             <App />
           </HabitProvider>
         </TimeOfDayProvider>
-      </StrictMode>
+      
     </PersistGate>
   </Provider>
 )

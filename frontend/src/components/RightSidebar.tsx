@@ -13,7 +13,7 @@ const RightSidebar = ({ habit }: any) => {
   const [skippedCount, setskippedCount] = useState(0)
   let date = new Date()
   const [seriesData, setseriesData] = useState<any>([`${date.toISOString().slice(0, 7)}`,`${date.toISOString().slice(0, 7)}`])
-  const [x_axisData, setx_axisData] = useState([5, 3, 5, 6, 2])
+  const [x_axisData, setx_axisData] = useState([5])
   const dates: any = []
   const data: any = []
   //checking the logs of the habit for this week
@@ -126,7 +126,7 @@ const RightSidebar = ({ habit }: any) => {
             <span className="text-4xl" >🔥</span>
             <div>
               <p className="text-[12px] font-semibold text-gray-500 " >CURRENT STREAK</p>
-              <h4 className="text-xl font-semibold" >0 days</h4>
+              <h4 className="text-xl font-semibold" >{habit.streak} days</h4>
             </div>
           </div>
 
@@ -135,7 +135,7 @@ const RightSidebar = ({ habit }: any) => {
               <div className="flex flex-col " >
                 <p className="text-[12px] font-semibold text-gray-500 flex items-center gap-1" ><Check width={17} /> COMPLETE</p>
                 <h4 className="text-2xl font-semibold" >{completed} days</h4>
-                <p className="text-sm font-semibold text-green-600 flex gap-0.5" ><ArrowUp width={16} /> 2 days</p>
+                <p className="text-sm font-semibold text-green-600 flex gap-0.5" ><ArrowUp width={16} /> {habit.streak} days</p>
               </div>
             </div>
             <div className="box min-w-30 flex gap-2 p-2  border border-gray-300 rounded-lg " >
