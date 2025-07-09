@@ -2,6 +2,8 @@ import api from "@/utils/api";
 import { ArrowRight, ArrowUp, Check, Pencil, X } from "lucide-react";
 import { useEffect, useState, useRef } from "react";
 import { BarChart } from '@mui/x-charts/BarChart';
+import HeatMap from '@uiw/react-heat-map';
+import Tooltip from '@uiw/react-tooltip';
 
 const RightSidebar = ({ habit }: any) => {
   const [width, setWidth] = useState(800); // Initial width
@@ -12,7 +14,7 @@ const RightSidebar = ({ habit }: any) => {
   const [failedCount, setfailedCount] = useState(0)
   const [skippedCount, setskippedCount] = useState(0)
   let date = new Date()
-  const [seriesData, setseriesData] = useState<any>([`${date.toISOString().slice(0, 7)}`,`${date.toISOString().slice(0, 7)}`])
+  const [seriesData, setseriesData] = useState<any>([`${date.toISOString().slice(0, 7)}`, `${date.toISOString().slice(0, 7)}`])
   const [x_axisData, setx_axisData] = useState([5])
   const dates: any = []
   const data: any = []
@@ -61,9 +63,11 @@ const RightSidebar = ({ habit }: any) => {
             dates.push(formatDateToDisplayString(date).slice(0, 6))
             data.push(log.totalValue)
           })
-          setseriesData(dates)
-          setx_axisData(data)
+          setseriesData(dates.slice(dates.length > 6 ? dates.length - 6 : 0, dates.length))
+          setx_axisData(data.slice(dates.length > 6 ? dates.length - 6 : 0, dates.length))
           // Process loggedData as needed
+          console.log(seriesData)
+          console.log(data)
           console.log("Logged Data:", res);
           loggedData.forEach((log: any) => {
             if (log.status === "completed") {
@@ -83,6 +87,20 @@ const RightSidebar = ({ habit }: any) => {
     checkThisWeek()
   }, [habit])
 
+  const value = [
+    { date: '2025-11-9', count: 10 },
+    { date: '2025/01/11', count: 2 },
+    { date: '2025/01/12', count: 20 },
+    { date: '2025/01/13', count: 10 },
+    ...[...Array(17)].map((_, idx) => ({
+      date: `2025/02/${idx + 10}`, count: idx, content: ''
+    })),
+    { date: '2025/04/11', count: 2 },
+    { date: '2025/05/01', count: 5 },
+    { date: '2025/05/02', count: 5 },
+    { date: '2025/05/04', count: 11 },
+  ];
+
   const handleMouseDown = () => {
     isResizing.current = true;
   };
@@ -91,7 +109,7 @@ const RightSidebar = ({ habit }: any) => {
     if (!isResizing.current) return;
 
     const newWidth = window.innerWidth - e.clientX;
-    if (newWidth > 500 && newWidth < 1000) {
+    if (newWidth > 500 && newWidth < 1200) {
       setWidth(newWidth);
     }
   };
@@ -121,7 +139,7 @@ const RightSidebar = ({ habit }: any) => {
           </button>
         </div>
 
-        <div className="p-3">
+        <div className="p-3 flex flex-col gap-4">
           <div className="box flex gap-2 p-4  border border-gray-300 rounded-lg " >
             <span className="text-4xl" >🔥</span>
             <div>
@@ -130,7 +148,7 @@ const RightSidebar = ({ habit }: any) => {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 w-full py-3 gap-3" >
+          <div className="grid grid-cols-2 w-full gap-3" >
             <div className="box min-w-30 flex  gap-2 p-2  border border-gray-300 rounded-lg " >
               <div className="flex flex-col " >
                 <p className="text-[12px] font-semibold text-gray-500 flex items-center gap-1" ><Check width={17} /> COMPLETE</p>
@@ -161,6 +179,29 @@ const RightSidebar = ({ habit }: any) => {
             </div>
           </div>
 
+
+          <div className="border flex justify-center border-gray-300 rounded-lg">
+            {/* <HeatMap
+              value={value}
+              weekLabels={['', 'Mon', '', 'Wed', '', 'Fri', '']}
+              startDate={new Date('2025/01/01')}
+            /> */}
+
+            <HeatMap
+              value={value}
+              width={300}
+              startDate={new Date('2025/04/01')}
+              endDate={new Date('2025/09/01')}
+              rectRender={(props, data) => {
+                // if (!data.count) return <rect {...props} />;
+                return (
+                  <Tooltip placement="top" content={`count: ${data.count || 0}`}>
+                    <rect {...props} />
+                  </Tooltip>
+                );
+              }}
+            />
+          </div>
           <div className="border border-gray-300 rounded-lg">
             <BarChart
               borderRadius={5}
@@ -178,12 +219,13 @@ const RightSidebar = ({ habit }: any) => {
               ]}
               height={300}
             />
+
           </div>
         </div>
         {/* Resizer Handle on the LEFT edge */}
         <div
           onMouseDown={handleMouseDown}
-          className="absolute top-0 left-0 w-[1px] h-full cursor-ew-resize bg-gray-300"
+          className="absolute top-0 left-0 w-[1px] h-[53.5rem] cursor-ew-resize bg-gray-300"
         />
       </div>
     </div>
