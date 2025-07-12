@@ -77,7 +77,7 @@ const HabitProvider = ({ children }: { children: React.ReactNode }) => {
       setHabitData((prev: any[]) =>
         prev.map(habit =>
           habit.id === habitId
-            ? habit.currentValue === habit.unitValue - 1 ? { ...habit, currentValue: habit.currentValue + increment, logs: [...(Array.isArray(habit.logs) ? habit.logs : []), { date: new Date().toISOString(), status: 'completed' }] }
+            ? habit.currentValue === habit.unitValue - 1 ? { ...habit, currentValue: habit.currentValue + increment, streak : habit.streak+1,logs: [...(Array.isArray(habit.logs) ? habit.logs : []), { date: new Date().toISOString(), status: 'completed' }] }
               : { ...habit, currentValue: habit.currentValue + increment }
             : habit
         )

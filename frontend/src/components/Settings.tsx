@@ -6,8 +6,7 @@ const Settings = (props: any) => {
     const currentUser = useSelector((state: any) => state.user.currentUser);
     return (
         <div>
-            <Modal isOpen={props.isModalOpen} onClose={() => props.setIsModalOpen(false)} >
-                
+            <Modal isOpen={props.isModalOpen} onClose={() => props.setIsModalOpen(false)} >                
                     <h2 className="text-3xl font-semibold mb-5 w-full text-center ">Profile</h2>
                     <div className="flex justify-center items-center my-10 gap-5 h-full">
                         <img draggable="false" className="rounded-full w-24 h-24 mb-3" src="https://w0.peakpx.com/wallpaper/164/917/HD-wallpaper-black-all-amoled-battery-dark-gray-noir-plain-screen-solid.jpg" alt="" />

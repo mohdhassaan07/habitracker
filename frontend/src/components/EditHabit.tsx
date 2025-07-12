@@ -218,7 +218,7 @@ const EditHabit = (props: any) => {
                             )}
                         </div>
                     </div>
-                    <button type="submit" className=" bg-blue-500 w-24 p-2 mx-2 text-white px-5 rounded-md hover:bg-blue-600">Save</button>
+                    <button type="submit" className=" bg-blue-500 w-16 p-2 mx-2 text-white px-2 rounded-md hover:bg-blue-600">Save</button>
                     <a onClick={deleteHabit} className=" bg-red-500 cursor-default text-white w-24 p-2 rounded-md hover:bg-red-600">Delete</a>
                 </form>
             </Modal>
