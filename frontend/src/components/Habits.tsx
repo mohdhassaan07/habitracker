@@ -59,7 +59,6 @@ const Habits = () => {
         const endOfMonth = new Date(startOfMonth);
         endOfMonth.setDate(endOfMonth.getDate() + 30);
         return today >= startOfMonth && today <= endOfMonth;
-
       default:
         return false;
     }
@@ -101,13 +100,12 @@ const Habits = () => {
     try {
       setdisabled(true)
       let res = await api.post(`/habit/logHabit/${habitId}?status=${status}`)
-      if (res.status === 200) {
-       
+      if (res.status === 200) {       
           sethabitData((prev) =>
             prev.map((habit) => {
               if (habit.id !== habitId) return habit;
               let safeLogs = Array.isArray(habit.logs) ? habit.logs : [];
-              if(status==="completed") return { ...habit, currentValue: habit.unitValue, logs: [...safeLogs, { date: new Date().toISOString(), status: status }] }
+              if(status==="completed") return { ...habit, currentValue: habit.unitValue,streak : habit.streak+1, logs: [...safeLogs, { date: new Date().toISOString(), status: status }] }
               return { ...habit, currentValue: 0, logs: [...safeLogs, { date: new Date().toISOString(), status: status }] }
             })
           )
@@ -294,10 +292,10 @@ const Habits = () => {
                 <div
                   key={habit.id}
                   className={`habit flex items-center p-3 rounded-md mb-2`}
-                  onClick={() => { settoggleRightSidebar(!toggleRightSidebar); sethabit(habit) }}
+                  onClick={() => {settoggleRightSidebar(!toggleRightSidebar); sethabit(habit) }}
                 >
                   <div className="circle bg-gray-400 w-10 h-10 rounded-full"></div>
-                  <div className="ml-3 flex justify-between w-full">
+                  <div className="ml-3 flex border-b border-gray-300 pb-2 justify-between w-full">
                     <div>
                       <h5
                         className={`font-semibold`}

@@ -8,6 +8,6 @@ router.post('/createHabit',isLoggedIn, createHabit);
 router.put('/editHabit/:id',isLoggedIn, editHabit);
 router.post('/logHabit/:id',isLoggedIn, logHabit);
 router.delete('/deleteHabit/:id',isLoggedIn,deleteHabit);
-router.delete('/undoLog/:habitId/:logId',isLoggedIn, undoLog);
+router.delete('/undoLog/:habitId/:logId', undoLog);
 router.get('/loggedData/:habitId', getLoggedData)
 export default router;

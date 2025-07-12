@@ -207,7 +207,7 @@ const Habits = (props: any) => {
           <div className="element px-4 py-4 h-[92vh] overflow-y-auto">
             <div className="flex justify-between ">
               <h2 className="text-xl font-bold mb-4">{props.tab}</h2>
-              
+
             </div>
 
             {renderOrder.map((status) =>
@@ -297,7 +297,7 @@ const Habits = (props: any) => {
                   onClick={() => { settoggleRightSidebar(!toggleRightSidebar); sethabit(habit) }}
                 >
                   <div className="circle bg-gray-400 w-10 h-10 rounded-full"></div>
-                  <div className="ml-3 flex justify-between w-full">
+                  <div className="ml-3 flex justify-between w-full border-b border-gray-300 pb-2">
                     <div>
                       <h5
                         className={`font-semibold`}
@@ -308,11 +308,12 @@ const Habits = (props: any) => {
                         {habit.currentValue} / {habit.unitValue} {habit.unitType}
                       </p>
                     </div>
-                    <div className="flex gap-2">
+                    <div className="flex relative gap-2">
                       {(habit.unitType === "times" ?
-                        <button disabled={disabled} onClick={(e) => { e.stopPropagation(), logHabit(habit.id) }} className='border-1 border-gray-300 h-8 flex gap-1 p-1  items-center justify-center font-semibold px-2 active:bg-gray-100' >
-                          <Plus width={16} />1</button> : <Link to={`/journal/timer/${habit.id}`} onClick={(e) => e.stopPropagation()} className='border-1 border-gray-300 w-[43px] h-8 flex p-1 items-center justify-center font-semibold px-2 ' ><Timer width={19} /></Link>)
+                        <button disabled={disabled} onClick={(e) => { e.stopPropagation(), logHabit(habit.id) }} className='border-1 mx-2 border-gray-300 h-8 flex gap-1 p-1 w-[43px] items-center justify-center font-semibold px-2 active:bg-gray-100' >
+                          <Plus width={15} />1</button> : <Link to={`/journal/timer/${habit.id}`} onClick={(e) => e.stopPropagation()} className='border-1 mx-2 border-gray-300 w-[43px] h-8 flex p-1 items-center justify-center font-semibold px-2 ' ><Timer width={19} /></Link>)
                       }
+                    
                       <Menu as="div" className="relative inline-block text-left">
                         <div>
                           <MenuButton
@@ -369,6 +370,7 @@ const Habits = (props: any) => {
                       </Menu>
                     </div>
                   </div>
+                  <div className="line"></div>
                 </div>
               );
             }
