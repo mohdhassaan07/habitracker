@@ -6,12 +6,17 @@ import { useTimeOfDay } from './TimeofDay.tsx';
 interface JournalDataContextType {
   habitData: any[];
   timeOfDayData: any[];
+  searchHabits: any[];
+  setsearchHabits: React.Dispatch<React.SetStateAction<any[]>>;
   fetchHabitData: () => Promise<void>;
   fetchTimeOfDayData: () => Promise<void>;
   updateHabitValue: any;
   updateHabitCurrentValue: (habitId: string, increment: number) => void;
   updateHabits: (habitId: string) => void;
   loading: boolean;
+  setloading: React.Dispatch<React.SetStateAction<boolean>>;
+  query: string;
+  setquery: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const HabitDataContext = createContext<JournalDataContextType | undefined>(undefined);
@@ -20,10 +25,13 @@ const HabitProvider = ({ children }: { children: React.ReactNode }) => {
   const [habitData, setHabitData] = useState<any>([]);
   const [timeOfDayData, setTimeOfDayData] = useState<any>([]);
   const [loading, setloading] = useState(false);
+  const [searchHabits, setsearchHabits] = useState<any>([])
+  const [query, setquery] = useState("")
   const currentUser = useSelector((state: any) => state.user.currentUser);
   const { time } = useTimeOfDay();
   const hasFetchedRef = useRef(false);
   const hasFetchedTimeRef = useRef(false);
+
   const fetchHabitData = async () => {
     if (hasFetchedRef.current) return;
     hasFetchedRef.current = true;
@@ -46,7 +54,7 @@ const HabitProvider = ({ children }: { children: React.ReactNode }) => {
     try {
       setloading(true);
       let res = await api.get(`/habit/${currentUser.id}?time=${time}`);
-      if(res.status === 200){
+      if (res.status === 200) {
         console.log("Time of day habits fetched:", res.data.habits);
         setTimeOfDayData(res.data.habits);
       }
@@ -57,8 +65,8 @@ const HabitProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }
 
-  const updateHabits = (habitId:string)=>{
-    let newdata = habitData.filter((h:any) => h.id !== habitId )
+  const updateHabits = (habitId: string) => {
+    let newdata = habitData.filter((h: any) => h.id !== habitId)
     setHabitData(newdata)
   }
 
@@ -77,7 +85,7 @@ const HabitProvider = ({ children }: { children: React.ReactNode }) => {
       setHabitData((prev: any[]) =>
         prev.map(habit =>
           habit.id === habitId
-            ? habit.currentValue === habit.unitValue - 1 ? { ...habit, currentValue: habit.currentValue + increment, streak : habit.streak+1,logs: [...(Array.isArray(habit.logs) ? habit.logs : []), { date: new Date().toISOString(), status: 'completed' }] }
+            ? habit.currentValue === habit.unitValue - 1 ? { ...habit, currentValue: habit.currentValue + increment, streak: habit.streak + 1, logs: [...(Array.isArray(habit.logs) ? habit.logs : []), { date: new Date().toISOString(), status: 'completed' }] }
               : { ...habit, currentValue: habit.currentValue + increment }
             : habit
         )
@@ -99,7 +107,7 @@ const HabitProvider = ({ children }: { children: React.ReactNode }) => {
 
 
   return (
-    <HabitDataContext.Provider value={{ habitData, fetchHabitData, timeOfDayData, fetchTimeOfDayData, loading, updateHabitValue, updateHabitCurrentValue, updateHabits }}>
+    <HabitDataContext.Provider value={{ habitData, fetchHabitData, timeOfDayData, fetchTimeOfDayData, loading, setloading, updateHabitValue, updateHabitCurrentValue, updateHabits, searchHabits, setsearchHabits, query, setquery }}>
       {children}
     </HabitDataContext.Provider>
   );
