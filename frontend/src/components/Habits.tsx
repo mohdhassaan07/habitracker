@@ -26,7 +26,7 @@ const Habits = () => {
   });
   const [habitData, sethabitData] = useState<any[]>([])
   const currentUser = useSelector((state: any) => state.user.currentUser);
-  const { habitData: initialHabitData, fetchHabitData, loading, updateHabitValue } = useHabitData();
+  const { habitData: initialHabitData,searchHabits, fetchHabitData, loading, updateHabitValue, query } = useHabitData();
   useEffect(() => {
     const getData = () => {
       try {
@@ -36,12 +36,11 @@ const Habits = () => {
       }
     }
     getData()
-
   }, [])
 
   useEffect(() => {
-    sethabitData(initialHabitData);
-  }, [initialHabitData])
+    query ? sethabitData(searchHabits) : sethabitData(initialHabitData)
+  }, [initialHabitData, query])
 
   const today = new Date();
   const isSamePeriod = (logDate: string, habit: any): boolean => {
@@ -168,13 +167,13 @@ const Habits = () => {
   const getHabitColor = (status: Status) => {
     switch (status) {
       case 'completed':
-        return 'bg-green-100';
+        return 'border-green-300';
       case 'skipped':
-        return 'bg-yellow-100';
+        return 'border-yellow-300';
       case 'failed':
-        return 'bg-red-100';
+        return 'border-red-300';
       default:
-        return 'bg-white';
+        return 'border-white';
     }
   }
 
@@ -242,7 +241,7 @@ const Habits = () => {
                             onClick={() => { settoggleRightSidebar(!toggleRightSidebar); sethabit(habit) }}
                           >
                             <div className="circle bg-gray-400 w-10 h-10 rounded-full"></div>
-                            <div className="ml-3 flex justify-between w-full">
+                            <div className={`ml-3 flex justify-between w-full border-b pb-2 ${bgColor}`}>
                               <div>
                                 <h5
                                   className={`font-semibold ${status === 'completed' ? 'line-through' : ''

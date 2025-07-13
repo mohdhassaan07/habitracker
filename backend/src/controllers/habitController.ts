@@ -457,9 +457,9 @@ const undoLog = async (req, res) => {
       data: {
         totalValue: habit.totalValue - habit.currentValue,
         currentValue: { set: 0 },
-        lastLogged : null,
-        streak : {
-          decrement : 1
+        lastLogged: null,
+        streak: {
+          decrement: 1
         }
       }
     })
@@ -521,6 +521,38 @@ const getLoggedData = async (req, res) => {
   }
 }
 
+const searchData = async (req, res) => {
+  const { query } = req.query;
+  const userId = req.user.id;
+  if (!query) {
+    return res.status(400).json({ error: "Query parameter is required" });
+  }
+  try {
+    const habits = await prisma.habit.findMany(
+      {
+      where: {
+        userId: userId,
+        name: {
+          contains: query,
+          mode: 'insensitive' // Case-insensitive search
+        }
+      },
+      include: {
+        timeOfDay: true,
+        logs: true
+      }
+    })
+    if (habits.length === 0) {
+      return res.status(404).json({ message: "No habits found" });
+    }
+    console.log("Search results:", habits);
+    return res.status(200).json({"habits":habits, query});
+  } catch (error) {
+    console.error("Error searching habits:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+}
+
 export {
   getHabits,
   editHabit,
@@ -528,5 +560,6 @@ export {
   logHabit,
   deleteHabit,
   undoLog,
-  getLoggedData
+  getLoggedData,
+  searchData
 }
