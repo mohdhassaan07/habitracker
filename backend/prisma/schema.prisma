@@ -13,7 +13,7 @@ model User {
   name    String?
   password String
   habits  Habit[]
-
+  profilePic String @default("https://www.pngkey.com/png/full/73-730477_first-name-profile-image-placeholder-png.png")
   @@index([email])
 }
 

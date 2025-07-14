@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
-import { isSameDay, differenceInCalendarDays } from 'date-fns';
+import { differenceInCalendarDays } from 'date-fns';
 // const timeOfDay = async () => {
 //   await prisma.timeOfDay.createMany({
 //     data: [
@@ -37,7 +37,11 @@ const getHabits = async (req, res) => {
         },
         include: {
           timeOfDay: true,
-          logs: true
+          logs: {
+            orderBy: {
+              createdAt: 'asc'
+            }
+          }
         },
       });
       return res.status(200).json({ habits: habits });
@@ -52,7 +56,11 @@ const getHabits = async (req, res) => {
       },
       include: {
         timeOfDay: true,
-        logs: true,
+        logs: {
+          orderBy: {
+            createdAt: 'asc'
+          }
+        },
       },
     });
     return res.status(200).json(habits);
@@ -530,23 +538,23 @@ const searchData = async (req, res) => {
   try {
     const habits = await prisma.habit.findMany(
       {
-      where: {
-        userId: userId,
-        name: {
-          contains: query,
-          mode: 'insensitive' // Case-insensitive search
+        where: {
+          userId: userId,
+          name: {
+            contains: query,
+            mode: 'insensitive' // Case-insensitive search
+          }
+        },
+        include: {
+          timeOfDay: true,
+          logs: true
         }
-      },
-      include: {
-        timeOfDay: true,
-        logs: true
-      }
-    })
+      })
     if (habits.length === 0) {
       return res.status(404).json({ message: "No habits found" });
     }
     console.log("Search results:", habits);
-    return res.status(200).json({"habits":habits, query});
+    return res.status(200).json({ "habits": habits, query });
   } catch (error) {
     console.error("Error searching habits:", error);
     res.status(500).json({ error: "Internal server error" });
