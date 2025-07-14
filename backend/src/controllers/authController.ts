@@ -125,7 +125,7 @@ const editUser = async (req, res) => {
                 profilePic: uploadedImage.secure_url
             }
         });
-        return res.status(200).json({ message: "User edited successfully", user: editedUser });
+        return res.status(200).json({ message: "User edited successfully", user: editedUser, "url":uploadedImage.secure_url });
     } catch (error) {
         console.error("Error editing user:", error);
         return res.status(500).json({ error: "Internal server error" });
@@ -136,5 +136,6 @@ const editUser = async (req, res) => {
 export {
     createUser,
     signin,
-    SignOut
+    SignOut,
+    editUser
 }
