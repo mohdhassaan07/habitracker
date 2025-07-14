@@ -40,7 +40,7 @@ const Habits = () => {
 
   useEffect(() => {
     query ? sethabitData(searchHabits) : sethabitData(initialHabitData)
-  }, [initialHabitData, query])
+  }, [initialHabitData,searchHabits, query])
 
   const today = new Date();
   const isSamePeriod = (logDate: string, habit: any): boolean => {
@@ -104,7 +104,7 @@ const Habits = () => {
             prev.map((habit) => {
               if (habit.id !== habitId) return habit;
               let safeLogs = Array.isArray(habit.logs) ? habit.logs : [];
-              if(status==="completed") return { ...habit, currentValue: habit.unitValue,streak : habit.streak+1, logs: [...safeLogs, { date: new Date().toISOString(), status: status }] }
+              if(status==="completed") return { ...habit, currentValue: habit.unitValue, logs: [...safeLogs, { date: new Date().toISOString(), status: status }] }
               return { ...habit, currentValue: 0, logs: [...safeLogs, { date: new Date().toISOString(), status: status }] }
             })
           )
@@ -231,13 +231,13 @@ const Habits = () => {
                   </div>
 
                   {openGroups[status] && (
-                    <div className="mt-2">
+                    <div className="mt-2 ">
                       {statusGroups[status].map((habit: any) => {
                         const bgColor = getHabitColor(status)
                         return (
                           <div
                             key={habit.id}
-                            className={`habit flex items-center p-3 rounded-md mb-2 ${bgColor}`}
+                            className={`habit flex items-center p-3 rounded-md mb-2 ${bgColor} `}
                             onClick={() => { settoggleRightSidebar(!toggleRightSidebar); sethabit(habit) }}
                           >
                             <div className="circle bg-gray-400 w-10 h-10 rounded-full"></div>
@@ -375,7 +375,7 @@ const Habits = () => {
         </div>
       )}
       {!toggleRightSidebar ? (
-        <div className="quote w-[573px] border-l border-gray-300 h-full flex items-center justify-center">
+        <div className="quote w-[650px] border-l border-gray-300 h-full flex items-center justify-center">
           <div className="quote-box text-gray-500 text-2xl font-semibold text-center">
             "The journey of a thousand miles begins with one step."
           </div>
