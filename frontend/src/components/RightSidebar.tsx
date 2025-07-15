@@ -7,7 +7,7 @@ import Tooltip from '@uiw/react-tooltip';
 import EditHabit from "./EditHabit";
 
 const RightSidebar = ({ habit }: any) => {
-  const [width, setWidth] = useState(800); // Initial width
+  const [width, setWidth] = useState(850); // Initial width
   const isResizing = useRef(false);
   const [completed, setcompleted] = useState(0)
   const [failed, setfailed] = useState(0)
@@ -128,10 +128,9 @@ const RightSidebar = ({ habit }: any) => {
   return (
     <>
       <EditHabit isModalOpen={isModalOpen} setIsModalOpen={setisModalOpen} habitId={habit.id} />
-      <div className="element flex h-screen overflow-auto">
+      <div className="element flex rounded-2xl max-h-screen overflow-auto bg-white m-2 ">
         {/* Resizable Right Sidebar */}
         <div style={{ width: `${width}px` }} className="relative">
-
           <div className=" flex justify-between border-b border-gray-300 px-2 py-[10px] items-center sticky top-0 bg-white">
             <h2 className="text-xl font-bold" >{habit.name}</h2>
             <button onClick={() => setisModalOpen(true)} className="inline-flex relative border-1 border-gray-300 items-center  justify-center gap-x-1  px-2  text-sm font-semibold">
@@ -221,7 +220,7 @@ const RightSidebar = ({ habit }: any) => {
           {/* Resizer Handle on the LEFT edge */}
           <div
             onMouseDown={handleMouseDown}
-            className="absolute top-0 left-0 w-[1px] h-[53.5rem] cursor-ew-resize bg-gray-300"
+            className="absolute top-0 left-0 w-[1px] h-[53.5rem] cursor-ew-resize "
           />
         </div>
       </div>

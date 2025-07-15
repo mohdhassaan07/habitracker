@@ -43,7 +43,7 @@ const Journal = () => {
   return (
     <>
       {currentUser && (
-        <div className="flex h-screen ">
+        <div className="flex h-screen bg-gray-100">
           <LeftSidebar />
           {/* <Habits/> */}
           {renderContent()}
