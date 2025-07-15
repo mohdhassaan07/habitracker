@@ -199,10 +199,10 @@ const Habits = () => {
   return (
     <>
       {currentUser && (
-        <div className="w-full">
+        <div className="w-full bg-white m-2 rounded-2xl max-h-screen">
           <EditHabit isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} habitId={habitId} />
           <Header />
-          <div className="element px-4 py-4 h-[92vh] overflow-y-auto">
+          <div className="element px-4 py-4 h-[90.5vh] overflow-y-auto">
             <div className="flex justify-between ">
               <h2 className="text-xl font-bold mb-4">{'All Habits'}</h2>
             </div>
@@ -375,8 +375,8 @@ const Habits = () => {
         </div>
       )}
       {!toggleRightSidebar ? (
-        <div className="quote w-[650px] border-l border-gray-300 h-full flex items-center justify-center">
-          <div className="quote-box text-gray-500 text-2xl font-semibold text-center">
+        <div className="quote w-[650px] p-3 m-2 max-h-screen  bg-white rounded-2xl flex items-center justify-center">
+          <div className="quote-box  text-gray-500 text-2xl font-semibold text-center">
             "The journey of a thousand miles begins with one step."
           </div>
         </div>

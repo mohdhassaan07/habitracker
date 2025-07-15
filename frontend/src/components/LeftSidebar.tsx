@@ -39,7 +39,7 @@ const LeftSidebar = () => {
     return (
         <>
             <Settings isModalOpen={isModalOpen} setIsModalOpen={setisModalOpen} />
-            <div className=" border-r-1 border-gray-300 min-w-56 h-screen">
+            <div className=" border-gray-300 bg-white rounded-2xl min-w-56 m-2 max-h-screen">
                 <h1 className="text-blue-600 font-bold text-2xl w-full text-center p-2" >Habitracker</h1>
                 <hr className="text-gray-300" />
                 <div className="p-3">
@@ -147,7 +147,7 @@ const LeftSidebar = () => {
                         <div className="text-gray-500  hover:bg-gray-100 w-full flex gap-2 p-1 mt-2 rounded-md items-center font-semibold text-sm py-2"> <ChartNoAxesGantt /> Manage Habits</div>
                         <div className="text-gray-500  hover:bg-gray-100 w-full flex gap-2 p-1 mt-2 rounded-md items-center font-semibold text-sm py-2"> <SettingsIcon /> App Settings</div>
                     </div>
-                    <button className=" bg-blue-500 text-white focus:bg-blue-600 hover:shadow-lg w-full flex gap-2 p-1 mt-35 rounded-md items-center justify-center font-semibold text-sm py-2"> <Bot /> Your AI Assistant</button>
+                    <button className=" bg-blue-500 text-white focus:bg-blue-600 hover:shadow-lg w-full flex gap-2 p-1 mt-30 rounded-md items-center justify-center font-semibold text-sm py-2"> <Bot /> Your AI Assistant</button>
                 </div>
             </div>
         </>
