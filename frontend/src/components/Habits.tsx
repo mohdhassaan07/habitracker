@@ -15,7 +15,7 @@ const Habits = () => {
   const [disabled, setdisabled] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [habitId, sethabitId] = useState("")
-  const [habit, sethabit] = useState<any>({})
+  const [tohabit, settohabit] = useState<any>({})
 
   type Status = 'completed' | 'skipped' | 'failed' | 'pending';
   const [openGroups, setOpenGroups] = useState<{ [key in Status]: boolean }>({
@@ -154,16 +154,6 @@ const Habits = () => {
     }
   }
 
-  // const checkDisabled = (habit: any) => {
-  //   const lastLog = habit.logs && habit.logs.length > 0 ? habit.logs[habit.logs.length - 1] : null;
-  //   if (lastLog.date.getHours()+5 > today.getHours()) {
-  //     return true;
-  //   }
-  //   else{
-  //     return false;
-  //   }
-  // }
-
   const getHabitColor = (status: Status) => {
     switch (status) {
       case 'completed':
@@ -199,7 +189,7 @@ const Habits = () => {
   return (
     <>
       {currentUser && (
-        <div className="w-full bg-white m-2 rounded-2xl max-h-screen">
+        <div className="w-full bg-white m-2 rounded-2xl max-h-screen ">
           <EditHabit isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} habitId={habitId} />
           <Header />
           <div className="element px-4 py-4 h-[90.5vh] overflow-y-auto">
@@ -238,7 +228,7 @@ const Habits = () => {
                           <div
                             key={habit.id}
                             className={`habit flex items-center p-3 rounded-md mb-2 ${bgColor} `}
-                            onClick={() => { settoggleRightSidebar(!toggleRightSidebar); sethabit(habit) }}
+                            onClick={() => { tohabit ? (tohabit.id===habit.id ? settoggleRightSidebar(!settoggleRightSidebar) : settoggleRightSidebar(true) ) : settoggleRightSidebar(true), settohabit(habit)}}
                           >
                             <div className="circle bg-gray-400 w-10 h-10 rounded-full"></div>
                             <div className={`ml-3 flex justify-between w-full border-b pb-2 ${bgColor}`}>
@@ -285,13 +275,14 @@ const Habits = () => {
                 </div>
               ) : null
             )}
+
             {statusGroups.pending.length === 0 && <div className='w-full flex h-screen justify-center items-center text-gray-400 font-bold text-xl'>Add your first habit!!!</div>}
             {statusGroups.pending.map((habit: any) => {
               return (
                 <div
                   key={habit.id}
                   className={`habit flex items-center p-3 rounded-md mb-2`}
-                  onClick={() => {settoggleRightSidebar(!toggleRightSidebar); sethabit(habit) }}
+                  onClick={() => {tohabit ? (tohabit.id===habit.id ? settoggleRightSidebar(!settoggleRightSidebar) : settoggleRightSidebar(true) ) : settoggleRightSidebar(true), settohabit(habit) }}
                 >
                   <div className="circle bg-gray-400 w-10 h-10 rounded-full"></div>
                   <div className="ml-3 flex border-b border-gray-300 pb-2 justify-between w-full">
@@ -381,7 +372,7 @@ const Habits = () => {
           </div>
         </div>
       ) : (
-        <RightSidebar habit={habit} />
+        <RightSidebar habit={tohabit} />
       )}
 
 
