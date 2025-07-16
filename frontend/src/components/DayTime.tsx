@@ -168,15 +168,15 @@ const Habits = (props: any) => {
   // }
 
   const getHabitColor = (status: Status) => {
-    switch (status) {
+   switch (status) {
       case 'completed':
-        return 'bg-green-100';
+        return 'border-green-300';
       case 'skipped':
-        return 'bg-yellow-100';
+        return 'border-yellow-300';
       case 'failed':
-        return 'bg-red-100';
+        return 'border-red-300';
       default:
-        return 'bg-white';
+        return 'border-white';
     }
   }
 
@@ -201,10 +201,10 @@ const Habits = (props: any) => {
   return (
     <>
       {currentUser && (
-        <div className="w-full">
+        <div className="w-full bg-white m-2 rounded-2xl max-h-screen">
           <EditHabit isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} habitId={habitId} />
           <Header />
-          <div className="element px-4 py-4 h-[92vh] overflow-y-auto">
+          <div className="element px-4 py-4 h-[90.5vh] overflow-y-auto">
             <div className="flex justify-between ">
               <h2 className="text-xl font-bold mb-4">{props.tab}</h2>
 
@@ -234,17 +234,17 @@ const Habits = (props: any) => {
                   </div>
 
                   {openGroups[status] && (
-                    <div className="mt-2">
+                    <div className="mt-2 ">
                       {statusGroups[status].map((habit: any) => {
                         const bgColor = getHabitColor(status)
                         return (
                           <div
                             key={habit.id}
-                            className={`habit flex items-center p-3 rounded-md mb-2 ${bgColor}`}
+                            className={`habit flex items-center p-3 rounded-md mb-2 ${bgColor} `}
                             onClick={() => { settoggleRightSidebar(!toggleRightSidebar); sethabit(habit) }}
                           >
                             <div className="circle bg-gray-400 w-10 h-10 rounded-full"></div>
-                            <div className="ml-3 flex justify-between w-full">
+                            <div className={`ml-3 flex justify-between w-full border-b pb-2 ${bgColor}`}>
                               <div>
                                 <h5
                                   className={`font-semibold ${status === 'completed' ? 'line-through' : ''
@@ -313,7 +313,7 @@ const Habits = (props: any) => {
                         <button disabled={disabled} onClick={(e) => { e.stopPropagation(), logHabit(habit.id) }} className='border-1 mx-2 border-gray-300 h-8 flex gap-1 p-1 w-[43px] items-center justify-center font-semibold px-2 active:bg-gray-100' >
                           <Plus width={15} />1</button> : <Link to={`/journal/timer/${habit.id}`} onClick={(e) => e.stopPropagation()} className='border-1 mx-2 border-gray-300 w-[43px] h-8 flex p-1 items-center justify-center font-semibold px-2 ' ><Timer width={19} /></Link>)
                       }
-                    
+
                       <Menu as="div" className="relative inline-block text-left">
                         <div>
                           <MenuButton
@@ -379,15 +379,7 @@ const Habits = (props: any) => {
           </div>
         </div>
       )}
-      {!toggleRightSidebar ? (
-        <div className="quote w-[573px] border-l border-gray-300 h-full flex items-center justify-center">
-          <div className="quote-box text-gray-500 text-2xl font-semibold text-center">
-            "The journey of a thousand miles begins with one step."
-          </div>
-        </div>
-      ) : (
-        <RightSidebar habit={habit} />
-      )}
+      <RightSidebar habit={habit} />
     </>
   )
 }

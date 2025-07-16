@@ -31,16 +31,19 @@ const RightSidebar = ({ habit }: any) => {
     const endOfWeek = new Date();
     endOfWeek.setDate(startOfWeek.getDate() + 6);
 
-    habit.logs.forEach((log: any) => {
-      const logDate = new Date(log.date);
-      if (logDate >= startOfWeek && logDate <= endOfWeek) {
-        if (log.status === "failed") {
-          setfailedCount((prev: number) => prev + 1);
-        } else if (log.status === "skipped") {
-          setskippedCount((prev: number) => prev + 1);
+    if (habit.length === 0) {
+      habit.logs.forEach((log: any) => {
+        const logDate = new Date(log.date);
+        if (logDate >= startOfWeek && logDate <= endOfWeek) {
+          if (log.status === "failed") {
+            setfailedCount((prev: number) => prev + 1);
+          } else if (log.status === "skipped") {
+            setskippedCount((prev: number) => prev + 1);
+          }
         }
-      }
-    })
+      })
+    }
+
   }
   // convert "2025-07-06T00:00:00Z" to "6 July 2025"
   function formatDateToDisplayString(date: Date): string {
@@ -125,6 +128,17 @@ const RightSidebar = ({ habit }: any) => {
       window.removeEventListener("mouseup", handleMouseUp);
     };
   }, []);
+
+  if (!habit || Object.keys(habit).length === 0) {
+    return (
+      <div className="quote w-[650px] p-3 m-2 max-h-screen  bg-white rounded-2xl flex items-center justify-center">
+        <div className="quote-box  text-gray-500 text-2xl font-semibold text-center">
+          "The journey of a thousand miles begins with one step."
+        </div>
+      </div>
+    )
+  }
+
   return (
     <>
       <EditHabit isModalOpen={isModalOpen} setIsModalOpen={setisModalOpen} habitId={habit.id} />
@@ -139,7 +153,7 @@ const RightSidebar = ({ habit }: any) => {
           </div>
 
           <div className="p-3 flex flex-col gap-4">
-            <div className="box flex gap-2 p-4  border border-gray-300 rounded-lg " >
+            <div className="box flex gap-2 p-4 border border-gray-300 rounded-lg " >
               <span className="text-4xl" >🔥</span>
               <div>
                 <p className="text-[12px] font-semibold text-gray-500 " >CURRENT STREAK</p>

@@ -44,7 +44,7 @@ const LeftSidebar = () => {
                 <hr className="text-gray-300" />
                 <div className="p-3">
                     <Menu as="div" className=" relative inline-block text-left">
-                        <MenuButton className="flex w-50 gap-2 items-center mt-4 p-2 rounded-md bg-gray-200 hover:cursor-pointer">
+                        <MenuButton className="flex w-50 gap-2 items-center mt-4 p-2 rounded-md border border-gray-300 hover:cursor-pointer">
                             <img className="rounded-full overflow-hidden w-7 h-7 " src={currentUser.profilePic} alt="image" />
                             <h4 className=" text-sm font-semibold tracking-tight" >{currentUser.name}</h4>
                         </MenuButton>
