@@ -1,7 +1,7 @@
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import { useState, useEffect } from 'react'
 import Header from "./Header"
-import { ChevronDown, Plus, EllipsisVertical, ArrowRight, Check, X, Pencil, Timer, Undo } from "lucide-react"
+import { ChevronDown, Plus, EllipsisVertical, ArrowRight, Check, X, Pencil, Timer, Undo, BarChart } from "lucide-react"
 import '../App.css'
 import { toast } from 'react-hot-toast'
 import RightSidebar from "../components/RightSidebar";
@@ -26,7 +26,7 @@ const Habits = () => {
   });
   const [habitData, sethabitData] = useState<any[]>([])
   const currentUser = useSelector((state: any) => state.user.currentUser);
-  const { habitData: initialHabitData,searchHabits, fetchHabitData, loading, updateHabitValue, query } = useHabitData();
+  const { habitData: initialHabitData, searchHabits, fetchHabitData, loading, updateHabitValue, query } = useHabitData();
   useEffect(() => {
     const getData = () => {
       try {
@@ -40,7 +40,7 @@ const Habits = () => {
 
   useEffect(() => {
     query ? sethabitData(searchHabits) : sethabitData(initialHabitData)
-  }, [initialHabitData,searchHabits, query])
+  }, [initialHabitData, searchHabits, query])
 
   const today = new Date();
   const isSamePeriod = (logDate: string, habit: any): boolean => {
@@ -99,16 +99,16 @@ const Habits = () => {
     try {
       setdisabled(true)
       let res = await api.post(`/habit/logHabit/${habitId}?status=${status}`)
-      if (res.status === 200) {       
-          sethabitData((prev) =>
-            prev.map((habit) => {
-              if (habit.id !== habitId) return habit;
-              let safeLogs = Array.isArray(habit.logs) ? habit.logs : [];
-              if(status==="completed") return { ...habit, currentValue: habit.unitValue, logs: [...safeLogs, { date: new Date().toISOString(), status: status }] }
-              return { ...habit, currentValue: 0, logs: [...safeLogs, { date: new Date().toISOString(), status: status }] }
-            })
-          )
-      
+      if (res.status === 200) {
+        sethabitData((prev) =>
+          prev.map((habit) => {
+            if (habit.id !== habitId) return habit;
+            let safeLogs = Array.isArray(habit.logs) ? habit.logs : [];
+            if (status === "completed") return { ...habit, currentValue: habit.unitValue, logs: [...safeLogs, { date: new Date().toISOString(), status: status }] }
+            return { ...habit, currentValue: 0, logs: [...safeLogs, { date: new Date().toISOString(), status: status }] }
+          })
+        )
+
         setOpenGroups((prev) => ({
           ...prev,
           [status]: true,
@@ -227,8 +227,16 @@ const Habits = () => {
                         return (
                           <div
                             key={habit.id}
-                            className={`habit flex items-center p-3 rounded-md mb-2 ${bgColor} `}
-                            onClick={() => { tohabit ? (tohabit.id===habit.id ? settoggleRightSidebar(!settoggleRightSidebar) : settoggleRightSidebar(true) ) : settoggleRightSidebar(true), settohabit(habit)}}
+                            className={`habit flex items-center p-3 rounded-md mb-2 ${bgColor}  `}
+                            onClick={() => {
+                              if (tohabit && tohabit.id === habit.id) {
+                                settoggleRightSidebar(!toggleRightSidebar);
+                                settohabit({})
+                              } else {
+                                settoggleRightSidebar(true);
+                                settohabit(habit);
+                              }
+                            }}
                           >
                             <div className="circle bg-gray-400 w-10 h-10 rounded-full"></div>
                             <div className={`ml-3 flex justify-between w-full border-b pb-2 ${bgColor}`}>
@@ -282,7 +290,15 @@ const Habits = () => {
                 <div
                   key={habit.id}
                   className={`habit flex items-center p-3 rounded-md mb-2`}
-                  onClick={() => {tohabit ? (tohabit.id===habit.id ? settoggleRightSidebar(!settoggleRightSidebar) : settoggleRightSidebar(true) ) : settoggleRightSidebar(true), settohabit(habit) }}
+                  onClick={() => {
+                    if (tohabit && tohabit.id === habit.id) {
+                      settoggleRightSidebar(!toggleRightSidebar);
+                      settohabit({})
+                    } else {
+                      settoggleRightSidebar(true);
+                      settohabit(habit);
+                    }
+                  }}
                 >
                   <div className="circle bg-gray-400 w-10 h-10 rounded-full"></div>
                   <div className="ml-3 flex border-b border-gray-300 pb-2 justify-between w-full">
@@ -352,6 +368,14 @@ const Habits = () => {
                                 <Pencil width={16} /> Edit
                               </a>
                             </MenuItem>
+                            <MenuItem >
+                              <a
+                                onClick={() => { settoggleRightSidebar(true), settohabit(habit) }}
+                                className="flex gap-2 px-4 py-2 text-sm cursor-pointer"
+                              >
+                                <BarChart width={16} /> Stats
+                              </a>
+                            </MenuItem>
                           </div>
                         </MenuItems>
                       </Menu>
@@ -365,16 +389,8 @@ const Habits = () => {
           </div>
         </div>
       )}
-      {!toggleRightSidebar ? (
-        <div className="quote w-[650px] p-3 m-2 max-h-screen  bg-white rounded-2xl flex items-center justify-center">
-          <div className="quote-box  text-gray-500 text-2xl font-semibold text-center">
-            "The journey of a thousand miles begins with one step."
-          </div>
-        </div>
-      ) : (
-        <RightSidebar habit={tohabit} />
-      )}
 
+      <RightSidebar habit={tohabit} />
 
       {/* {currentUser && <div className=" w-full ">
         <Header />

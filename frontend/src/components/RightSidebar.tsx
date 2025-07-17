@@ -1,5 +1,5 @@
 import api from "@/utils/api";
-import { ArrowRight, ArrowUp, Check, Pencil, X } from "lucide-react";
+import { ArrowRight, ArrowUp, Check, Pencil, RefreshCcwIcon, X } from "lucide-react";
 import { useEffect, useState, useRef } from "react";
 import { BarChart } from '@mui/x-charts/BarChart';
 import HeatMap from '@uiw/react-heat-map';
@@ -16,6 +16,7 @@ const RightSidebar = ({ habit }: any) => {
   const [skippedCount, setskippedCount] = useState(0)
   const [datesValues, setdatesValues] = useState<any>([])
   const [isModalOpen, setisModalOpen] = useState(false)
+  const [quote, setquote] = useState(" Success usually comes to those who keep moving forward.");
   let date = new Date()
   const [seriesData, setseriesData] = useState<any>([`${date.toISOString().slice(0, 7)}`, `${date.toISOString().slice(0, 7)}`])
   const [x_axisData, setx_axisData] = useState([5])
@@ -102,6 +103,67 @@ const RightSidebar = ({ habit }: any) => {
     {}
   ];
 
+  const quotes :string[] = [
+  "Success usually comes to those who keep moving forward.",
+  "Stay patient and trust your journey every single day.",
+  "Hard work beats talent when talent doesn't work hard.",
+  "A positive mindset brings positive things into your life.",
+  "Dream big, work hard, and never ever give up.",
+  "You are stronger than you think, keep pushing forward.",
+  "Discipline is the bridge between goals and real achievement.",
+  "Progress, not perfection, is the key to growth.",
+  "Success is built on consistency, not occasional effort.",
+  "Work in silence, let success make the noise.",
+  "Don’t watch the clock; do what it does—move.",
+  "Start where you are. Use what you have. Begin.",
+  "Small steps each day lead to great accomplishments eventually.",
+  "The future depends on what you do today.",
+  "Your only limit is the one you set yourself.",
+  "Growth begins at the end of your comfort zone.",
+  "It always seems impossible until it is finally done.",
+  "Push yourself, because no one else is going to.",
+  "Believe in yourself even when no one else does.",
+  "The harder you work, the luckier you get, always.",
+  "Great things take time, so be patient and persistent.",
+  "Winners are not people who never fail but try.",
+  "Take risks now and live your dreams every day.",
+  "Turn your wounds into wisdom and your pain into power.",
+  "Success is no accident, it’s hard work and dedication.",
+  "Make each day your masterpiece with effort and gratitude.",
+  "Doubt kills more dreams than failure ever could try.",
+  "Strive for progress, not perfection, in every little step.",
+  "Every day is a fresh start—make it worthwhile.",
+  "Fall seven times, stand up eight, and keep going.",
+  "Create the life you can’t wait to wake up to.",
+  "Big journeys begin with small, consistent and determined steps.",
+  "Let your hustle be louder than your complaints daily.",
+  "You don’t need perfect conditions to start, just begin.",
+  "Focus on your goals, not the obstacles ahead, always.",
+  "Discomfort is the price of admission to a meaningful life.",
+  "You were born to stand out, not to fit in.",
+  "Discipline outlasts motivation every single day, especially long term.",
+  "One step at a time gets you somewhere eventually.",
+  "Don’t be afraid to start over, it builds strength.",
+  "A goal without a plan is just a wish.",
+  "Learn something new today that helps you grow tomorrow.",
+  "If you’re tired, learn to rest, not to quit.",
+  "Keep going, because you did not come this far.",
+  "Sometimes later becomes never. Do it now instead.",
+  "Be stubborn about goals, flexible about your methods always.",
+  "Don’t limit your challenges—challenge your limits with confidence.",
+  "Turn your can'ts into cans and dreams into plans.",
+  "Do something today your future self will thank you for.",
+  "Motivation gets you started, but habits keep you going strong.",
+  "Your dreams don’t work unless you do the work.",
+  "Consistency builds trust, momentum, and lasting long-term success.",
+  "Distractions destroy action. Stay focused on what really matters."
+];
+
+const generateRandomQuote = ()=>{
+  const randomIndex = Math.floor(Math.random() * quotes.length);
+  setquote(quotes[randomIndex]) 
+}
+
   const handleMouseDown = () => {
     isResizing.current = true;
   };
@@ -131,10 +193,11 @@ const RightSidebar = ({ habit }: any) => {
 
   if (!habit || Object.keys(habit).length === 0) {
     return (
-      <div className="quote w-[650px] p-3 m-2 max-h-screen  bg-white rounded-2xl flex items-center justify-center">
-        <div className="quote-box  text-gray-500 text-2xl font-semibold text-center">
-          "The journey of a thousand miles begins with one step."
+      <div className="quote w-[650px] text-gray-400 flex-col p-3 m-2 max-h-screen  bg-white rounded-2xl flex items-center justify-center">
+        <div className="quote-box font-mono  text-2xl font-semibold text-center">
+          <p className="mb-4">{quote}</p>
         </div>
+        <button onClick={()=> generateRandomQuote()} ><RefreshCcwIcon/> </button>
       </div>
     )
   }
