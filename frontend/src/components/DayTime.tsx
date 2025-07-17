@@ -17,7 +17,7 @@ const Habits = (props: any) => {
   const [habitId, sethabitId] = useState("")
   const [disabled, setdisabled] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const [habit, sethabit] = useState<any>({})
+  const [tohabit, settohabit] = useState<any>({})
   type Status = 'completed' | 'skipped' | 'failed' | 'pending';
   const [openGroups, setOpenGroups] = useState<{ [key in Status]: boolean }>({
     completed: false,
@@ -168,7 +168,7 @@ const Habits = (props: any) => {
   // }
 
   const getHabitColor = (status: Status) => {
-   switch (status) {
+    switch (status) {
       case 'completed':
         return 'border-green-300';
       case 'skipped':
@@ -241,7 +241,15 @@ const Habits = (props: any) => {
                           <div
                             key={habit.id}
                             className={`habit flex items-center p-3 rounded-md mb-2 ${bgColor} `}
-                            onClick={() => { settoggleRightSidebar(!toggleRightSidebar); sethabit(habit) }}
+                            onClick={() => {
+                              if (tohabit && tohabit.id === habit.id) {
+                                settoggleRightSidebar(!toggleRightSidebar);
+                                settohabit({})
+                              } else {
+                                settoggleRightSidebar(true);
+                                settohabit(habit);
+                              }
+                            }}
                           >
                             <div className="circle bg-gray-400 w-10 h-10 rounded-full"></div>
                             <div className={`ml-3 flex justify-between w-full border-b pb-2 ${bgColor}`}>
@@ -294,7 +302,15 @@ const Habits = (props: any) => {
                 <div
                   key={habit.id}
                   className={`habit flex items-center p-3 rounded-md mb-2`}
-                  onClick={() => { settoggleRightSidebar(!toggleRightSidebar); sethabit(habit) }}
+                  onClick={() => {
+                    if (tohabit && tohabit.id === habit.id) {
+                      settoggleRightSidebar(!toggleRightSidebar);
+                      settohabit({})
+                    } else {
+                      settoggleRightSidebar(true);
+                      settohabit(habit);
+                    }
+                  }}
                 >
                   <div className="circle bg-gray-400 w-10 h-10 rounded-full"></div>
                   <div className="ml-3 flex justify-between w-full border-b border-gray-300 pb-2">
@@ -379,7 +395,9 @@ const Habits = (props: any) => {
           </div>
         </div>
       )}
-      <RightSidebar habit={habit} />
+      
+        <RightSidebar habit={tohabit} />
+   
     </>
   )
 }
