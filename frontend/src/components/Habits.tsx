@@ -26,7 +26,8 @@ const Habits = () => {
   });
   const [habitData, sethabitData] = useState<any[]>([])
   const currentUser = useSelector((state: any) => state.user.currentUser);
-  const { habitData: initialHabitData, searchHabits, fetchHabitData, loading, updateHabitValue, query } = useHabitData();
+  const { habitData: initialHabitData, searchHabits, fetchHabitData,loading : loadingData, updateHabitValue, query } = useHabitData();
+  const [loading, setloading] = useState(false)
   useEffect(() => {
     const getData = () => {
       try {
@@ -51,7 +52,7 @@ const Habits = () => {
       case "weekly":
         const startOfWeek = new Date(log);
         const endOfWeek = new Date(startOfWeek);
-        endOfWeek.setDate(startOfWeek.getDate() + 6);
+        endOfWeek.setDate(startOfWeek.getDate() + 7);
         return today >= startOfWeek && today <= endOfWeek;
       case "monthly":
         const startOfMonth = new Date(log);
@@ -81,6 +82,7 @@ const Habits = () => {
 
   const logHabit = async (habitId: any) => {
     try {
+      setloading(true)
       setdisabled(true)
       let res = await api.post(`/habit/logHabit/${habitId}`)
       updateHabitValue(habitId)
@@ -93,10 +95,12 @@ const Habits = () => {
       toast.error('Error logging habit!')
     } finally {
       setdisabled(false)
+      setloading(false)
     }
   }
   const finalLogHabit = async (habitId: any, status: Status) => {
     try {
+      setloading(true)
       setdisabled(true)
       let res = await api.post(`/habit/logHabit/${habitId}?status=${status}`)
       if (res.status === 200) {
@@ -129,6 +133,7 @@ const Habits = () => {
     }
     finally {
       setdisabled(false)
+      setloading(false)
     }
   }
 
@@ -180,7 +185,7 @@ const Habits = () => {
     statusGroups[status].push(habit)
   });
 
-  if (loading) {
+  if (loadingData) {
     return <div className="w-full flex justify-center items-center h-screen">
       <div className="animate-spin rounded-full h-32 w-32 border-b-3 border-blue-500"></div>
     </div>
@@ -289,7 +294,7 @@ const Habits = () => {
               return (
                 <div
                   key={habit.id}
-                  className={`habit flex items-center p-3 rounded-md mb-2`}
+                  className={`habit flex items-center p-3 rounded-md mb-2 ${loading &&  "animate-pulse"}`}
                   onClick={() => {
                     if (tohabit && tohabit.id === habit.id) {
                       settoggleRightSidebar(!toggleRightSidebar);

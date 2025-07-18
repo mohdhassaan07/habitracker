@@ -122,7 +122,6 @@ const Header = () => {
 
     return (
         <div className="border-b-1 gap-3 border-gray-300 w-full h-[48.5px] flex items-center justify-end px-4">
-            <input type="date" name='date' className='border border-gray-500 rounded-lg p-1' />
             <div className="flex px-1 py-1 rounded-md border-2 border-gray-300 overflow-hidden max-w-md">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192.904 192.904" width="16px"
                     className="fill-gray-600 mr-3 rotate-90">

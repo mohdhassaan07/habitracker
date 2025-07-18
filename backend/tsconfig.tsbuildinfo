@@ -1,1 +1,1 @@
-{"root":["./src/app.ts","./src/controllers/authcontroller.ts","./src/controllers/habitcontroller.ts","./src/middlewares/isloggedin.ts","./src/routes/habit.ts","./src/routes/user.ts","./src/utils/cloudinaryconfig.ts","./src/utils/resethabits.ts"],"version":"5.7.3"}
+{"root":["./src/app.ts","./src/controllers/authcontroller.ts","./src/controllers/habitcontroller.ts","./src/controllers/usercontroller.ts","./src/middlewares/isloggedin.ts","./src/routes/habit.ts","./src/routes/user.ts","./src/utils/cloudinaryconfig.ts","./src/utils/resethabits.ts"],"version":"5.7.3"}

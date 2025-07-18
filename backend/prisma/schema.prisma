@@ -13,8 +13,20 @@ model User {
   name    String?
   password String
   habits  Habit[]
+  moods   MoodLog[]
   profilePic String @default("https://www.pngkey.com/png/full/73-730477_first-name-profile-image-placeholder-png.png")
   @@index([email])
+}
+
+model MoodLog {
+  id        String   @id @default(uuid())
+  createdAt DateTime  @default(now())
+  date      DateTime
+  mood      Mood
+  user      User     @relation(fields : [userId], references : [id])
+  userId    String
+
+  @@unique([userId, date])
 }
 
 model Habit {
@@ -72,4 +84,12 @@ enum HabitStatus {
   failed
   skipped
   pending
+}
+
+enum Mood {
+  happy
+  good
+  okay
+  bad
+  terrible
 }

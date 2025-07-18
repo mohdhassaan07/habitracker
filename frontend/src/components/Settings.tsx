@@ -76,7 +76,7 @@ const Settings = (props: any) => {
                 {!loading && <div>
                     <h2 className="text-3xl font-semibold mb-5 w-full text-center ">Profile</h2>
                     <div className="flex justify-center items-center my-10 gap-3 h-full">
-                        <img draggable="false" onClick={() => imageRef.current.click()} onChange={handleImageChange} className="rounded-full w-28 h-28 mb-3" src={image ? image : currentUser.profilePic} alt="profile" />
+                        <img draggable="false" onClick={() => imageRef.current.click()} onChange={handleImageChange} className="rounded-full cursor-pointer w-28 h-28 mb-3" src={image ? image : currentUser.profilePic} alt="profile" />
                         <input ref={imageRef} type="file" accept='image/*' onChange={handleImageChange} hidden />
                         <form action="" onSubmit={handleSubmit} className="flex flex-col gap-2" >
                             <input type="text" onChange={handleChange} value={formData.name} name="name" className="border border-gray-300  rounded-md p-1 px-3 tracking-tight w-full focus:outline-none focus:ring focus:ring-blue-500" placeholder="Enter your name" />
