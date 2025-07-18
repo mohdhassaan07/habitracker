@@ -1,5 +1,6 @@
 import express from 'express';
-import {createUser, editUser, signin, SignOut} from '../controllers/authController'
+import {createUser, signin, SignOut} from '../controllers/authController'
+import { editUser } from '../controllers/userController';
 import isLoggedin from '../middlewares/isLoggedin';
 const router = express.Router();
 
