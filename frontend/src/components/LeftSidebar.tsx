@@ -5,8 +5,11 @@ import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import Settings from './Settings';
 import { useTimeOfDay } from '@/store/TimeofDay';
+import Mood from './Mood';
 const LeftSidebar = () => {
     const [isModalOpen, setisModalOpen] = useState(false)
+    const [isMoodModalOpen, setisMoodModalOpen] = useState(false)
+    const [todayMood, settodayMood] = useState("")
     const { time } = useTimeOfDay();
     const [icon, seticon] = useState(<Sunrise />)
     //@ts-ignore
@@ -38,6 +41,7 @@ const LeftSidebar = () => {
 
     return (
         <>
+            <Mood mood={todayMood} isModalOpen={isMoodModalOpen} setisModalOpen={setisMoodModalOpen} />
             <Settings isModalOpen={isModalOpen} setIsModalOpen={setisModalOpen} />
             <div className=" border-gray-300 bg-white rounded-2xl min-w-56 m-2 max-h-screen">
                 <h1 className="text-blue-600 font-bold text-2xl w-full text-center p-2" >Habitracker</h1>
@@ -98,7 +102,7 @@ const LeftSidebar = () => {
                             <div className="py-1">
                                 <MenuItem>
                                     <a
-                                        href="#"
+                                        onClick={()=>{setisMoodModalOpen(true), settodayMood("happy")}}
                                         className="flex gap-1 align-middle px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden"
                                     >
                                         😃 Happy
@@ -106,7 +110,7 @@ const LeftSidebar = () => {
                                 </MenuItem>
                                 <MenuItem>
                                     <a
-                                        href="#"
+                                        onClick={()=>{setisMoodModalOpen(true), settodayMood("good")}}
                                         className="flex gap-1 align-middle px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden"
                                     >
                                         😊 Good
@@ -114,7 +118,7 @@ const LeftSidebar = () => {
                                 </MenuItem>
                                 <MenuItem>
                                     <a
-                                        href="#"
+                                        onClick={()=>{setisMoodModalOpen(true), settodayMood("okay")}}
                                         className="flex gap-1 align-middle px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden"
                                     >
                                         😐 Okay
@@ -122,7 +126,7 @@ const LeftSidebar = () => {
                                 </MenuItem>
                                 <MenuItem>
                                     <a
-                                        href="#"
+                                        onClick={()=>{setisMoodModalOpen(true), settodayMood("bad")}}
                                         className="flex gap-1 align-middle px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden"
                                     >
                                         😟 Bad
@@ -130,7 +134,7 @@ const LeftSidebar = () => {
                                 </MenuItem>
                                 <MenuItem>
                                     <a
-                                        href="#"
+                                        onClick={()=>{setisMoodModalOpen(true), settodayMood("terrible")}}
                                         className="flex gap-1 align-middle px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden"
                                     >
                                         😩 Terrible

@@ -51,7 +51,7 @@ const date = new Date(Date.UTC(
 ));
 
 const logMood = async (req, res) => {
-    const { mood } = req.query.mood
+    const { mood, description } = req.body
     const userId = req.params.userId
     try {
         const loggedMood = await prisma.moodLog.upsert({
@@ -61,10 +61,12 @@ const logMood = async (req, res) => {
             create : {
                 userId,
                 date: date,
-                mood
+                mood,
+                description
             },
             update : {
-                mood
+                mood,
+                description
             }
         })
         return res.status(200).json({ message: "Mood logged successfully", mood: loggedMood });
