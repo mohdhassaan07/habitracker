@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import Header from "./Header"
 import { ChevronDown, Plus, EllipsisVertical, ArrowRight, Check, X, Pencil, Timer, Undo, BarChart } from "lucide-react"
 import '../App.css'
+import CircularProgress from '@mui/material/CircularProgress';
 import { toast } from 'react-hot-toast'
 import RightSidebar from "../components/RightSidebar";
 import { useSelector } from 'react-redux'
@@ -186,8 +187,8 @@ const Habits = () => {
   });
 
   if (loadingData) {
-    return <div className="w-full flex justify-center items-center h-screen">
-      <div className="animate-spin rounded-full h-32 w-32 border-b-3 border-blue-500"></div>
+    return <div className="w-[55%] bg-white m-2 rounded-2xl max-h-screen flex justify-center items-center">
+      <CircularProgress size={"4rem"} />
     </div>
   }
 
@@ -367,7 +368,7 @@ const Habits = () => {
                             </MenuItem>
                             <MenuItem >
                               <a
-                                onClick={() => { setIsModalOpen(true), sethabitId(habit.id) }}
+                                onClick={() => {sethabitId(habit.id),setIsModalOpen(true)}}
                                 className="flex gap-2 px-4 py-2 text-sm cursor-pointer"
                               >
                                 <Pencil width={16} /> Edit

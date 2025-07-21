@@ -3,6 +3,7 @@ import Modal from "./Modal"
 import api from "@/utils/api"
 import { useSelector } from 'react-redux'
 import toast from "react-hot-toast"
+import CircularProgress from "@mui/material/CircularProgress"
 const Mood = ({ mood, isModalOpen, setisModalOpen }: any) => {
     const emoji: any = {
         happy: "😃",
@@ -46,7 +47,8 @@ const Mood = ({ mood, isModalOpen, setisModalOpen }: any) => {
     if (loading) {
         return( 
         <>
-            <div className="animate-spin absolute left-[40%] top-[45%] rounded-full h-32 w-32 border-b-3 border-blue-500"></div>
+            <CircularProgress size={"4rem"} className="absolute left-[40%] top-[45%]" />
+            {/* <div className="animate-spin absolute left-[40%] top-[45%] rounded-full h-32 w-32 border-b-3 border-blue-500"></div> */}
         </>)
     }
     return (
