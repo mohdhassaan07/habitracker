@@ -10,7 +10,7 @@ import api from '@/utils/api'
 import { toast } from 'react-hot-toast'
 import EditHabit from './EditHabit'
 import { Link } from 'react-router-dom'
-
+import CircularProgress from '@mui/material/CircularProgress'
 const Habits = (props: any) => {
   const [toggleRightSidebar, settoggleRightSidebar] = useState(false)
   const { timeOfDayData: initialTimeOfDayData, fetchTimeOfDayData, loading, updateHabitValue } = useHabitData();
@@ -194,8 +194,8 @@ const Habits = (props: any) => {
   });
 
   if (loading) {
-    return <div className="w-full flex justify-center items-center h-screen">
-      <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-500"></div>
+    return <div className="w-[55%] bg-white m-2 rounded-2xl max-h-screen flex justify-center items-center">
+      <CircularProgress size={"4rem"} />
     </div>
   }
   return (
@@ -395,9 +395,9 @@ const Habits = (props: any) => {
           </div>
         </div>
       )}
-      
-        <RightSidebar habit={tohabit} />
-   
+
+      <RightSidebar habit={tohabit} />
+
     </>
   )
 }

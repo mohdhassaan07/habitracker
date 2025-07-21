@@ -90,13 +90,14 @@ const Settings = (props: any) => {
                             <button className="text-red-500 tracking-tighter border-red-500 rounded-md p-1 px-2" >Reset</button>
                         </div>
                         <div className="flex justify-between items-center p-2 border-b border-gray-200" >
+                            <h3 className="tracking-tight " >Delete All Data</h3>
+                            <button className=" border-red-500 text-red-500 tracking-tighter rounded-md p-1 px-2" onClick={() => navigate("/logout")} >Delete</button>
+                        </div>
+                        <div className="flex justify-between items-center p-2 border-b border-gray-200" >
                             <h3 className="tracking-tight " >Delete Account</h3>
                             <button className="text-red-500  border-red-500 tracking-tighter rounded-md p-1 px-2" >Delete</button>
                         </div>
-                        <div className="flex justify-between items-center p-2 border-gray-200" >
-                            <h3 className="tracking-tight " >Logout from Habitracker</h3>
-                            <button className=" border-red-500 text-red-500 tracking-tighter rounded-md p-1 px-2" onClick={() => navigate("/logout")} >Logout</button>
-                        </div>
+
                     </div>
                 </div>}
             </Modal>

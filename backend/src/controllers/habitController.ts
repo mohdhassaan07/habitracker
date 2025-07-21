@@ -561,6 +561,71 @@ const searchData = async (req, res) => {
   }
 }
 
+const resetHabits = async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const findUser = await prisma.user.findUnique({
+      where: {
+        id: userId
+      }
+    })
+    if (!findUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    await prisma.habit.updateMany({
+      where: {
+        userId: userId
+      },
+      data: {
+        currentValue: 0,
+        totalValue: 0,
+        lastLogged: null,
+        streak: 0
+      }
+    });
+    await prisma.habitLog.deleteMany({
+      where: {
+        habit: {
+          userId: userId
+        }
+      }
+    });
+    return res.status(200).json({ message: "All habits reset successfully" });
+  } catch (error) {
+    console.error("Error resetting habits:", error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+}
+
+const deleteAllData = async (req, res) => {
+  const userId = req.params.userId
+  try {
+    const findUser = await prisma.user.findUnique({
+      where: {
+        id: userId
+      }
+    })
+    if (!findUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    await prisma.habitLog.deleteMany({
+      where: {
+        habit: {
+          userId: userId
+        }
+      }
+    })
+    await prisma.habit.deleteMany({
+      where: {
+        userId: userId
+      }
+    })
+    return res.status(200).json({ message: "Data deleted successfully!" })
+  } catch (error) {
+    return res.status(500).json({ error: "Internal server error" });
+  }
+}
+
 export {
   getHabits,
   editHabit,
@@ -569,5 +634,7 @@ export {
   deleteHabit,
   undoLog,
   getLoggedData,
-  searchData
+  searchData,
+  resetHabits,
+  deleteAllData
 }

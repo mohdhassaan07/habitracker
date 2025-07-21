@@ -58,13 +58,13 @@ const logMood = async (req, res) => {
             where: {
                 userId_date: { userId, date: date }
             },
-            create : {
+            create: {
                 userId,
                 date: date,
                 mood,
                 description
             },
-            update : {
+            update: {
                 mood,
                 description
             }
@@ -76,7 +76,49 @@ const logMood = async (req, res) => {
     }
 }
 
+const deleteUser = async (req, res) => {
+    const userId = req.params.userId
+    try {
+        const findUser = await prisma.user.findUnique({
+            where: {
+                id: userId
+            }
+        });
+        if (!findUser) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        await prisma.habitLog.deleteMany({
+            where: {
+                habit: {
+                    userId: userId
+                }
+            }
+        });
+        await prisma.moodLog.deleteMany({
+            where: {
+                userId: userId
+            }
+        })
+        await prisma.habit.deleteMany({
+            where: {
+                userId: userId
+            }
+        })
+        const deletedUser = await prisma.user.delete({
+            where: {
+                id: userId
+            }
+        });
+
+        return res.status(200).json({ message: "User deleted successfully", user: deletedUser });
+    } catch (error) {
+        console.error("Error deleting user:", error);
+        return res.status(500).json({ error: "Internal server error" });
+    }
+}
+
 export {
     editUser,
-    logMood
+    logMood,
+    deleteUser
 }

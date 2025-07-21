@@ -60,7 +60,7 @@ model HabitLog {
   id        String    @id @default(uuid())
   date      DateTime
   status    HabitStatus
-  habit     Habit     @relation(fields: [habitId], references: [id])
+  habit       Habit     @relation(fields: [habitId], references: [id])
   habitId   String
   createdAt DateTime  @default(now())
   totalValue Int @default(0)
