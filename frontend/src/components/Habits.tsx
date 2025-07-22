@@ -41,6 +41,7 @@ const Habits = () => {
   }, [])
 
   useEffect(() => {
+    console.log(initialHabitData)
     query ? sethabitData(searchHabits) : sethabitData(initialHabitData)
   }, [initialHabitData, searchHabits, query])
 
@@ -181,10 +182,10 @@ const Habits = () => {
   };
   const renderOrder: Status[] = ['completed', 'skipped', 'failed'];
 
-  habitData.forEach((habit: any) => {
+   habitData.forEach((habit: any) => {
     const status = getHabitStatus(habit) as Status;
     statusGroups[status].push(habit)
-  });
+  })
 
   if (loadingData) {
     return <div className="w-[55%] bg-white m-2 rounded-2xl max-h-screen flex justify-center items-center">

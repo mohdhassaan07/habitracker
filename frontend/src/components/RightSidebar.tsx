@@ -18,8 +18,8 @@ const RightSidebar = ({ habit }: any) => {
   const [isModalOpen, setisModalOpen] = useState(false)
   const [quote, setquote] = useState("")
   let date = new Date()
-  const [seriesData, setseriesData] = useState<any>([`${date.toISOString().slice(0, 7)}`, `${date.toISOString().slice(0, 7)}`])
-  const [x_axisData, setx_axisData] = useState([5])
+  const [xAxisData, setxAxisData] = useState<any>([`${date.toISOString().slice(0, 7)}`, `${date.toISOString().slice(0, 7)}`])
+  const [seriesData, setseriesData] = useState([5])
   const dates: any = []
   const data: any = []
   //checking the logs of the habit for this week
@@ -123,8 +123,8 @@ const RightSidebar = ({ habit }: any) => {
             dates.push(formatDateToDisplayString(date).slice(0, 6))
             data.push(log.totalValue)
           })
-          setseriesData(dates.slice(dates.length > 6 ? dates.length - 6 : 0, dates.length))
-          setx_axisData(data.slice(dates.length > 6 ? dates.length - 6 : 0, dates.length))
+          setxAxisData(dates.slice(dates.length > 6 ? dates.length - 6 : 0, dates.length))
+          setseriesData(data.slice(dates.length > 6 ? dates.length - 6 : 0, dates.length))
           // Process loggedData as needed
           console.log("Logged Data:", res);
           loggedData.forEach((log: any) => {
@@ -278,12 +278,12 @@ const RightSidebar = ({ habit }: any) => {
                 xAxis={[
                   {
                     id: 'barCategories',
-                    data: seriesData,
+                    data: xAxisData,
                   },
                 ]}
                 series={[
                   {
-                    data: x_axisData,
+                    data: seriesData,
                     color: '#4c8eff',
                   },
                 ]}

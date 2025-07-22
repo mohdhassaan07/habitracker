@@ -5,12 +5,14 @@ import { useNavigate } from "react-router-dom"
 import toast from "react-hot-toast"
 import api from "@/utils/api"
 import { signinstart, signinSuccess } from "@/redux/userSlice"
-
+import { useHabitData } from "@/store/HabitProvider"
+import CircularProgress from "@mui/material/CircularProgress"
 const Settings = (props: any) => {
     const navigate = useNavigate()
     const currentUser = useSelector((state: any) => state.user.currentUser);
     const [image, setimage] = useState("")
     const dispatch = useDispatch()
+    const {removeData, resetData} = useHabitData()
     const [loading, setloading] = useState(false)
     const [formData, setformData] = useState<any>({
         name: currentUser.name,
@@ -66,12 +68,64 @@ const Settings = (props: any) => {
         }
     }
 
+    const resetHabitData = async()=>{
+        try {
+            const confirm = window.confirm("Are you sure you want to reset your habit data? This action cannot be undone.")
+            if (!confirm) return;
+            setloading(true)
+            const res = await api.get(`/habit/resetHabits/${currentUser.id}`)
+            if (res.status === 200) {
+                resetData()
+                toast.success("Habit data reset successfully")
+            }
+        } catch (error) {
+            console.error("Error resetting habit data:", error);
+            toast.error("Error resetting habit data");            
+        }finally{
+            setloading(false)
+        }
+    }
+
+    const deleteAllData = async()=>{
+        try {
+            const confirm = window.confirm("Are you sure you want to delete all your data? This action cannot be undone.")
+            if (!confirm) return;
+            setloading(true)
+            const res = await api.delete(`/habit/deleteAllData/${currentUser.id}`)
+            if (res.status === 200) {
+                removeData()
+                toast.success("All data deleted successfully")
+            }
+        } catch (error) {
+            console.error("Error deleting all data:", error);
+            toast.error("Error deleting all data");
+        } finally {
+            setloading(false)
+        }
+    }
+
+    const deleteAccount = async()=>{
+        try {
+            const confirm = window.confirm("Are you sure you want to delete your account? This action cannot be undone.")
+            if (!confirm) return;
+            setloading(true)
+            const res = await api.delete(`/user/deleteUser/${currentUser.id}`)
+            if (res.status === 200) {
+                await navigate("/logout")
+                toast.success("Account deleted successfully")
+            }
+        } catch (error) {
+            console.error("Error deleting account:", error);
+            toast.error("Error deleting account");
+            
+        }
+    }
     return (
         <div>
             <Modal isOpen={props.isModalOpen} onClose={() => props.setIsModalOpen(false)} >
-                {loading && <div className="flex justify-center relative items-center">
-                    <div className="animate-spin rounded-full h-24 w-24 absolute top-28 border-b-2 border-blue-500"></div>
-                </div>
+                {loading && 
+                    <CircularProgress size={"4rem"} className="absolute left-[40%] top-[42%]" />
+                
                 }
                 {!loading && <div>
                     <h2 className="text-3xl font-semibold mb-5 w-full text-center ">Profile</h2>
@@ -87,15 +141,15 @@ const Settings = (props: any) => {
                     <div className="border border-gray-200 p-2 rounded-lg" >
                         <div className="flex justify-between items-center p-2 border-b border-gray-200" >
                             <h3 className=" tracking-tight " >Reset Habit data</h3>
-                            <button className="text-red-500 tracking-tighter border-red-500 rounded-md p-1 px-2" >Reset</button>
+                            <button onClick={()=> resetHabitData()} className="text-red-500 tracking-tighter border-red-500 rounded-md p-1 px-2" >Reset</button>
                         </div>
                         <div className="flex justify-between items-center p-2 border-b border-gray-200" >
                             <h3 className="tracking-tight " >Delete All Data</h3>
-                            <button className=" border-red-500 text-red-500 tracking-tighter rounded-md p-1 px-2" onClick={() => navigate("/logout")} >Delete</button>
+                            <button className=" border-red-500 text-red-500 tracking-tighter rounded-md p-1 px-2" onClick={()=> deleteAllData()} >Delete</button>
                         </div>
                         <div className="flex justify-between items-center p-2 border-b border-gray-200" >
                             <h3 className="tracking-tight " >Delete Account</h3>
-                            <button className="text-red-500  border-red-500 tracking-tighter rounded-md p-1 px-2" >Delete</button>
+                            <button onClick={()=> deleteAccount()} className="text-red-500  border-red-500 tracking-tighter rounded-md p-1 px-2" >Delete</button>
                         </div>
 
                     </div>

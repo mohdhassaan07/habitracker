@@ -5,8 +5,8 @@ import { signinFailure, signinstart, signinSuccess } from '@/redux/userSlice';
 import { useNavigate } from 'react-router-dom';
 import api from '@/utils/api';
 import { FaGoogle } from "react-icons/fa";
+import toast from "react-hot-toast";
 const SigninForm = (props:any) => {
-    
     const [toggleSignin, settoggleSignin] = useState(true);
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
@@ -44,12 +44,13 @@ const SigninForm = (props:any) => {
             dispatch(signinSuccess(data.user));
             setLoading(false);
             navigate('/journal');
+            
 
         } catch (error) {
             console.error('Error during sign up:', error);
             dispatch(signinFailure())
             setLoading(false);
-            alert('Sign up failed. Please try again.');
+            toast.error('Sign up failed. Please try again.');
         }
         setFormData({
             name: '',
@@ -82,7 +83,7 @@ const SigninForm = (props:any) => {
             console.error('Error during sign in:', error);
             dispatch(signinFailure())
             setLoading(false);
-            alert('Sign in failed. Please try again.');
+            toast.error('Sign in failed. Please check your credentials and try again.');
         }
         setFormData({
             name: '',
