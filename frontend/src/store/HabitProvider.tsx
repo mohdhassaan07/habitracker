@@ -17,6 +17,8 @@ interface JournalDataContextType {
   setloading: React.Dispatch<React.SetStateAction<boolean>>;
   query: string;
   setquery: React.Dispatch<React.SetStateAction<string>>;
+  removeData: () => void;
+  resetData: () => void;
 }
 
 const HabitDataContext = createContext<JournalDataContextType | undefined>(undefined);
@@ -91,7 +93,6 @@ const HabitProvider = ({ children }: { children: React.ReactNode }) => {
         )
       );
     }
-
   };
 
   const updateHabitCurrentValue = (habitId: string, increment: number) => {
@@ -105,9 +106,34 @@ const HabitProvider = ({ children }: { children: React.ReactNode }) => {
     );
   }
 
+  const removeData = () => {
+    setHabitData([]);
+    setTimeOfDayData([]);
+  }
+
+  const resetData = () => {
+    setHabitData((prevHabits : any[]) =>
+      prevHabits.map((habit: any) => ({
+        ...habit,
+        currentValue: 0,
+        logs: [],
+      }))
+    );
+    setTimeOfDayData((prevHabits: any[]) =>
+    prevHabits.map((habit: any) => ({
+      ...habit,
+      currentValue: 0,
+      logs: [],
+    }))
+  );
+  }
 
   return (
-    <HabitDataContext.Provider value={{ habitData, fetchHabitData, timeOfDayData, fetchTimeOfDayData, loading, setloading, updateHabitValue, updateHabitCurrentValue, updateHabits, searchHabits, setsearchHabits, query, setquery }}>
+    <HabitDataContext.Provider value={{
+      habitData, fetchHabitData, timeOfDayData, fetchTimeOfDayData,
+      loading, setloading, updateHabitValue, updateHabitCurrentValue,
+      updateHabits, searchHabits, setsearchHabits, query, setquery, removeData, resetData
+    }}>
       {children}
     </HabitDataContext.Provider>
   );

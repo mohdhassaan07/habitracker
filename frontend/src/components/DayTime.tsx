@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import Header from "./Header"
 import { useSelector } from 'react-redux'
-import { ChevronDown, Plus, EllipsisVertical, ArrowRight, Check, X, Pencil, Undo, Timer } from "lucide-react"
+import { ChevronDown, Plus, EllipsisVertical, ArrowRight, Check, X, Pencil, Undo, Timer, BarChart } from "lucide-react"
 import '../App.css'
 import RightSidebar from "../components/RightSidebar";
 import { useHabitData } from '@/store/HabitProvider'
@@ -379,6 +379,14 @@ const Habits = (props: any) => {
                                 className="flex gap-2 px-4 py-2 text-sm cursor-pointer"
                               >
                                 <Pencil width={16} /> Edit
+                              </a>
+                            </MenuItem>
+                            <MenuItem >
+                              <a
+                                onClick={() => { settoggleRightSidebar(true), settohabit(habit) }}
+                                className="flex gap-2 px-4 py-2 text-sm cursor-pointer"
+                              >
+                                <BarChart width={16} /> Stats
                               </a>
                             </MenuItem>
                           </div>

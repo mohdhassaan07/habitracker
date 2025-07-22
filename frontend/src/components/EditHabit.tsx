@@ -3,6 +3,7 @@ import { useState, useEffect } from "react"
 import { useHabitData } from "@/store/HabitProvider"
 import api from "@/utils/api"
 import { toast } from 'react-hot-toast'
+import CircularProgress from "@mui/material/CircularProgress"
 
 const EditHabit = (props: any) => {
     const { habitData, updateHabitValue, updateHabits } = useHabitData()
@@ -38,7 +39,7 @@ const EditHabit = (props: any) => {
     }, [props.habitId])
 
     useEffect(() => {
-        if (formData.timeOfDay.length > 0) {
+        if (formData.timeOfDay && formData.timeOfDay.length > 0) {
             const initialSelectedTimes: { Morning: boolean, Afternoon: boolean, Evening: boolean } = {
                 Morning: false,
                 Afternoon: false,
@@ -68,7 +69,7 @@ const EditHabit = (props: any) => {
         setFormData((prev: any) => ({
             ...prev,
             timeOfDay: selected.length > 0 ? selected : ['Morning', 'Afternoon', 'Evening'],
-        }));
+        }))
     }, [selectedTimes])
 
     const toggleDropdown = () => setOpen(!open);
@@ -77,8 +78,8 @@ const EditHabit = (props: any) => {
         setSelectedTimes((prev: any) => ({
             ...prev,
             [time]: !prev[time],
-        }));
-    };
+        }))
+    }
 
     const handleChange = (e: any) => {
         const { name, value } = e.target;
@@ -136,10 +137,12 @@ const EditHabit = (props: any) => {
     }
 
     if (loading) {
-    return <div className="w-full flex justify-center items-center h-screen">
-      <div className="animate-spin rounded-full h-32 w-32 border-b-3 border-blue-500"></div>
-    </div>
-  }
+        return (
+            <>
+                <CircularProgress size={"4rem"} className="absolute left-[40%] top-[45%]" />
+            </>
+        )
+    }
 
     return (
         <div>

@@ -7,6 +7,7 @@ import api from '@/utils/api';
 import { useNavigate } from 'react-router-dom';
 import { useHabitData } from '@/store/HabitProvider';
 import Mood from './Mood';
+import CircularProgress from '@mui/material/CircularProgress';
 const Header = () => {
     const [isModalOpen, setModalOpen] = useState(false);
     const [open, setOpen] = useState(false);
@@ -118,9 +119,11 @@ const Header = () => {
     }, [query])
 
     if (loading) {
-        return <div className="flex justify-center items-center h-screen">
-            <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-500"></div>
-        </div>
+        return (
+
+            <CircularProgress size={"4rem"} className="absolute left-[40%] top-[45%]" />
+
+        )
     }
 
     return (
@@ -224,7 +227,7 @@ const Header = () => {
                         </div>
                         <h5 className="block text-sm font-medium text-gray-500">GOAL</h5>
                         <div className='flex gap-4 justify-center mb-2 py-3'>
-                            {isInp == 'minutes' ? <input type="number" defaultValue={1} min={1} step={5} className='h-10 w-16 border border-gray-300 p-1 rounded-md ' onChange={handleChange} name="unitValue" /> : <input type="number" defaultValue={1} min={1} step={1} className='h-10 w-16 border border-gray-300 p-1 rounded-md ' onChange={handleChange} name="unitValue" id="" />}
+                            {isInp == 'minutes' ? <input type="number" defaultValue={1} min={1} className='h-10 w-16 border border-gray-300 p-1 rounded-md ' onChange={handleChange} name="unitValue" /> : <input type="number" defaultValue={1} min={1} step={1} className='h-10 w-16 border border-gray-300 p-1 rounded-md ' onChange={handleChange} name="unitValue" id="" />}
                             <select onChange={(e) => { setisInp(e.target.value), handleChange(e) }} name="unitType" id="" className='border h-10  border-gray-300 rounded-sm p-2 '>
                                 <option value="times">Times</option>
                                 <option value="minutes">Mins</option>
