@@ -6,7 +6,6 @@ import SigninForm from '@/components/SigninForm';
 function Home() {
     const [isOpen, setIsOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
-    const [isDarkMode, setIsDarkMode] = useState(false);
     const [isModalOpen, setModalOpen] = useState(false);
 
     const currentUser = useSelector((state: any) => state.user.currentUser);
@@ -242,28 +241,25 @@ function Home() {
     };
     
     return (
-        <div className="min-h-screen bg-white font-sans">
+        <div className="min-h-screen bg-white dark:bg-gray-900 font-sans text-gray-900 dark:text-gray-100">
             <SigninForm isModalOpen = {isModalOpen} setIsModalOpen = {setModalOpen} />
             {/* Navbar */}
-            <nav className={`fixed w-full z-20 transition-all duration-300 ${isScrolled ? 'bg-white shadow-md py-2' : 'bg-transparent py-4'}`}>
+            <nav className={`fixed w-full z-20 transition-all duration-300 ${isScrolled ? 'bg-white dark:bg-gray-800 shadow-md py-2' : 'bg-transparent py-4'}`}>
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex items-center justify-between h-16">
                         <span className="text-2xl font-bold text-blue-600">Habitracker</span>
 
                         <div className="hidden md:flex items-center space-x-4">
-                            <a href="#features" className="text-gray-800 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">Features</a>
-                            <a href="#testimonials" className="text-gray-800 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">Testimonials</a>
-                            <a href="#pricing" className="text-gray-800 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">Pricing</a>
-                            <a href="#faq" className="text-gray-800 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">FAQ</a>
-                            <button onClick={() => setIsDarkMode(!isDarkMode)} className="p-2 rounded-full text-gray-700 hover:bg-gray-100">
-                                {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
-                            </button>
+                            <a href="#features" className="text-gray-800 dark:text-gray-100 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">Features</a>
+                            <a href="#testimonials" className="text-gray-800 dark:text-gray-100 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">Testimonials</a>
+                            <a href="#pricing" className="text-gray-800 dark:text-gray-100 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">Pricing</a>
+                            <a href="#faq" className="text-gray-800 dark:text-gray-100 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">FAQ</a>
                             <button onClick={() => setModalOpen(true)} className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium">
                                 Get Started
                             </button>
                         </div>
 
-                        <button onClick={() => setIsOpen(!isOpen)} className="md:hidden p-2 rounded-md text-gray-700 hover:bg-gray-100">
+                        <button onClick={() => setIsOpen(!isOpen)} className="md:hidden p-2 rounded-md text-gray-700 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-gray-800">
                             {isOpen ? <X size={24} /> : <Menu size={24} />}
                         </button>
                     </div>
@@ -333,7 +329,7 @@ function Home() {
             </section>
 
             {/* Features Section */}
-            <section id="features" className="py-16 md:py-24 bg-white">
+            <section id="features" className="py-16 md:py-24 bg-white dark:bg-gray-800">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="text-center">
                         <h2 className="text-base font-semibold text-blue-600 tracking-wide uppercase">Features</h2>
@@ -400,7 +396,7 @@ function Home() {
             </section>
 
             {/* Testimonials Section */}
-            <section id="testimonials" className="py-16 md:py-24 bg-gray-50">
+            <section id="testimonials" className="py-16 md:py-24 bg-gray-50 dark:bg-gray-700">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="text-center">
                         <h2 className="text-base font-semibold text-blue-600 tracking-wide uppercase">Testimonials</h2>
@@ -450,7 +446,7 @@ function Home() {
             </section>
 
             {/* Pricing Section */}
-            <section id="pricing" className="py-16 md:py-24 bg-white">
+            <section id="pricing" className="py-16 md:py-24 bg-white dark:bg-gray-800">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="text-center">
                         <h2 className="text-base font-semibold text-blue-600 tracking-wide uppercase">Pricing</h2>
@@ -534,7 +530,7 @@ function Home() {
             </section>
 
             {/* FAQ Section */}
-            <section id="faq" className="py-16 md:py-24 bg-gray-50">
+            <section id="faq" className="py-16 md:py-24 bg-gray-50 dark:bg-gray-700">
                 <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="text-center">
                         <h2 className="text-base font-semibold text-blue-600 tracking-wide uppercase">FAQ</h2>

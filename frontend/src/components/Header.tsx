@@ -8,6 +8,9 @@ import { useNavigate } from 'react-router-dom';
 import { useHabitData } from '@/store/HabitProvider';
 import Mood from './Mood';
 import CircularProgress from '@mui/material/CircularProgress';
+import { useDispatch, useSelector } from 'react-redux';
+import { toggleTheme } from '@/redux/themeSlice';
+import { Sun, Moon } from 'lucide-react';
 const Header = () => {
     const [isModalOpen, setModalOpen] = useState(false);
     const [open, setOpen] = useState(false);
@@ -16,7 +19,8 @@ const Header = () => {
     const [isMoodModalOpen, setisMoodModalOpen] = useState(false)
     const [todayMood, settodayMood] = useState("")
     const { habitData, setsearchHabits, query, setquery } = useHabitData();
-    //@ts-ignore
+    const dispatch = useDispatch();
+    const theme = useSelector((state: any) => state.theme.theme);
     const navigate = useNavigate();
     const [selectedTimes, setSelectedTimes] = useState({
         Morning: true,
@@ -125,11 +129,18 @@ const Header = () => {
 
         )
     }
-
+    
     return (
         <>
             <Mood mood={todayMood} isModalOpen={isMoodModalOpen} setisModalOpen={setisMoodModalOpen} />
             <div className="border-b-1 gap-3 border-gray-300 w-full h-[48.5px] flex items-center justify-end px-4">
+                <button
+                  onClick={() => dispatch(toggleTheme())}
+                  className="p-2 rounded-full text-gray-700 dark:text-yellow-300 hover:bg-gray-100 dark:hover:bg-gray-800"
+                  aria-label="Toggle theme"
+                >
+                  {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
+                </button>
                 <div className="flex px-1 py-1 rounded-md border-2 border-gray-300 overflow-hidden max-w-md">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192.904 192.904" width="16px"
                         className="fill-gray-600 mr-3 rotate-90">
