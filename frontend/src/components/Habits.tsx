@@ -10,6 +10,7 @@ import { useSelector } from 'react-redux'
 import { useHabitData } from '../store/HabitProvider'
 import EditHabit from './EditHabit'
 import api from '@/utils/api'
+import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 const Habits = () => {
   const [toggleRightSidebar, settoggleRightSidebar] = useState(false)
@@ -17,7 +18,7 @@ const Habits = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [habitId, sethabitId] = useState("")
   const [tohabit, settohabit] = useState<any>({})
-
+  const navigate = useNavigate()
   type Status = 'completed' | 'skipped' | 'failed' | 'pending';
   const [openGroups, setOpenGroups] = useState<{ [key in Status]: boolean }>({
     completed: false,
@@ -98,6 +99,7 @@ const Habits = () => {
     } finally {
       setdisabled(false)
       setloading(false)
+      navigate(0)
     }
   }
   const finalLogHabit = async (habitId: any, status: Status) => {
@@ -106,14 +108,14 @@ const Habits = () => {
       setdisabled(true)
       let res = await api.post(`/habit/logHabit/${habitId}?status=${status}`)
       if (res.status === 200) {
-        sethabitData((prev) =>
-          prev.map((habit) => {
-            if (habit.id !== habitId) return habit;
-            let safeLogs = Array.isArray(habit.logs) ? habit.logs : [];
-            if (status === "completed") return { ...habit, currentValue: habit.unitValue, logs: [...safeLogs, { date: new Date().toISOString(), status: status }] }
-            return { ...habit, currentValue: 0, logs: [...safeLogs, { date: new Date().toISOString(), status: status }] }
-          })
-        )
+        // sethabitData((prev) =>
+        //   prev.map((habit) => {
+        //     if (habit.id !== habitId) return habit;
+        //     let safeLogs = Array.isArray(habit.logs) ? habit.logs : [];
+        //     if (status === "completed") return { ...habit, currentValue: habit.unitValue, logs: [...safeLogs, { date: new Date().toISOString(), status: status }] }
+        //     return { ...habit, currentValue: 0, logs: [...safeLogs, { date: new Date().toISOString(), status: status }] }
+        //   })
+        // )
 
         setOpenGroups((prev) => ({
           ...prev,
@@ -136,6 +138,7 @@ const Habits = () => {
     finally {
       setdisabled(false)
       setloading(false)
+      navigate(0)
     }
   }
 
@@ -196,7 +199,7 @@ const Habits = () => {
   return (
     <>
       {currentUser && (
-        <div className="w-full bg-white m-2 rounded-2xl max-h-screen ">
+        <div className="w-full bg-white dark:bg-gray-900 dark:text-white m-2 rounded-2xl max-h-screen ">
           <EditHabit isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} habitId={habitId} />
           <Header />
           <div className="element px-4 py-4 h-[90.5vh] overflow-y-auto">
@@ -272,8 +275,8 @@ const Habits = () => {
                                   <MenuItems onClick={(e) => e.stopPropagation()} className="absolute z-10 mt-2 w-44 -left-36 rounded-md bg-white shadow-lg ring-1 ring-black/5 transition focus:outline-hidden data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in ">
                                     <div className="py-1">
 
-                                      <MenuItem >
-                                        <a onClick={() => undoLog(habit.id, habit.logs[habit.logs.length - 1].id)} className={`flex gap-2 px-4 py-2 text-sm cursor-pointer `}>
+                                      <MenuItem  >
+                                        <a onClick={() => undoLog(habit.id, habit.logs[habit.logs.length - 1].id)} className={`flex gap-2 px-4 py-2 text-sm cursor-pointer`}>
                                           <Undo width={16} /> Undo Log
                                         </a>
                                       </MenuItem>

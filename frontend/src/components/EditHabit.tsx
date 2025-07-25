@@ -31,13 +31,15 @@ const EditHabit = (props: any) => {
                     unitValue: habitData[i].unitValue,
                     unitType: habitData[i].unitType,
                     frequency: habitData[i].frequency,
-                    timeOfDay: habitData[i].timeOfDay
+                    timeOfDay: habitData[i].timeOfDay.map((time: any) => {
+                        return time.label;
+                    }),
                 })
                 break;
             }
         }
     }, [props.habitId])
-
+    console.log(formData)
     useEffect(() => {
         if (formData.timeOfDay && formData.timeOfDay.length > 0) {
             const initialSelectedTimes: { Morning: boolean, Afternoon: boolean, Evening: boolean } = {
