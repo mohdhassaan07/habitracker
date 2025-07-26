@@ -4,7 +4,7 @@ import LeftSidebar from "../components/LeftSidebar";
 import Habits from "../components/Habits";
 import DayTime from "../components/DayTime";
 import { useSelector } from "react-redux";
-
+import ManageHabits from "../components/MangeHabits";
 const Journal = () => {
   const location = useLocation();
   //@ts-ignore
@@ -34,6 +34,9 @@ const Journal = () => {
     const validTabs = ["Morning", "Afternoon", "Evening"];
     if (validTabs.includes(tab)) {
       return <DayTime tab={tab} />;
+    }
+    else if (tab === "manageHabits") {
+      return <ManageHabits />;
     }
     else {
       return <Habits />;

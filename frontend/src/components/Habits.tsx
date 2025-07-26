@@ -42,7 +42,6 @@ const Habits = () => {
   }, [])
 
   useEffect(() => {
-    console.log(initialHabitData)
     query ? sethabitData(searchHabits) : sethabitData(initialHabitData)
   }, [initialHabitData, searchHabits, query])
 
@@ -102,21 +101,25 @@ const Habits = () => {
       navigate(0)
     }
   }
-  const finalLogHabit = async (habitId: any, status: Status) => {
+  const finalLogHabit = async (habit: any, status: Status) => {
     try {
+      let habitId = habit.id ;
       setloading(true)
       setdisabled(true)
       let res = await api.post(`/habit/logHabit/${habitId}?status=${status}`)
       if (res.status === 200) {
-        // sethabitData((prev) =>
-        //   prev.map((habit) => {
-        //     if (habit.id !== habitId) return habit;
-        //     let safeLogs = Array.isArray(habit.logs) ? habit.logs : [];
-        //     if (status === "completed") return { ...habit, currentValue: habit.unitValue, logs: [...safeLogs, { date: new Date().toISOString(), status: status }] }
-        //     return { ...habit, currentValue: 0, logs: [...safeLogs, { date: new Date().toISOString(), status: status }] }
-        //   })
-        // )
-
+        sethabitData((prev) =>
+          prev.map((habit) => {
+            if (habit.id !== habitId) return habit;
+            let safeLogs = Array.isArray(habit.logs) ? habit.logs : [];
+            if (status === "completed") return { ...habit, currentValue: habit.unitValue, logs: [...safeLogs, { date: new Date().toISOString(), status: status }] }
+            return { ...habit, currentValue: 0, logs: [...safeLogs, { date: new Date().toISOString(), status: status }] }
+          })
+        )
+        // to check if the habit is logged first time 
+        if(habit.logs && habit.logs.length === 0){
+          navigate(0)
+        }
         setOpenGroups((prev) => ({
           ...prev,
           [status]: true,
@@ -127,7 +130,7 @@ const Habits = () => {
         } else if (status === 'skipped') {
           toast.success('Habit skipped!')
         } else if (status === 'failed') {
-          toast.error('Habit failed!')
+          toast.success('Habit failed!')
         }
       }
       console.log(res.data)
@@ -138,19 +141,19 @@ const Habits = () => {
     finally {
       setdisabled(false)
       setloading(false)
-      navigate(0)
     }
   }
 
   const undoLog = async (habitId: any, logId: any) => {
     try {
+      await fetchHabitData()
       setdisabled(true)
       let res = await api.delete(`/habit/undoLog/${habitId}/${logId}`)
       if (res.status === 200) {
         sethabitData((prev) =>
-          prev.map((habit) => {
+          prev.map((habit) => { 
             if (habit.id !== habitId) return habit;
-            return { ...habit, logs: habit.logs.filter((log: any) => log.id !== logId) }
+            return { ...habit,currentValue : 0, logs: habit.logs.filter((log: any) => log.id !== logId) }
           })
         )
         toast.success('Habit log undone successfully!')
@@ -343,7 +346,7 @@ const Habits = () => {
                               <a
 
                                 onClick={() =>
-                                  finalLogHabit(habit.id, 'completed')
+                                  finalLogHabit(habit, 'completed')
                                 }
                                 className="flex gap-2 px-4 py-2 text-sm cursor-pointer"
                               >
@@ -353,7 +356,7 @@ const Habits = () => {
                             <MenuItem disabled={disabled} >
                               <a
                                 onClick={() =>
-                                  finalLogHabit(habit.id, 'skipped')
+                                  finalLogHabit(habit, 'skipped')
                                 }
                                 className="flex gap-2 px-4 py-2 text-sm cursor-pointer"
                               >
@@ -363,7 +366,7 @@ const Habits = () => {
                             <MenuItem disabled={disabled} >
                               <a
                                 onClick={() =>
-                                  finalLogHabit(habit.id, 'failed')
+                                  finalLogHabit(habit, 'failed')
                                 }
                                 className="flex gap-2 px-4 py-2 text-sm cursor-pointer"
                               >
