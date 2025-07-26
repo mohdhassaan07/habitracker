@@ -80,7 +80,7 @@ const LeftSidebar = () => {
 
                     <div className="preferences mt-3">
                         <p className='text-gray-500 w-full flex gap-2 mt-2 rounded-md items-center font-semibold text-sm py-2' >Preferences</p>
-                        <div className="text-gray-500 hover:bg-gray-100 w-full flex gap-2 p-1 mt-2 rounded-md items-center font-semibold text-sm py-2"> <ChartNoAxesGantt /> Manage Habits</div>
+                        <a href='/journal?tab=manageHabits' className="text-gray-500 hover:bg-gray-100 w-full flex gap-2 p-1 mt-2 rounded-md items-center font-semibold text-sm py-2"> <ChartNoAxesGantt /> Manage Habits</a>
                         <div className="text-gray-500 hover:bg-gray-100 w-full flex gap-2 p-1 mt-2 rounded-md items-center font-semibold text-sm py-2"> <SettingsIcon /> App Settings</div>
                     </div>
                     <button className="absolute top-[33rem] inline-flex items-center justify-center px-5 py-2 text-base font-semibold text-white bg-gradient-to-br

@@ -22,7 +22,6 @@ const Timer = () => {
       setformData({ sessionValue: foundHabit.unitValue-foundHabit.currentValue });
     }
   }, [habitId, habitData]);
-  console.log("Habit in timer page", habit);
 
   const handleChange = (e: any) => {
     const { name, value } = e.target;

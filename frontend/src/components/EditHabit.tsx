@@ -39,7 +39,6 @@ const EditHabit = (props: any) => {
             }
         }
     }, [props.habitId])
-    console.log(formData)
     useEffect(() => {
         if (formData.timeOfDay && formData.timeOfDay.length > 0) {
             const initialSelectedTimes: { Morning: boolean, Afternoon: boolean, Evening: boolean } = {

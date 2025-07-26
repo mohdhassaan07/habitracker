@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from "react-redux"
 import { useEffect } from "react"
 import { signout } from "./redux/userSlice"
 import Timer from "./pages/Timer"
+import ManageHabits from "./components/MangeHabits"
 
 const App = () => {
   const { currentUser, loginTime } = useSelector((state: any) => state.user)
