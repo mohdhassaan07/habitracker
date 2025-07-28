@@ -1,8 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { NotepadText, Pencil, SunDim, Sunrise, Sunset, Trash2 } from 'lucide-react';
 import EditHabit from './EditHabit';
 import { useHabitData } from '../store/HabitProvider';
-import { useSelector } from 'react-redux';
 import '../App.css';
 import api from '@/utils/api';
 import toast from 'react-hot-toast';
@@ -18,7 +17,6 @@ const TABS = [
 
 const ManageHabits = () => {
   const { habitData, updateHabits } = useHabitData();
-  const currentUser = useSelector((state: any) => state.user.currentUser);
   const [selectedTab, setSelectedTab] = useState('all');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [habitId, setHabitId] = useState<string | null>(null); 
@@ -26,11 +24,6 @@ const ManageHabits = () => {
   const [toHabit, settoHabit] = useState<any>({})
   const [openRightSidebar, setopenRightSidebar] = useState(false)
 
-  useEffect(() => {
-    if (!currentUser) {
-      // Optionally redirect to login
-    }
-  }, [currentUser]);
 
   const filterHabits = () => {
     if (selectedTab === 'all') return habitData;

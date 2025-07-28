@@ -17,24 +17,36 @@ import { differenceInCalendarDays } from 'date-fns';
 const getHabits = async (req, res) => {
   const { userId } = req.params;
   const time = req.query.time;
+  const sortOrder = req.query.sortOrder as string || 'desc';
 
   if (!userId) {
     return res.status(400).json({ error: "User ID is required" });
   }
+
   try {
+    // Build the where clause
+    const whereClause: any = {
+      userId: userId,
+    };
+
+    // Add time filter if specified
+    if (time && time !== 'all') {
+      whereClause.timeOfDay = {
+        some: {
+          label: time
+        }
+      };
+    }
+
+    // Build orderBy clause - always sort by createdAt
+    const orderByClause: any = {
+      createdAt: sortOrder
+    };
+
     if (time) {
       const habits = await prisma.habit.findMany({
-        orderBy: {
-          createdAt: 'desc'
-        },
-        where: {
-          userId: userId,
-          timeOfDay: {
-            some: {
-              label: time
-            }
-          }
-        },
+        orderBy: orderByClause,
+        where: whereClause,
         include: {
           timeOfDay: true,
           logs: {
@@ -48,12 +60,8 @@ const getHabits = async (req, res) => {
     }
 
     const habits = await prisma.habit.findMany({
-      orderBy: {
-        createdAt: 'desc'
-      },
-      where: {
-        userId: userId,
-      },
+      orderBy: orderByClause,
+      where: whereClause,
       include: {
         timeOfDay: true,
         logs: {
