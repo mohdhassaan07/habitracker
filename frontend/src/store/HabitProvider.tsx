@@ -8,7 +8,7 @@ interface JournalDataContextType {
   timeOfDayData: any[];
   searchHabits: any[];
   setsearchHabits: React.Dispatch<React.SetStateAction<any[]>>;
-  fetchHabitData: () => Promise<void>;
+  fetchHabitData: (sortOrder?: string) => Promise<void>;
   fetchTimeOfDayData: () => Promise<void>;
   updateHabitValue: any;
   updateHabitCurrentValue: (habitId: string, increment: number) => void;
@@ -34,12 +34,12 @@ const HabitProvider = ({ children }: { children: React.ReactNode }) => {
   const hasFetchedRef = useRef(false);
   const hasFetchedTimeRef = useRef(false);
 
-  const fetchHabitData = async () => {
-    if (hasFetchedRef.current) return;
-    hasFetchedRef.current = true;
+  const fetchHabitData = async (sortOrder: string = 'desc') => {
     try {
+      if (hasFetchedRef.current) return;
+      hasFetchedRef.current = true;
       setloading(true)
-      let res = await api.get(`/habit/${currentUser.id}`)
+      let res = await api.get(`/habit/${currentUser.id}?sortOrder=${sortOrder}`)
       setHabitData(res.data)
       console.log("Habit data fetched:", res.data);
 
@@ -51,11 +51,11 @@ const HabitProvider = ({ children }: { children: React.ReactNode }) => {
   }
 
   const fetchTimeOfDayData = async () => {
-    if (hasFetchedTimeRef.current) return;
-    hasFetchedTimeRef.current = true;
     try {
+      if (hasFetchedTimeRef.current) return;
+      hasFetchedTimeRef.current = true;
       setloading(true);
-      let res = await api.get(`/habit/${currentUser.id}?time=${time}`);
+      let res = await api.get(`/habit/${currentUser.id}?time=${time}&sortOrder=desc`);
       if (res.status === 200) {
         console.log("Time of day habits fetched:", res.data.habits);
         setTimeOfDayData(res.data.habits);
