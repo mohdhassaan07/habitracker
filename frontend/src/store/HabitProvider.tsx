@@ -34,12 +34,12 @@ const HabitProvider = ({ children }: { children: React.ReactNode }) => {
   const hasFetchedRef = useRef(false);
   const hasFetchedTimeRef = useRef(false);
 
-  const fetchHabitData = async (sortOrder: string = 'desc') => {
+  const fetchHabitData = async () => {
     try {
       if (hasFetchedRef.current) return;
       hasFetchedRef.current = true;
       setloading(true)
-      let res = await api.get(`/habit/${currentUser.id}?sortOrder=${sortOrder}`)
+      let res = await api.get(`/habit/${currentUser.id}`)
       setHabitData(res.data)
       console.log("Habit data fetched:", res.data);
 
@@ -55,7 +55,7 @@ const HabitProvider = ({ children }: { children: React.ReactNode }) => {
       if (hasFetchedTimeRef.current) return;
       hasFetchedTimeRef.current = true;
       setloading(true);
-      let res = await api.get(`/habit/${currentUser.id}?time=${time}&sortOrder=desc`);
+      let res = await api.get(`/habit/${currentUser.id}?time=${time}`);
       if (res.status === 200) {
         console.log("Time of day habits fetched:", res.data.habits);
         setTimeOfDayData(res.data.habits);
