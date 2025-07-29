@@ -12,12 +12,14 @@ import EditHabit from './EditHabit'
 import api from '@/utils/api'
 import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
+import { FaSort } from 'react-icons/fa'
 const Habits = () => {
   const [toggleRightSidebar, settoggleRightSidebar] = useState(false)
   const [disabled, setdisabled] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [habitId, sethabitId] = useState("")
   const [tohabit, settohabit] = useState<any>({})
+  const [sortBy, setsortBy] = useState("newest")
   const navigate = useNavigate()
   type Status = 'completed' | 'skipped' | 'failed' | 'pending';
   const [openGroups, setOpenGroups] = useState<{ [key in Status]: boolean }>({
@@ -28,7 +30,7 @@ const Habits = () => {
   });
   const [habitData, sethabitData] = useState<any[]>([])
   const currentUser = useSelector((state: any) => state.user.currentUser);
-  const { habitData: initialHabitData, searchHabits, fetchHabitData,loading : loadingData, updateHabitValue, query } = useHabitData();
+  const { habitData: initialHabitData, searchHabits, fetchHabitData, loading: loadingData, updateHabitValue, query } = useHabitData();
   const [loading, setloading] = useState(false)
   useEffect(() => {
     const getData = () => {
@@ -41,9 +43,16 @@ const Habits = () => {
     getData()
   }, [])
 
+
   useEffect(() => {
-    query ? sethabitData(searchHabits) : sethabitData(initialHabitData)
-  }, [initialHabitData, searchHabits, query])
+    let sortedHabits = [...(query ? searchHabits : initialHabitData)];
+    sortedHabits.sort((a, b) => {
+      const dateA = new Date(a.createdAt).getTime();
+      const dateB = new Date(b.createdAt).getTime();
+      return sortBy === "newest" ? dateB - dateA : dateA - dateB;
+    });
+    sethabitData(sortedHabits);
+  }, [initialHabitData, searchHabits, query, sortBy]);
 
   const today = new Date();
   const isSamePeriod = (logDate: string, habit: any): boolean => {
@@ -82,13 +91,17 @@ const Habits = () => {
     return 'pending';
   };
 
-  const logHabit = async (habitId: any) => {
+  const logHabit = async (habit: any) => {
+    let habitId = habit.id;
     try {
       setloading(true)
       setdisabled(true)
       let res = await api.post(`/habit/logHabit/${habitId}`)
       updateHabitValue(habitId)
       if (res.status === 200) {
+        if (habit.logs && habit.logs.length === 0) {
+          navigate(0)
+        }
         toast.success('Habit logged successfully!')
       }
       console.log(res.data)
@@ -98,12 +111,11 @@ const Habits = () => {
     } finally {
       setdisabled(false)
       setloading(false)
-      navigate(0)
     }
   }
   const finalLogHabit = async (habit: any, status: Status) => {
     try {
-      let habitId = habit.id ;
+      let habitId = habit.id;
       setloading(true)
       setdisabled(true)
       let res = await api.post(`/habit/logHabit/${habitId}?status=${status}`)
@@ -117,7 +129,7 @@ const Habits = () => {
           })
         )
         // to check if the habit is logged first time 
-        if(habit.logs && habit.logs.length === 0){
+        if (habit.logs && habit.logs.length === 0) {
           navigate(0)
         }
         setOpenGroups((prev) => ({
@@ -151,9 +163,9 @@ const Habits = () => {
       let res = await api.delete(`/habit/undoLog/${habitId}/${logId}`)
       if (res.status === 200) {
         sethabitData((prev) =>
-          prev.map((habit) => { 
+          prev.map((habit) => {
             if (habit.id !== habitId) return habit;
-            return { ...habit,currentValue : 0, logs: habit.logs.filter((log: any) => log.id !== logId) }
+            return { ...habit, currentValue: 0, logs: habit.logs.filter((log: any) => log.id !== logId) }
           })
         )
         toast.success('Habit log undone successfully!')
@@ -188,7 +200,7 @@ const Habits = () => {
   };
   const renderOrder: Status[] = ['completed', 'skipped', 'failed'];
 
-   habitData.forEach((habit: any) => {
+  habitData.forEach((habit: any) => {
     const status = getHabitStatus(habit) as Status;
     statusGroups[status].push(habit)
   })
@@ -206,8 +218,33 @@ const Habits = () => {
           <EditHabit isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} habitId={habitId} />
           <Header />
           <div className="element px-4 py-4 h-[90.5vh] overflow-y-auto">
-            <div className="flex justify-between ">
-              <h2 className="text-xl font-bold mb-4">{'All Habits'}</h2>
+            <div className="flex justify-between mb-4">
+              <h2 className="text-xl font-bold">All Habits</h2>
+              <Menu as="div" className="relative inline-block text-left">
+                <div>
+                  <MenuButton
+                    className="inline-flex text-gray-500 relative items-center w-full justify-center gap-x-1  px-1 py-1 text-sm font-semibold"
+                  >
+                    sort<FaSort width={16} />
+                  </MenuButton>
+                </div>
+                <MenuItems className="absolute z-10 mt-2 w-44 -left-32 rounded-md bg-white shadow-lg ring-1 ring-black/5 transition focus:outline-hidden data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in ">
+                  <div className="py-1">
+
+                    <MenuItem  >
+                      <a onClick={() => setsortBy("newest")} className={`flex gap-2 px-4 py-2 text-sm cursor-pointer`}>
+                        Newest First
+                      </a>
+                    </MenuItem>
+                    <MenuItem  >
+                      <a onClick={() => setsortBy("oldest")} className={`flex gap-2 px-4 py-2 text-sm cursor-pointer`}>
+                        Oldest First
+                      </a>
+                    </MenuItem>
+                  </div>
+                </MenuItems>
+              </Menu>
+              {/* <div className='flex items-center  text-gray-500' >sort <FaSort size={16} /></div> */}
             </div>
 
             {renderOrder.map((status) =>
@@ -302,7 +339,7 @@ const Habits = () => {
               return (
                 <div
                   key={habit.id}
-                  className={`habit flex items-center p-3 rounded-md mb-2 ${loading &&  "animate-pulse"}`}
+                  className={`habit flex items-center p-3 rounded-md mb-2 ${loading && "animate-pulse"}`}
                   onClick={() => {
                     if (tohabit && tohabit.id === habit.id) {
                       settoggleRightSidebar(!toggleRightSidebar);
@@ -327,7 +364,7 @@ const Habits = () => {
                     </div>
                     <div className="flex gap-2">
                       {(habit.unitType === "times" ?
-                        <button disabled={disabled} onClick={(e) => { e.stopPropagation(), logHabit(habit.id) }} className='border-1 border-gray-300 h-8 flex gap-1 p-1  items-center justify-center font-semibold px-2 active:bg-gray-100' >
+                        <button disabled={disabled} onClick={(e) => { e.stopPropagation(), logHabit(habit) }} className='border-1 border-gray-300 h-8 flex gap-1 p-1  items-center justify-center font-semibold px-2 active:bg-gray-100' >
                           <Plus width={16} />1</button> : <Link to={`/journal/timer/${habit.id}`} onClick={(e) => e.stopPropagation()} className='border-1 border-gray-300 w-[43px] h-8 flex p-1 items-center justify-center font-semibold px-2 ' ><Timer width={19} /></Link>)
                       }
                       <Menu as="div" className="relative inline-block text-left">
@@ -375,7 +412,7 @@ const Habits = () => {
                             </MenuItem>
                             <MenuItem >
                               <a
-                                onClick={() => {sethabitId(habit.id),setIsModalOpen(true)}}
+                                onClick={() => { sethabitId(habit.id), setIsModalOpen(true) }}
                                 className="flex gap-2 px-4 py-2 text-sm cursor-pointer"
                               >
                                 <Pencil width={16} /> Edit
