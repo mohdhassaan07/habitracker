@@ -232,19 +232,18 @@ const Habits = () => {
                   <div className="py-1">
 
                     <MenuItem  >
-                      <a onClick={() => setsortBy("newest")} className={`flex gap-2 px-4 py-2 text-sm cursor-pointer`}>
+                      <a onClick={() => setsortBy("newest")} className={`flex gap-2 px-4 py-2 text-sm cursor-pointer ${sortBy === "newest" ? "bg-gray-100" : ""}`}>
                         Newest First
                       </a>
                     </MenuItem>
                     <MenuItem  >
-                      <a onClick={() => setsortBy("oldest")} className={`flex gap-2 px-4 py-2 text-sm cursor-pointer`}>
+                      <a onClick={() => setsortBy("oldest")} className={`flex gap-2 px-4 py-2 text-sm cursor-pointer ${sortBy === "oldest" ? "bg-gray-100" : ""}`}>
                         Oldest First
                       </a>
                     </MenuItem>
                   </div>
                 </MenuItems>
               </Menu>
-              {/* <div className='flex items-center  text-gray-500' >sort <FaSort size={16} /></div> */}
             </div>
 
             {renderOrder.map((status) =>
@@ -288,7 +287,9 @@ const Habits = () => {
                               }
                             }}
                           >
-                            <div className="circle bg-gray-400 w-10 h-10 rounded-full"></div>
+                            <div className="circle bg-gray-200 text-gray-500  flex items-center justify-center font-bold w-10 h-10 rounded-full">
+                              {habit.name.split(" ").map((word: string) => word.charAt(0).toUpperCase()).join("").slice(0, 2)}
+                            </div>
                             <div className={`ml-3 flex justify-between w-full border-b pb-2 ${bgColor}`}>
                               <div>
                                 <h5
@@ -350,7 +351,9 @@ const Habits = () => {
                     }
                   }}
                 >
-                  <div className="circle bg-gray-400 w-10 h-10 rounded-full"></div>
+                  <div className="circle bg-gray-200 text-gray-500  flex items-center justify-center font-bold w-10 h-10 rounded-full">
+                    {habit.name.split(" ").map((word: string) => word.charAt(0).toUpperCase()).join("").slice(0, 2)}
+                  </div>
                   <div className="ml-3 flex border-b border-gray-300 pb-2 justify-between w-full">
                     <div>
                       <h5
