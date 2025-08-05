@@ -251,7 +251,9 @@ const Habits = (props: any) => {
                               }
                             }}
                           >
-                            <div className="circle bg-gray-400 w-10 h-10 rounded-full"></div>
+                            <div className="circle bg-gray-200 text-gray-500 text-sm  flex items-center justify-center font-bold w-10 h-10 rounded-full">
+                              {habit.name.split(" ").map((word: string) => word.charAt(0).toUpperCase()).join("").slice(0, 2)}
+                            </div>
                             <div className={`ml-3 flex justify-between w-full border-b pb-2 ${bgColor}`}>
                               <div>
                                 <h5

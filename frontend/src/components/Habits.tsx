@@ -13,6 +13,7 @@ import api from '@/utils/api'
 import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import { FaSort } from 'react-icons/fa'
+import { motion, AnimatePresence } from "framer-motion";
 const Habits = () => {
   const [toggleRightSidebar, settoggleRightSidebar] = useState(false)
   const [disabled, setdisabled] = useState(false)
@@ -104,6 +105,7 @@ const Habits = () => {
         }
         toast.success('Habit logged successfully!')
       }
+      settohabit(habit)
       console.log(res.data)
     } catch (error) {
       console.error(error)
@@ -145,6 +147,7 @@ const Habits = () => {
           toast.success('Habit failed!')
         }
       }
+      settohabit(habit)
       console.log(res.data)
     } catch (error) {
       console.error(error)
@@ -182,13 +185,13 @@ const Habits = () => {
   const getHabitColor = (status: Status) => {
     switch (status) {
       case 'completed':
-        return 'border-green-300';
+        return 'green';
       case 'skipped':
-        return 'border-yellow-300';
+        return 'yellow';
       case 'failed':
-        return 'border-red-300';
+        return 'red';
       default:
-        return 'border-white';
+        return 'blue';
     }
   }
 
@@ -214,7 +217,9 @@ const Habits = () => {
   return (
     <>
       {currentUser && (
+
         <div className="w-full bg-white dark:bg-gray-900 dark:text-white m-2 rounded-2xl max-h-screen ">
+          {/* <div className="hidden bg-green-100 bg-yellow-100 bg-red-100 bg-blue-200 text-green-400 text-yellow-400 text-red-400 text-blue-400"></div> */}
           <EditHabit isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} habitId={habitId} />
           <Header />
           <div className="element px-4 py-4 h-[90.5vh] overflow-y-auto">
@@ -268,69 +273,77 @@ const Habits = () => {
                         }`}
                     />
                   </div>
-
-                  {openGroups[status] && (
-                    <div className="mt-2 ">
-                      {statusGroups[status].map((habit: any) => {
-                        const bgColor = getHabitColor(status)
-                        return (
-                          <div
-                            key={habit.id}
-                            className={`habit flex items-center p-3 rounded-md mb-2 ${bgColor}  `}
-                            onClick={() => {
-                              if (tohabit && tohabit.id === habit.id) {
-                                settoggleRightSidebar(!toggleRightSidebar);
-                                settohabit({})
-                              } else {
-                                settoggleRightSidebar(true);
-                                settohabit(habit);
-                              }
-                            }}
-                          >
-                            <div className="circle bg-gray-200 text-gray-500  flex items-center justify-center font-bold w-10 h-10 rounded-full">
-                              {habit.name.split(" ").map((word: string) => word.charAt(0).toUpperCase()).join("").slice(0, 2)}
-                            </div>
-                            <div className={`ml-3 flex justify-between w-full border-b pb-2 ${bgColor}`}>
-                              <div>
-                                <h5
-                                  className={`font-semibold ${status === 'completed' ? 'line-through' : ''
-                                    }`}
-                                >
-                                  {habit.name}
-                                </h5>
-                                <p className="text-sm text-gray-600">
-                                  {habit.currentValue} / {habit.unitValue} {habit.unitType}
-                                </p>
+                  <AnimatePresence initial={false}>
+                    {openGroups[status] && (
+                      <motion.div
+                        key={status}
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.3, ease: "easeInOut" }}
+                        className="mt-2 overflow-hidden"
+                      >
+                        {statusGroups[status].map((habit: any) => {
+                          const bgColor = getHabitColor(status)
+                          return (
+                            <div
+                              key={habit.id}
+                              className={`habit flex items-center p-3 rounded-md mb-2`}
+                              onClick={() => {
+                                if (tohabit && tohabit.id === habit.id) {
+                                  settoggleRightSidebar(!toggleRightSidebar);
+                                  settohabit({})
+                                } else {
+                                  settoggleRightSidebar(true);
+                                  settohabit(habit);
+                                }
+                              }}
+                            >
+                              <div className={`circle bg-${bgColor}-100 text-${bgColor}-400 flex items-center justify-center font-bold w-10 h-10 rounded-full`}>
+                                {habit.name.split(" ").map((word: string) => word.charAt(0).toUpperCase()).join("").slice(0, 2)}
                               </div>
-                              <div className="flex gap-2">
+                              <div className={`ml-3 flex justify-between w-full border-b pb-2 border-gray-300`}>
+                                <div>
+                                  <h5
+                                    className={`font-semibold ${status === 'completed' ? 'line-through' : ''
+                                      }`}
+                                  >
+                                    {habit.name}
+                                  </h5>
+                                  <p className="text-sm text-gray-600">
+                                    {habit.currentValue} / {habit.unitValue} {habit.unitType}
+                                  </p>
+                                </div>
+                                <div className="flex gap-2">
 
-                                <Menu as="div" className="relative inline-block text-left">
-                                  <div>
-                                    <MenuButton
-                                      onClick={(e) => e.stopPropagation()}
-                                      className="inline-flex relative border-1 border-gray-300 items-center w-full justify-center gap-x-1  px-1 py-1 text-sm font-semibold"
-                                    >
-                                      <EllipsisVertical width={16} />
-                                    </MenuButton>
-                                  </div>
-                                  <MenuItems onClick={(e) => e.stopPropagation()} className="absolute z-10 mt-2 w-44 -left-36 rounded-md bg-white shadow-lg ring-1 ring-black/5 transition focus:outline-hidden data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in ">
-                                    <div className="py-1">
-
-                                      <MenuItem  >
-                                        <a onClick={() => undoLog(habit.id, habit.logs[habit.logs.length - 1].id)} className={`flex gap-2 px-4 py-2 text-sm cursor-pointer`}>
-                                          <Undo width={16} /> Undo Log
-                                        </a>
-                                      </MenuItem>
+                                  <Menu as="div" className="relative inline-block text-left">
+                                    <div>
+                                      <MenuButton
+                                        onClick={(e) => e.stopPropagation()}
+                                        className="inline-flex relative border-1 border-gray-300 items-center w-full justify-center gap-x-1  px-1 py-1 text-sm font-semibold"
+                                      >
+                                        <EllipsisVertical width={16} />
+                                      </MenuButton>
                                     </div>
-                                  </MenuItems>
-                                </Menu>
+                                    <MenuItems onClick={(e) => e.stopPropagation()} className="absolute z-10 mt-2 w-44 -left-36 rounded-md bg-white shadow-lg ring-1 ring-black/5 transition focus:outline-hidden data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in ">
+                                      <div className="py-1">
+
+                                        <MenuItem  >
+                                          <a onClick={() => undoLog(habit.id, habit.logs[habit.logs.length - 1].id)} className={`flex gap-2 px-4 py-2 text-sm cursor-pointer`}>
+                                            <Undo width={16} /> Undo Log
+                                          </a>
+                                        </MenuItem>
+                                      </div>
+                                    </MenuItems>
+                                  </Menu>
+                                </div>
                               </div>
                             </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  )}
+                          );
+                        })}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
               ) : null
             )}
@@ -351,7 +364,7 @@ const Habits = () => {
                     }
                   }}
                 >
-                  <div className="circle bg-gray-200 text-gray-500  flex items-center justify-center font-bold w-10 h-10 rounded-full">
+                  <div className={`circle bg-gray-200 text-gray-500  flex items-center justify-center font-bold w-10 h-10 rounded-full`} >
                     {habit.name.split(" ").map((word: string) => word.charAt(0).toUpperCase()).join("").slice(0, 2)}
                   </div>
                   <div className="ml-3 flex border-b border-gray-300 pb-2 justify-between w-full">
