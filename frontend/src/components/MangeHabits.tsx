@@ -108,7 +108,9 @@ const ManageHabits = () => {
                   className="habit flex items-center p-3 rounded-md mb-2"
                   onClick={() => { setopenRightSidebar(!openRightSidebar); settoHabit(habit) }}
                 >
-                  <div className="circle bg-gray-400 w-10 h-10 rounded-full"></div>
+                  <div className={`circle bg-gray-100 text-gray-400 flex items-center justify-center font-bold w-10 h-10 rounded-full`}>
+                    {habit.name.split(" ").map((word: string) => word.charAt(0).toUpperCase()).join("").slice(0, 2)}
+                  </div>
                   <div className="ml-3 flex border-b border-gray-300 pb-2 justify-between w-full">
                     <div>
                       <h5 className="font-semibold">
@@ -124,7 +126,7 @@ const ManageHabits = () => {
                         className="border-1 border-gray-300 h-8 items-center w-full justify-center px-2 text-sm font-semibold relative group"
                       >
                         <Pencil width={16} />
-                        <span className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 text-xs text-white bg-gray-800 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">
+                        <span className="pointer-events-none absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 text-xs text-white bg-gray-800 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">
                           Edit
                         </span>
                       </button>
@@ -133,7 +135,7 @@ const ManageHabits = () => {
                         className="border-1 border-gray-300 h-8 items-center w-full justify-center px-2 text-sm font-semibold relative group"
                       >
                         <Trash2 width={16} />
-                        <span className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 text-xs text-white bg-gray-800 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">
+                        <span className="pointer-events-none absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 text-xs text-white bg-gray-800 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">
                           Delete
                         </span>
                       </button>

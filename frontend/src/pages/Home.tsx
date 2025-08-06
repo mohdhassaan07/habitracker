@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { ArrowRight, CheckCircle, Bell, Zap, PieChart, Clock, Target, LineChart, Flame, Menu, X, Moon, Sun, Facebook, Twitter, Instagram, Linkedin, Github, Star } from 'lucide-react';
+import { ArrowRight, CheckCircle, Bell, Zap, PieChart, Clock, Target, LineChart, Flame, Menu, X, Facebook, Twitter, Instagram, Linkedin, Github, Star } from 'lucide-react';
 import {  useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import SigninForm from '@/components/SigninForm';

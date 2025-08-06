@@ -6,7 +6,8 @@ import { useNavigate } from 'react-router-dom';
 import api from '@/utils/api';
 import { FaGoogle } from "react-icons/fa";
 import toast from "react-hot-toast";
-const SigninForm = (props:any) => {
+import CircularProgress from "@mui/material/CircularProgress";
+const SigninForm = (props: any) => {
     const [toggleSignin, settoggleSignin] = useState(true);
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
@@ -39,12 +40,12 @@ const SigninForm = (props:any) => {
                     withCredentials: true,
                 }
             );
-           
+
             const data = response.data;
             dispatch(signinSuccess(data.user));
             setLoading(false);
             navigate('/journal');
-            
+
 
         } catch (error) {
             console.error('Error during sign up:', error);
@@ -94,7 +95,7 @@ const SigninForm = (props:any) => {
     }
     if (loading) {
         return <div className="flex justify-center items-center h-screen">
-            <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-500"></div>
+            <CircularProgress size={"4rem"} />
         </div>
     }
 

@@ -40,7 +40,7 @@ const LeftSidebar = () => {
         <>
             <Settings isModalOpen={isModalOpen} setIsModalOpen={setisModalOpen} />
             <div className=" border-gray-300 bg-white rounded-2xl min-w-56 m-2 max-h-screen">
-                <h1 className="text-blue-600 font-bold text-2xl w-full text-center p-2" >Habitracker</h1>
+                <h1 className="text-blue-600 font-bold text-2xl w-full text-center p-2" >Habitron</h1>
                 <hr className="text-gray-300" />
                 <div className="p-3 relative">
                     <Menu as="div" className=" relative inline-block text-left">
