@@ -113,13 +113,17 @@ const Header = () => {
             <div className="border-b-1 gap-3 border-gray-300 w-full h-[48.5px] flex items-center justify-end px-4">
                 <Menu as="div" className="relative inline-block text-left mt-2">
                     <div>
-                        <MenuButton className="inline-flex group text-gray-500 focus:outline-none items-center w-full justify-center rounded-md text-sm">
-                            <SmilePlus />
-                            <span className="absolute left-1/2 transform top-8 z-50 -translate-x-1/2 mb-2 px-2 py-1 text-white bg-blue-500 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">
-                                Log your mood
-                            </span>
-
-                            
+                        <MenuButton className="inline-flex text-gray-500 focus:outline-none items-center w-full justify-center rounded-md text-sm">
+                            <div className="relative flex items-center justify-center">
+                                <span className="group relative flex items-center">
+                                    <SmilePlus />
+                                    <span
+                                        className="pointer-events-none absolute left-1/2 -translate-x-1/2 top-8 z-50 mb-2 px-2 py-1 text-white bg-blue-500 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap"
+                                    >
+                                        Log your mood
+                                    </span>
+                                </span>
+                            </div>
                         </MenuButton>
                     </div>
 

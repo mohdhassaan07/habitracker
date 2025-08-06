@@ -127,9 +127,6 @@ const RightSidebar = ({ habit }: any) => {
 
           setxAxisData(recentFiltered.map((item: any) => item.date));
           setseriesData(recentFiltered.map((item: any) => item.value));
-
-          console.log("xAxisData:", xAxisData);
-          console.log("seriesData:", seriesData);
           // Process loggedData as needed
           console.log("Logged Data:", res);
           loggedData.forEach((log: any) => {
@@ -265,6 +262,7 @@ const RightSidebar = ({ habit }: any) => {
                 value={values.length > 0 ? values : value}
                 width={390}
                 rectSize={13}
+
                 startDate={new Date(`2025/${date.getMonth() - 1}/01`)}
                 endDate={new Date(`2025/${date.getMonth() + 4}/31`)}
                 rectRender={(props, data) => {

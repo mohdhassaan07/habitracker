@@ -3,6 +3,7 @@ import { signout } from "../redux/userSlice"
 import { useState, useEffect } from "react"
 import api from "../utils/api"
 import {  useNavigate } from "react-router-dom"
+import CircularProgress from "@mui/material/CircularProgress"
 
 const Logout = () => {
     const [loading, setloading] = useState(false)
@@ -29,7 +30,7 @@ const Logout = () => {
 
     if (loading) {
         return <div className="flex justify-center items-center h-screen">
-            <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-500"></div>
+           <CircularProgress size={"4rem"} />
         </div>
     }
     
