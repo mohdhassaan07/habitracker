@@ -193,7 +193,7 @@ const RightSidebar = ({ habit, onClose }: any) => {
 
   if (!habit || Object.keys(habit).length === 0) {
     return (
-      <div className="quote w-full lg:flex hidden lg:w-[650px] text-gray-400 flex-col p-3 m-2 max-h-screen bg-white rounded-2xl flex items-center justify-center">
+      <div className="quote w-full lg:flex hidden lg:w-[650px] text-gray-400 flex-col p-3 m-2 max-h-screen bg-white rounded-2xl items-center justify-center">
         <div className="quote-box font-mono text-lg lg:text-2xl font-semibold text-center">
           <p className="mb-4">{quote}</p>
         </div>
@@ -205,7 +205,7 @@ const RightSidebar = ({ habit, onClose }: any) => {
   return (
     <>
       <EditHabit isModalOpen={isModalOpen} setIsModalOpen={setisModalOpen} habitId={habit.id} />
-      <div className="element flex rounded-2xl max-h-screen overflow-auto bg-white m-2 lg:m-2 m-0 lg:rounded-2xl rounded-none">
+      <div className="element flex max-h-screen overflow-auto bg-white lg:m-2 m-0 lg:rounded-2xl rounded-none">
         {/* Resizable Right Sidebar */}
         <div style={{ width: `${width}px` }} className="relative">
           <div className=" flex justify-between border-b border-gray-300 px-2 py-[10px] items-center sticky top-0 bg-white">
