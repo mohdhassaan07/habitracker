@@ -14,7 +14,12 @@ import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import { FaSort } from 'react-icons/fa'
 import { motion, AnimatePresence } from "framer-motion";
-const Habits = () => {
+
+interface HabitsProps {
+  toggleSidebar?: () => void;
+}
+
+const Habits = ({ toggleSidebar }: HabitsProps) => {
   const [toggleRightSidebar, settoggleRightSidebar] = useState(false)
   const [disabled, setdisabled] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -209,7 +214,7 @@ const Habits = () => {
   })
 
   if (loadingData) {
-    return <div className="w-[55%] bg-white m-2 rounded-2xl max-h-screen flex justify-center items-center">
+    return <div className="w-full lg:w-[55%] z-20 bg-white m-2 rounded-2xl h-screen flex justify-center items-center">
       <CircularProgress size={"4rem"} />
     </div>
   }
@@ -217,15 +222,28 @@ const Habits = () => {
   return (
     <>
       {currentUser && (
-
-        <div className="w-full bg-white dark:bg-gray-900 dark:text-white m-2 rounded-2xl max-h-screen ">
+        <div className="relative w-full bg-white dark:bg-gray-900 dark:text-white lg:m-2 lg:rounded-2xl">
           {/* <div className="hidden bg-green-100 bg-yellow-100 bg-red-100 bg-blue-200 text-green-400 text-yellow-400 text-red-400 text-blue-400"></div> */}
           <EditHabit isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} habitId={habitId} />
-          <Header />
-          <div className="element px-4 py-4 h-[90.5vh] overflow-y-auto">
-            <div className="flex justify-between mb-4">
-              <h2 className="text-xl font-bold">All Habits</h2>
-              <Menu as="div" className="relative inline-block text-left">
+          <Header toggleSidebar={toggleSidebar} />
+          
+          {/* Right Sidebar for screens less than lg - positioned on top */}
+          {toggleRightSidebar && (
+            <div className="lg:hidden absolute top-0 left-0 w-full h-full z-10">
+              <RightSidebar 
+                habit={tohabit} 
+                onClose={() => {
+                  settoggleRightSidebar(false);
+                  settohabit({});
+                }}
+              />
+            </div>
+          )}
+          
+          <div className="element px-2 lg:px-4 py-4 h-[90.5vh] overflow-y-auto">
+            <div className="flex lg:flex-row justify-between mb-4 gap-2">
+              <h2 className="text-lg lg:text-xl font-bold">All Habits</h2>
+              <Menu as="div" className="relative text-left">
                 <div>
                   <MenuButton
                     className="inline-flex text-gray-500 relative items-center w-full justify-center gap-x-1  px-1 py-1 text-sm font-semibold"

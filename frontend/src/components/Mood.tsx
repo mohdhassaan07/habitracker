@@ -55,7 +55,7 @@ const Mood = ({ mood, isModalOpen, setisModalOpen }: any) => {
         <div>
             <Modal isOpen={isModalOpen} onClose={() => setisModalOpen(false)} >
                 <h1 className="font-semibold text-gray-600 text-2xl" >{emoji[mood]} {mood} ?</h1>
-                <textarea onChange={handleChange} value={formData.description} className="bg-gray-100 p-2 text-gray-600 mt-5 rounded-lg" name="description" id="" placeholder="Describe your mood in some words." cols={50} rows={8}></textarea>
+                <textarea onChange={handleChange} value={formData.description} className="bg-gray-100 p-2 w-full text-gray-600 mt-5 rounded-lg" name="description" id="" placeholder="Describe your mood in some words."  rows={8}></textarea>
                 <button disabled={loading} onClick={handleSubmit} className=" bg-blue-500 text-white focus:bg-blue-600 hover:shadow-lg mt-2 w-28 rounded-lg flex gap-2 p-1rounded-md items-center justify-center font-semibold text-sm py-2">Submit</button>
             </Modal>
         </div>

@@ -9,8 +9,10 @@ const Journal = () => {
   const location = useLocation();
   //@ts-ignore
   const [tab, setTab] = useState("allHabits");
+  const [sidebarOpen, setSidebarOpen] = useState(true);
   const currentUser = useSelector((state: any) => state.user.currentUser);
   const navigate = useNavigate();
+  
   useEffect(() => {
     // Redirect to home page if currentUser is not present
     if (!currentUser) {
@@ -26,28 +28,40 @@ const Journal = () => {
     }
   }, [location.search]);
 
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
+
   const renderContent = () => {
     if (!location.search || tab === "" || tab === "allHabits") {
-      return <Habits />;
+      return <Habits toggleSidebar={toggleSidebar} />;
     }
 
     const validTabs = ["Morning", "Afternoon", "Evening"];
     if (validTabs.includes(tab)) {
-      return <DayTime tab={tab} />;
+      return <DayTime tab={tab} toggleSidebar={toggleSidebar} />;
     }
     else if (tab === "manageHabits") {
       return <ManageHabits />;
     }
     else {
-      return <Habits />;
+      return <Habits toggleSidebar={toggleSidebar} />;
     }
   };
 
   return (
     <>
       {currentUser && (
-        <div className="flex h-screen bg-gray-100">
-          <LeftSidebar />
+        <div className="flex flex-col lg:flex-row h-screen bg-gray-100">
+          {/* Always show on desktop, toggle on mobile */}
+          <div className="hidden lg:block">
+            <LeftSidebar />
+          </div>
+          {sidebarOpen && (
+            <div className="lg:hidden">
+              <LeftSidebar />
+            </div>
+          )}
           {/* <Habits/> */}
           {renderContent()}
         </div>
