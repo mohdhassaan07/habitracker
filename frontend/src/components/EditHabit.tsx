@@ -155,8 +155,8 @@ const EditHabit = (props: any) => {
                         <input type="text" name="name" onChange={handleChange} value={formData.name} className="w-full border border-gray-300 p-2 rounded-md " placeholder="Enter habit name" required />
                     </div>
                     <h5 className="block text-sm font-medium text-gray-500">GOAL</h5>
-                    <div className='flex gap-4 justify-center mb-2 py-3'>
-                        {isInp == 'minutes' ? <input type="number" defaultValue={formData.unitValue} min={1} step={5} className='h-10 w-16 border border-gray-300 p-1 rounded-md ' onChange={handleChange} name="unitValue" /> : <input type="number" defaultValue={formData.unitValue} min={1} step={1} className='h-10 w-16 border border-gray-300 p-1 rounded-md ' onChange={handleChange} name="unitValue" id="" />}
+                    <div className='flex flex-col lg:flex-row gap-2 lg:gap-4 justify-center mb-2 py-3'>
+                        {isInp == 'minutes' ? <input type="number" defaultValue={formData.unitValue} min={1} step={5} className='h-10 w-full lg:w-16 border border-gray-300 p-1 rounded-md ' onChange={handleChange} name="unitValue" /> : <input type="number" defaultValue={formData.unitValue} min={1} step={1} className='h-10 w-full lg:w-16 border border-gray-300 p-1 rounded-md ' onChange={handleChange} name="unitValue" id="" />}
                         <select onChange={(e) => { setisInp(e.target.value), handleChange(e) }} name="unitType" id="" className='border h-10  border-gray-300 rounded-sm p-2 '>
                             <option value="times">Times</option>
                             <option value="minutes">Mins</option>
@@ -222,8 +222,10 @@ const EditHabit = (props: any) => {
                             )}
                         </div>
                     </div>
-                    <button type="submit" className=" bg-blue-500 w-16 p-2 mx-2 text-white px-2 rounded-md hover:bg-blue-600">Save</button>
-                    <a onClick={deleteHabit} className=" bg-red-500 cursor-default text-white w-24 p-2 rounded-md hover:bg-red-600">Delete</a>
+                    <div className="flex flex-col lg:flex-row gap-2">
+                        <button type="submit" className="bg-blue-500 w-full lg:w-16 p-2 text-white px-2 rounded-md hover:bg-blue-600">Save</button>
+                        <a onClick={deleteHabit} className="bg-red-500 cursor-default text-white w-full lg:w-24 p-2 rounded-md hover:bg-red-600 text-center">Delete</a>
+                    </div>
                 </form>
             </Modal>
         </div>

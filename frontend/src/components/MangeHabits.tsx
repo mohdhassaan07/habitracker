@@ -66,16 +66,27 @@ const ManageHabits = () => {
   }
 
   if (!habitData || habitData.length === 0) {
-    return (
-      <div className="w-full bg-white m-2 rounded-2xl max-h-screen flex justify-center items-center">
-        <CircularProgress size={"4rem"} />
-      </div>
-    );
+    return <div className="w-full lg:w-[55%] z-20 bg-white m-2 rounded-2xl h-screen flex justify-center items-center">
+      <CircularProgress size={"4rem"} />
+    </div>
   }
 
   return (
     <>
-      <div className="w-full bg-white m-2 rounded-2xl max-h-screen flex">
+      <div className="relative w-full bg-white m-2 rounded-2xl max-h-screen flex">
+        {/* Right Sidebar for screens less than lg - positioned on top */}
+        {openRightSidebar && (
+          <div className="lg:hidden absolute top-0 left-0 w-full h-full z-10">
+            <RightSidebar 
+              habit={toHabit} 
+              onClose={() => {
+                setopenRightSidebar(false);
+                settoHabit({});
+              }}
+            />
+          </div>
+        )}
+        
         <div className="w-64 p-4 flex flex-col border-r border-gray-200">
           <h2 className="text-xl font-bold mb-8">Manage Habits</h2>
           {TABS.map((tab) => (
@@ -151,7 +162,10 @@ const ManageHabits = () => {
       {habitId && (
         <EditHabit isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} habitId={habitId} />
       )}
-      {openRightSidebar && <RightSidebar habit={toHabit} />}
+      {/* Right Sidebar for lg screens and above */}
+      <div className="hidden lg:block">
+        <RightSidebar habit={toHabit} onClose={undefined} />
+      </div>
     </>
   );
 };

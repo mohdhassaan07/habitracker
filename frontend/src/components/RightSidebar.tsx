@@ -1,12 +1,12 @@
 import api from "@/utils/api";
-import { ArrowRight, ArrowUp, Check, Pencil, X } from "lucide-react";
+import { ArrowRight, ArrowUp, Check, Pencil, X, XCircle } from "lucide-react";
 import { useEffect, useState, useRef } from "react";
 import { BarChart } from '@mui/x-charts/BarChart';
 import HeatMap from '@uiw/react-heat-map';
 import Tooltip from '@uiw/react-tooltip';
 import EditHabit from "./EditHabit";
 
-const RightSidebar = ({ habit }: any) => {
+const RightSidebar = ({ habit, onClose }: any) => {
   const [width, setWidth] = useState(850); // Initial width
   const isResizing = useRef(false);
   const [completed, setcompleted] = useState(0)
@@ -64,7 +64,7 @@ const RightSidebar = ({ habit }: any) => {
     "Progress, not perfection, is the key to growth.",
     "Success is built on consistency, not occasional effort.",
     "Work in silence, let success make the noise.",
-    "Don’t watch the clock; do what it does—move.",
+    "Don't watch the clock; do what it does—move.",
     "Start where you are. Use what you have. Begin.",
     "Small steps each day lead to great accomplishments eventually.",
     "The future depends on what you do today.",
@@ -78,33 +78,33 @@ const RightSidebar = ({ habit }: any) => {
     "Winners are not people who never fail but try.",
     "Take risks now and live your dreams every day.",
     "Turn your wounds into wisdom and your pain into power.",
-    "Success is no accident, it’s hard work and dedication.",
+    "Success is no accident, it's hard work and dedication.",
     "Make each day your masterpiece with effort and gratitude.",
     "Doubt kills more dreams than failure ever could try.",
     "Strive for progress, not perfection, in every little step.",
     "Every day is a fresh start—make it worthwhile.",
     "Fall seven times, stand up eight, and keep going.",
-    "Create the life you can’t wait to wake up to.",
+    "Create the life you can't wait to wake up to.",
     "Big journeys begin with small, consistent and determined steps.",
     "Let your hustle be louder than your complaints daily.",
-    "You don’t need perfect conditions to start, just begin.",
+    "You don't need perfect conditions to start, just begin.",
     "Focus on your goals, not the obstacles ahead, always.",
     "Discomfort is the price of admission to a meaningful life.",
     "You were born to stand out, not to fit in.",
     "Discipline outlasts motivation every single day, especially long term.",
     "One step at a time gets you somewhere eventually.",
-    "Don’t be afraid to start over, it builds strength.",
+    "Don't be afraid to start over, it builds strength.",
     "A goal without a plan is just a wish.",
     "Learn something new today that helps you grow tomorrow.",
-    "If you’re tired, learn to rest, not to quit.",
+    "If you're tired, learn to rest, not to quit.",
     "Keep going, because you did not come this far.",
     "Sometimes later becomes never. Do it now instead.",
     "Be stubborn about goals, flexible about your methods always.",
-    "Don’t limit your challenges—challenge your limits with confidence.",
+    "Don't limit your challenges—challenge your limits with confidence.",
     "Turn your can'ts into cans and dreams into plans.",
     "Do something today your future self will thank you for.",
     "Motivation gets you started, but habits keep you going strong.",
-    "Your dreams don’t work unless you do the work.",
+    "Your dreams don't work unless you do the work.",
     "Consistency builds trust, momentum, and lasting long-term success.",
     "Distractions destroy action. Stay focused on what really matters."
   ];
@@ -193,8 +193,8 @@ const RightSidebar = ({ habit }: any) => {
 
   if (!habit || Object.keys(habit).length === 0) {
     return (
-      <div className="quote w-[650px] text-gray-400 flex-col p-3 m-2 max-h-screen  bg-white rounded-2xl flex items-center justify-center">
-        <div className="quote-box font-mono  text-2xl font-semibold text-center">
+      <div className="quote w-full lg:flex hidden lg:w-[650px] text-gray-400 flex-col p-3 m-2 max-h-screen bg-white rounded-2xl flex items-center justify-center">
+        <div className="quote-box font-mono text-lg lg:text-2xl font-semibold text-center">
           <p className="mb-4">{quote}</p>
         </div>
 
@@ -205,51 +205,58 @@ const RightSidebar = ({ habit }: any) => {
   return (
     <>
       <EditHabit isModalOpen={isModalOpen} setIsModalOpen={setisModalOpen} habitId={habit.id} />
-      <div className="element flex rounded-2xl max-h-screen overflow-auto bg-white m-2 ">
+      <div className="element flex rounded-2xl max-h-screen overflow-auto bg-white m-2 lg:m-2 m-0 lg:rounded-2xl rounded-none">
         {/* Resizable Right Sidebar */}
         <div style={{ width: `${width}px` }} className="relative">
           <div className=" flex justify-between border-b border-gray-300 px-2 py-[10px] items-center sticky top-0 bg-white">
-            <h2 className="text-xl font-bold" >{habit.name}</h2>
-            <button onClick={() => setisModalOpen(true)} className="inline-flex relative border-1 border-gray-300 items-center  justify-center gap-x-1  px-2  text-sm font-semibold">
-              <Pencil width={16} />
-            </button>
+            <h2 className="text-lg lg:text-xl font-bold" >{habit.name}</h2>
+            <div className="flex gap-2">
+              <button onClick={() => setisModalOpen(true)} className="inline-flex relative border-1 border-gray-300 items-center  justify-center gap-x-1  px-2  text-sm font-semibold">
+                <Pencil width={16} />
+              </button>
+              {onClose && (
+                <button onClick={onClose} className="lg:hidden inline-flex relative border-1 border-gray-300 items-center justify-center gap-x-1 px-2 text-sm font-semibold">
+                  <XCircle width={16} />
+                </button>
+              )}
+            </div>
           </div>
 
           <div className="p-3 flex flex-col gap-4">
             <div className="box flex gap-2 p-4 border border-gray-300 rounded-lg " >
-              <span className="text-4xl" >🔥</span>
+              <span className="text-3xl lg:text-4xl" >🔥</span>
               <div>
                 <p className="text-[12px] font-semibold text-gray-500 " >CURRENT STREAK</p>
-                <h4 className="text-xl font-semibold" >{habit.streak} days</h4>
+                <h4 className="text-lg lg:text-xl font-semibold" >{habit.streak} days</h4>
               </div>
             </div>
 
-            <div className="grid grid-cols-2 w-full gap-3" >
-              <div className="box min-w-30 flex  gap-2 p-2  border border-gray-300 rounded-lg " >
+            <div className="grid grid-cols-2 lg:grid-cols-2 w-full gap-3" >
+              <div className="box min-w-20 flex gap-2 p-2  border border-gray-300 rounded-lg " >
                 <div className="flex flex-col " >
                   <p className="text-[12px] font-semibold text-gray-500 flex items-center gap-1" ><Check width={17} /> COMPLETE</p>
-                  <h4 className="text-2xl font-semibold" >{completed} days</h4>
+                  <h4 className="text-xl lg:text-2xl font-semibold" >{completed} days</h4>
                   <p className="text-sm font-semibold text-green-600 flex gap-0.5" ><ArrowUp width={16} /> {habit.streak} days</p>
                 </div>
               </div>
-              <div className="box min-w-30 flex gap-2 p-2  border border-gray-300 rounded-lg " >
+              <div className="box min-w-20 flex gap-2 p-2  border border-gray-300 rounded-lg " >
                 <div className="flex flex-col " >
                   <p className="text-[12px] font-semibold text-gray-500 flex items-center gap-1" ><X width={17} /> FAILED</p>
-                  <h4 className="text-2xl font-semibold" >{failed} days</h4>
+                  <h4 className="text-xl lg:text-2xl font-semibold" >{failed} days</h4>
                   <p className="text-sm font-semibold text-red-600 flex gap-0.5" ><ArrowUp width={16} />{failedCount} days</p>
                 </div>
               </div>
-              <div className="box min-w-30 flex gap-2 p-2  border border-gray-300 rounded-lg " >
+              <div className="box min-w-20 flex gap-2 p-2  border border-gray-300 rounded-lg " >
                 <div className="flex flex-col " >
                   <p className="text-[12px] font-semibold text-gray-500 flex items-center gap-1" ><ArrowRight width={17} /> SKIPPED</p>
-                  <h4 className="text-2xl font-semibold" >{skipped} days</h4>
+                  <h4 className="text-xl lg:text-2xl font-semibold" >{skipped} days</h4>
                   <p className="text-sm font-semibold text-red-600 flex gap-0.5" ><ArrowUp width={16} /> {skippedCount} days</p>
                 </div>
               </div>
-              <div className="box min-w-30 flex gap-2 p-2  border border-gray-300 rounded-lg " >
+              <div className="box min-w-20 flex gap-2 p-2  border border-gray-300 rounded-lg " >
                 <div className="flex flex-col " >
                   <p className="text-[12px] font-semibold text-gray-500 flex items-center gap-1" >TOTAL</p>
-                  <h4 className="text-2xl font-semibold" >{habit.totalValue} {habit.unitType === "times" ? "times" : "minutes"}</h4>
+                  <h4 className="text-xl lg:text-2xl font-semibold" >{habit.totalValue} {habit.unitType === "times" ? "times" : "minutes"}</h4>
                   <p className="text-sm font-semibold text-green-600 flex gap-0.5" ><ArrowUp width={16} /> {habit.currentValue} {habit.unitType === "times" ? "times" : "minutes"}</p>
                 </div>
               </div>
@@ -303,7 +310,7 @@ const RightSidebar = ({ habit }: any) => {
           {/* Resizer Handle on the LEFT edge */}
           <div
             onMouseDown={handleMouseDown}
-            className="absolute top-0 left-0 w-[1px] h-[53.5rem] cursor-ew-resize "
+            className="absolute top-0 left-0 w-[1px] h-[53.5rem] cursor-ew-resize hidden lg:block"
           />
         </div>
       </div>
