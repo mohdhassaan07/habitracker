@@ -42,7 +42,7 @@ const Journal = () => {
       return <DayTime tab={tab} toggleSidebar={toggleSidebar} />;
     }
     else if (tab === "manageHabits") {
-      return <ManageHabits />;
+      return <ManageHabits toggleSidebar={toggleSidebar} />;
     }
     else {
       return <Habits toggleSidebar={toggleSidebar} />;

@@ -193,7 +193,7 @@ const RightSidebar = ({ habit, onClose }: any) => {
 
   if (!habit || Object.keys(habit).length === 0) {
     return (
-      <div className="quote w-full lg:flex hidden lg:w-[650px] text-gray-400 flex-col p-3 m-2 max-h-screen bg-white rounded-2xl items-center justify-center">
+      <div className="quote w-full lg:flex hidden lg:w-[600px] text-gray-400 flex-col p-3 m-2 max-h-screen bg-white rounded-2xl items-center justify-center">
         <div className="quote-box font-mono text-lg lg:text-2xl font-semibold text-center">
           <p className="mb-4">{quote}</p>
         </div>

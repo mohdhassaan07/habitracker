@@ -11,7 +11,8 @@ import { toast } from 'react-hot-toast'
 import EditHabit from './EditHabit'
 import { Link } from 'react-router-dom'
 import CircularProgress from '@mui/material/CircularProgress'
-
+import { motion, AnimatePresence } from "framer-motion";
+import { FaSort } from 'react-icons/fa'
 interface DayTimeProps {
   tab?: string;
   toggleSidebar?: () => void;
@@ -23,6 +24,7 @@ const DayTime = ({ tab, toggleSidebar }: DayTimeProps) => {
   const [habitId, sethabitId] = useState("")
   const [disabled, setdisabled] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [sortBy, setsortBy] = useState("newest")
   const [tohabit, settohabit] = useState<any>({})
   type Status = 'completed' | 'skipped' | 'failed' | 'pending';
   const [openGroups, setOpenGroups] = useState<{ [key in Status]: boolean }>({
@@ -45,8 +47,14 @@ const DayTime = ({ tab, toggleSidebar }: DayTimeProps) => {
   }, [])
 
   useEffect(() => {
-    sethabitData(initialTimeOfDayData)
-  }, [initialTimeOfDayData])
+    let sortedHabits = [...(initialTimeOfDayData)]
+    sortedHabits.sort((a, b) => {
+      const dateA = new Date(a.createdAt).getTime();
+      const dateB = new Date(b.createdAt).getTime();
+      return sortBy === "newest" ? dateB - dateA : dateA - dateB;
+    });
+    sethabitData(sortedHabits)
+  }, [initialTimeOfDayData, sortBy])
 
 
   const today = new Date();
@@ -176,13 +184,13 @@ const DayTime = ({ tab, toggleSidebar }: DayTimeProps) => {
   const getHabitColor = (status: Status) => {
     switch (status) {
       case 'completed':
-        return 'border-green-300';
+        return 'green';
       case 'skipped':
-        return 'border-yellow-300';
+        return 'yellow';
       case 'failed':
-        return 'border-red-300';
+        return 'red';
       default:
-        return 'border-white';
+        return 'blue';
     }
   }
 
@@ -207,15 +215,15 @@ const DayTime = ({ tab, toggleSidebar }: DayTimeProps) => {
   return (
     <>
       {currentUser && (
-        <div className="relative w-full bg-white m-2 rounded-2xl max-h-screen">
+        <div className="relative w-full lg:m-2 lg:rounded-2xl bg-white max-h-screen">
           <EditHabit isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} habitId={habitId} />
           <Header toggleSidebar={toggleSidebar} />
-          
+
           {/* Right Sidebar for screens less than lg - positioned on top */}
           {toggleRightSidebar && (
             <div className="lg:hidden absolute top-0 left-0 w-full h-full z-10">
-              <RightSidebar 
-                habit={tohabit} 
+              <RightSidebar
+                habit={tohabit}
                 onClose={() => {
                   settoggleRightSidebar(false);
                   settohabit({});
@@ -223,11 +231,34 @@ const DayTime = ({ tab, toggleSidebar }: DayTimeProps) => {
               />
             </div>
           )}
-          
+
           <div className="element px-4 py-4 h-[90.5vh] overflow-y-auto">
             <div className="flex justify-between ">
               <h2 className="text-xl font-bold mb-4">{tab}</h2>
+              <Menu as="div" className="relative text-left">
+                <div>
+                  <MenuButton
+                    className="inline-flex text-gray-500 relative items-center w-full justify-center gap-x-1  px-1 py-1 text-sm font-semibold"
+                  >
+                    sort<FaSort width={16} />
+                  </MenuButton>
+                </div>
+                <MenuItems className="absolute z-10 mt-2 w-44 -left-32 rounded-md bg-white shadow-lg ring-1 ring-black/5 transition focus:outline-hidden data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in ">
+                  <div className="py-1">
 
+                    <MenuItem  >
+                      <a onClick={() => setsortBy("newest")} className={`flex gap-2 px-4 py-2 text-sm cursor-pointer ${sortBy === "newest" ? "bg-gray-100" : ""}`}>
+                        Newest First
+                      </a>
+                    </MenuItem>
+                    <MenuItem  >
+                      <a onClick={() => setsortBy("oldest")} className={`flex gap-2 px-4 py-2 text-sm cursor-pointer ${sortBy === "oldest" ? "bg-gray-100" : ""}`}>
+                        Oldest First
+                      </a>
+                    </MenuItem>
+                  </div>
+                </MenuItems>
+              </Menu>
             </div>
 
             {renderOrder.map((status) =>
@@ -253,68 +284,77 @@ const DayTime = ({ tab, toggleSidebar }: DayTimeProps) => {
                     />
                   </div>
 
-                  {openGroups[status] && (
-                    <div className="mt-2 ">
-                      {statusGroups[status].map((habit: any) => {
-                        const bgColor = getHabitColor(status)
-                        return (
-                          <div
-                            key={habit.id}
-                            className={`habit flex items-center p-3 rounded-md mb-2 ${bgColor} `}
-                            onClick={() => {
-                              if (tohabit && tohabit.id === habit.id) {
-                                settoggleRightSidebar(!toggleRightSidebar);
-                                settohabit({})
-                              } else {
-                                settoggleRightSidebar(true);
-                                settohabit(habit);
-                              }
-                            }}
-                          >
-                            <div className="circle bg-gray-200 text-gray-500 text-sm  flex items-center justify-center font-bold w-10 h-10 rounded-full">
-                              {habit.name.split(" ").map((word: string) => word.charAt(0).toUpperCase()).join("").slice(0, 2)}
-                            </div>
-                            <div className={`ml-3 flex justify-between w-full border-b pb-2 ${bgColor}`}>
-                              <div>
-                                <h5
-                                  className={`font-semibold ${status === 'completed' ? 'line-through' : ''
-                                    }`}
-                                >
-                                  {habit.name}
-                                </h5>
-                                <p className="text-sm text-gray-600">
-                                  {habit.currentValue} / {habit.unitValue} {habit.unitType}
-                                </p>
+                  <AnimatePresence initial={false}>
+                    {openGroups[status] && (
+                      <motion.div
+                        key={status}
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.3, ease: "easeInOut" }}
+                        className="mt-2 overflow-hidden"
+                      >
+                        {statusGroups[status].map((habit: any) => {
+                          const bgColor = getHabitColor(status)
+                          return (
+                            <div
+                              key={habit.id}
+                              className={`habit flex items-center p-3 rounded-md mb-2`}
+                              onClick={() => {
+                                if (tohabit && tohabit.id === habit.id) {
+                                  settoggleRightSidebar(!toggleRightSidebar);
+                                  settohabit({})
+                                } else {
+                                  settoggleRightSidebar(true);
+                                  settohabit(habit);
+                                }
+                              }}
+                            >
+                              <div className={`circle bg-${bgColor}-100 text-${bgColor}-400 flex items-center justify-center font-bold w-10 h-10 rounded-full`}>
+                                {habit.name.split(" ").map((word: string) => word.charAt(0).toUpperCase()).join("").slice(0, 2)}
                               </div>
-                              <div className="flex gap-2">
+                              <div className={`ml-3 flex justify-between w-full border-b pb-2 border-gray-300`}>
+                                <div>
+                                  <h5
+                                    className={`font-semibold ${status === 'completed' ? 'line-through' : ''
+                                      }`}
+                                  >
+                                    {habit.name}
+                                  </h5>
+                                  <p className="text-sm text-gray-600">
+                                    {habit.currentValue} / {habit.unitValue} {habit.unitType}
+                                  </p>
+                                </div>
+                                <div className="flex gap-2">
 
-                                <Menu as="div" className="relative inline-block text-left">
-                                  <div>
-                                    <MenuButton
-                                      onClick={(e) => e.stopPropagation()}
-                                      className="inline-flex relative border-1 border-gray-300 items-center w-full justify-center gap-x-1  px-1 py-1 text-sm font-semibold"
-                                    >
-                                      <EllipsisVertical width={16} />
-                                    </MenuButton>
-                                  </div>
-                                  <MenuItems onClick={(e) => e.stopPropagation()} className="absolute z-10 mt-2 w-44 -left-36 rounded-md bg-white shadow-lg ring-1 ring-black/5 transition focus:outline-hidden data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in ">
-                                    <div className="py-1">
-
-                                      <MenuItem >
-                                        <a onClick={() => undoLog(habit.id, habit.logs[habit.logs.length - 1].id)} className={`flex gap-2 px-4 py-2 text-sm cursor-pointer `}>
-                                          <Undo width={16} /> Undo Log
-                                        </a>
-                                      </MenuItem>
+                                  <Menu as="div" className="relative inline-block text-left">
+                                    <div>
+                                      <MenuButton
+                                        onClick={(e) => e.stopPropagation()}
+                                        className="inline-flex relative border-1 border-gray-300 items-center w-full justify-center gap-x-1  px-1 py-1 text-sm font-semibold"
+                                      >
+                                        <EllipsisVertical width={16} />
+                                      </MenuButton>
                                     </div>
-                                  </MenuItems>
-                                </Menu>
+                                    <MenuItems onClick={(e) => e.stopPropagation()} className="absolute z-10 mt-2 w-44 -left-36 rounded-md bg-white shadow-lg ring-1 ring-black/5 transition focus:outline-hidden data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in ">
+                                      <div className="py-1">
+
+                                        <MenuItem  >
+                                          <a onClick={() => undoLog(habit.id, habit.logs[habit.logs.length - 1].id)} className={`flex gap-2 px-4 py-2 text-sm cursor-pointer`}>
+                                            <Undo width={16} /> Undo Log
+                                          </a>
+                                        </MenuItem>
+                                      </div>
+                                    </MenuItems>
+                                  </Menu>
+                                </div>
                               </div>
                             </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  )}
+                          );
+                        })}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
               ) : null
             )}
@@ -334,7 +374,9 @@ const DayTime = ({ tab, toggleSidebar }: DayTimeProps) => {
                     }
                   }}
                 >
-                  <div className="circle bg-gray-400 w-10 h-10 rounded-full"></div>
+                  <div className="circle bg-gray-200 text-gray-500 text-sm  flex items-center justify-center font-bold w-10 h-10 rounded-full">
+                    {habit.name.split(" ").map((word: string) => word.charAt(0).toUpperCase()).join("").slice(0, 2)}
+                  </div>
                   <div className="ml-3 flex justify-between w-full border-b border-gray-300 pb-2">
                     <div>
                       <h5
@@ -427,9 +469,9 @@ const DayTime = ({ tab, toggleSidebar }: DayTimeProps) => {
       )}
 
       {/* Right Sidebar for lg screens and above */}
-      <div className="hidden lg:block">
-        <RightSidebar habit={tohabit} onClose={undefined} />
-      </div>
+
+      <RightSidebar habit={tohabit} />
+
 
     </>
   )

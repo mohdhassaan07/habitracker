@@ -139,7 +139,7 @@ function Home() {
             name: 'Sarah Johnson',
             role: 'Freelance Designer',
             image: 'https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-            quote: 'habitracker transformed my morning routine. I\'ve been consistent with meditation for over 6 months now - the longest streak I\'ve ever maintained!',
+            quote: 'Habitron transformed my morning routine. I\'ve been consistent with meditation for over 6 months now - the longest streak I\'ve ever maintained!',
             rating: 5,
         },
         {
@@ -153,7 +153,7 @@ function Home() {
             name: 'Emily Rodriguez',
             role: 'Marketing Manager',
             image: 'https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-            quote: 'I\'ve tried many habit trackers, but habitracker\'s clean interface and smart reminders make it the only one I\'ve stuck with long-term.',
+            quote: 'I\'ve tried many habit trackers, but Habitron\'s clean interface and smart reminders make it the only one I\'ve stuck with long-term.',
             rating: 4,
         },
     ];
@@ -161,12 +161,12 @@ function Home() {
     // FAQ data
     const faqs = [
         {
-            question: 'How is habitracker different from other habit trackers?',
-            answer: 'habitracker combines powerful tracking tools with behavioral science principles to help you build lasting habits. Our approach focuses on both tracking and motivation, with features like smart reminders, detailed analytics, and achievement systems designed to keep you consistent in the long term.',
+            question: 'How is Habitron different from other habit trackers?',
+            answer: 'Habitron combines powerful tracking tools with behavioral science principles to help you build lasting habits. Our approach focuses on both tracking and motivation, with features like smart reminders, detailed analytics, and achievement systems designed to keep you consistent in the long term.',
         },
         {
-            question: 'Can I use habitracker on all my devices?',
-            answer: 'Yes! habitracker is available on iOS, Android, and web. Your data syncs automatically across all your devices, so you can track your habits wherever you are.',
+            question: 'Can I use Habitron on all my devices?',
+            answer: 'Yes! Habitron is available on iOS, Android, and web. Your data syncs automatically across all your devices, so you can track your habits wherever you are.',
         },
         {
             question: 'Is there a limit to how many habits I can track?',
@@ -247,7 +247,7 @@ function Home() {
             <nav className={`fixed w-full z-20 transition-all duration-300 ${isScrolled ? 'bg-white dark:bg-gray-800 shadow-md py-2' : 'bg-transparent py-4'}`}>
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex items-center justify-between h-16">
-                        <span className="text-2xl font-bold text-blue-600">Habitracker</span>
+                        <span className="text-2xl font-bold text-blue-600">Habitron</span>
 
                         <div className="hidden md:flex items-center space-x-4">
                             <a href="#features" className="text-gray-800 dark:text-gray-100 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">Features</a>
@@ -292,7 +292,7 @@ function Home() {
                                 <span className="block text-blue-600">achieve your goals</span>
                             </h1>
                             <p className="mt-3 text-base text-gray-600 sm:mt-5 sm:text-xl lg:text-lg xl:text-xl max-w-2xl mx-auto">
-                                habitracker helps you track and build consistent habits through simple daily tracking, insightful analytics, and gentle reminders.
+                                Habitron helps you track and build consistent habits through simple daily tracking, insightful analytics, and gentle reminders.
                             </p>
                         </div>
 
@@ -404,7 +404,7 @@ function Home() {
                             What our users are saying
                         </p>
                         <p className="mt-4 max-w-2xl text-xl text-gray-600 mx-auto">
-                            Join thousands of people who have transformed their habits with habitracker.
+                            Join thousands of people who have transformed their habits with Habitron.
                         </p>
                     </div>
 
@@ -559,7 +559,7 @@ function Home() {
                 <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
                         <div className="md:col-span-1">
-                            <span className="text-2xl font-bold text-white">habitracker</span>
+                            <span className="text-2xl font-bold text-white">Habitron</span>
                             <p className="mt-2 text-gray-400">
                                 Build better habits, achieve your goals, and become the best version of yourself.
                             </p>
@@ -668,7 +668,7 @@ function Home() {
 
                     <div className="mt-12 pt-8 border-t border-gray-800">
                         <p className="text-gray-400 text-sm text-center">
-                            &copy; {new Date().getFullYear()} habitracker. All rights reserved.
+                            &copy; {new Date().getFullYear()} Habitron. All rights reserved.
                         </p>
                     </div>
                 </div>
