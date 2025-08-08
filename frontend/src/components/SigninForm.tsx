@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import api from '@/utils/api';
 import { FaGoogle } from "react-icons/fa";
 import toast from "react-hot-toast";
+import {useGoogleLogin} from '@react-oauth/google'
 import CircularProgress from "@mui/material/CircularProgress";
 const SigninForm = (props: any) => {
     const [toggleSignin, settoggleSignin] = useState(true);
@@ -93,6 +94,21 @@ const SigninForm = (props: any) => {
             confirmPassword: '',
         });
     }
+
+    const responseGoogle = async(authResult : {})=>{
+        try {
+            console.log(authResult)
+        } catch (error) {
+            console.error("error while requesting the code : ", error)
+        }
+    }
+
+    const googleLogin = useGoogleLogin({
+        onSuccess : responseGoogle,
+        onError : responseGoogle,
+        flow : 'auth-code'
+    })
+
     if (loading) {
         return <div className="flex justify-center items-center h-screen">
             <CircularProgress size={"4rem"} />
@@ -210,7 +226,7 @@ const SigninForm = (props: any) => {
                         </button>
                         <button
                             type="button"
-
+                            onClick={googleLogin}
                             className="w-full flex items-center justify-center gap-2 bg-black text-white py-2 rounded-lg hover:bg-gray-900 border"
                         >
                             <FaGoogle className="w-5 h-5" />

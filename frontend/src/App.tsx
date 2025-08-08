@@ -6,8 +6,7 @@ import { useSelector, useDispatch } from "react-redux"
 import { useEffect } from "react"
 import { signout } from "./redux/userSlice"
 import Timer from "./pages/Timer"
-import ManageHabits from "./components/MangeHabits"
-
+import { GoogleOAuthProvider } from "@react-oauth/google"
 const App = () => {
   const { currentUser, loginTime } = useSelector((state: any) => state.user)
   const dispatch = useDispatch()
