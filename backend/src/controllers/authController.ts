@@ -1,7 +1,53 @@
-import { PrismaClient } from "@prisma/client";
-import jwt from "jsonwebtoken";
-import bcrypt from "bcrypt";
-const prisma = new PrismaClient();
+import { PrismaClient } from "@prisma/client"
+import jwt from "jsonwebtoken"
+import bcrypt from "bcrypt"
+import { oauth2client } from "../utils/googleConfig"
+import axios from 'axios'
+const prisma = new PrismaClient()
+
+const googleLogin = async (req, res) => {
+    try {
+        const { code } = req.query;
+        if (!code) {
+            return res.status(400).json({ error: "Code is required" })
+        }
+
+        const googleRes = await oauth2client.getToken(code)
+        oauth2client.setCredentials(googleRes.tokens)
+        const userRes = await axios.get(`https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${googleRes.tokens.access_token}`,)
+        const { email, name, picture } = userRes.data;
+
+        let user = await prisma.user.findUnique({
+            where: {
+                email: email
+            }
+        })
+        if (!user) {
+            user = await prisma.user.create({
+                data: {
+                    name: name,
+                    email: email,
+                    profilePic: picture,
+                    password: bcrypt.hashSync(email, 10) // Using email as a pseudo-password
+                }
+            })
+        }
+        
+        const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET)
+        res.cookie("token", token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "strict",
+            maxAge: 2 * 24 * 60 * 60 * 1000,
+        })
+
+        const { password, ...userData } = user; // Exclude password from the response
+        console.log("Google user data:", userRes.data);
+        return res.status(200).json({ message: "User logged in successfully", user: userData, token: token });
+    } catch (error) {
+        return res.status(500).json({ error: "Internal server error" });
+    }
+}
 
 const createUser = async (req, res) => {
     const { name, email, password } = req.body;
@@ -26,7 +72,7 @@ const createUser = async (req, res) => {
                         password: hash,
                     },
                 });
-                const token = jwt.sign({ id: registered_user.id }, process.env.JWT_SECRET);
+                const token = jwt.sign({ id: registered_user.id }, process.env.JWT_SECRET)
                 res.cookie("token", token, {
                     httpOnly: true,
                     secure: process.env.NODE_ENV === "production",
@@ -95,5 +141,6 @@ const SignOut = ((req, res) => {
 export {
     createUser,
     signin,
-    SignOut
+    SignOut,
+    googleLogin
 }

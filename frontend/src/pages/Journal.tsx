@@ -9,7 +9,7 @@ const Journal = () => {
   const location = useLocation();
   //@ts-ignore
   const [tab, setTab] = useState("allHabits");
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const currentUser = useSelector((state: any) => state.user.currentUser);
   const navigate = useNavigate();
   

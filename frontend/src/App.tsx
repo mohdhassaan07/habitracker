@@ -20,14 +20,22 @@ const App = () => {
       }
     }
   }, [currentUser, loginTime, dispatch])
+
+  const GoogleAuthWrapper = () => {
+    return (
+      <GoogleOAuthProvider clientId={import.meta.env.VITE_CLIENT_ID}>
+        <Home />
+      </GoogleOAuthProvider>
+    )
+  }
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<GoogleAuthWrapper />} />
         <Route path="/journal" element={<Journal />} />
         <Route path="/logout" element={<Logout />} />
         <Route path="*" element={<div className="w-full h-screen flex justify-center items-center text-3xl font-semibold">404 Not Found</div>} />
-        <Route path="/journal/timer/:habitId" element={<Timer/>} />
+        <Route path="/journal/timer/:habitId" element={<Timer />} />
       </Routes>
 
     </BrowserRouter>

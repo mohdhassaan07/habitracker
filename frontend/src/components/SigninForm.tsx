@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import api from '@/utils/api';
 import { FaGoogle } from "react-icons/fa";
 import toast from "react-hot-toast";
-import {useGoogleLogin} from '@react-oauth/google'
+import { useGoogleLogin } from '@react-oauth/google'
 import CircularProgress from "@mui/material/CircularProgress";
 const SigninForm = (props: any) => {
     const [toggleSignin, settoggleSignin] = useState(true);
@@ -94,19 +94,35 @@ const SigninForm = (props: any) => {
             confirmPassword: '',
         });
     }
-
-    const responseGoogle = async(authResult : {})=>{
+    const googleAuth = async (code: string) => {
         try {
-            console.log(authResult)
+            return await api.get(`/user/googleLogin?code=${code}`, {
+                withCredentials: true,
+            })
+        } catch (error) {
+            console.error("Error during Google login:", error);
+            toast.error('Google login failed. Please try again.');
+        }
+    }
+
+    const responseGoogle = async (authResult: any) => {
+        try {
+            if (authResult['code']) {
+                const resp = await googleAuth(authResult['code']);
+                if (resp && resp.data && resp.data.user) {
+                    dispatch(signinSuccess(resp.data.user));
+                    navigate('/journal');
+                }
+            }
         } catch (error) {
             console.error("error while requesting the code : ", error)
         }
     }
 
     const googleLogin = useGoogleLogin({
-        onSuccess : responseGoogle,
-        onError : responseGoogle,
-        flow : 'auth-code'
+        onSuccess: responseGoogle,
+        onError: responseGoogle,
+        flow: 'auth-code'
     })
 
     if (loading) {
