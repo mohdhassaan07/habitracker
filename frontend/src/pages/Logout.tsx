@@ -4,9 +4,10 @@ import { useState, useEffect } from "react"
 import api from "../utils/api"
 import {  useNavigate } from "react-router-dom"
 import CircularProgress from "@mui/material/CircularProgress"
-
+import { useHabitData } from "@/store/HabitProvider"
 const Logout = () => {
     const [loading, setloading] = useState(false)
+    const { onLogout } = useHabitData()
     const navigate = useNavigate()
     const dispatch = useDispatch()
     useEffect(() => {
@@ -16,8 +17,13 @@ const Logout = () => {
                 const res = await api.get("/user/signout")
                 console.log(res);
                 setloading(false)
-                dispatch(signout())
-                navigate("/")
+                if (res.status === 200) {
+                    console.log("Logout successful");
+                    dispatch(signout())
+                    onLogout()
+                    navigate("/")
+                }
+                
             } catch (error: any) {
                 setloading(false)
                 console.error("Error logging out:", error.response.data);
@@ -25,7 +31,6 @@ const Logout = () => {
 
         }
         handleLogout()
-
     }, [])
 
     if (loading) {

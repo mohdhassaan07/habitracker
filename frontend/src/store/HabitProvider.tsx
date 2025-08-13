@@ -19,6 +19,7 @@ interface JournalDataContextType {
   setquery: React.Dispatch<React.SetStateAction<string>>;
   removeData: () => void;
   resetData: () => void;
+  onLogout: () => void;
 }
 
 const HabitDataContext = createContext<JournalDataContextType | undefined>(undefined);
@@ -65,6 +66,11 @@ const HabitProvider = ({ children }: { children: React.ReactNode }) => {
     } finally {
       setloading(false);
     }
+  }
+
+  const onLogout = ()=>{
+    hasFetchedRef.current = false;
+    hasFetchedTimeRef.current = false;
   }
 
   const updateHabits = (habitId: string) => {
@@ -132,7 +138,7 @@ const HabitProvider = ({ children }: { children: React.ReactNode }) => {
     <HabitDataContext.Provider value={{
       habitData, fetchHabitData, timeOfDayData, fetchTimeOfDayData,
       loading, setloading, updateHabitValue, updateHabitCurrentValue,
-      updateHabits, searchHabits, setsearchHabits, query, setquery, removeData, resetData
+      updateHabits, searchHabits, setsearchHabits, query, setquery, removeData, resetData,onLogout
     }}>
       {children}
     </HabitDataContext.Provider>

@@ -76,23 +76,17 @@ const SigninForm = (props: any) => {
                     withCredentials: true,
                 }
             );
-            const data = response.data;
-            dispatch(signinSuccess(data.user));
+            const data = response.data
+            console.log(loading)
             setLoading(false);
+            dispatch(signinSuccess(data.user))
             navigate('/journal');
 
         } catch (error) {
-            console.error('Error during sign in:', error);
+            console.error('Error during sign in:', error)
             dispatch(signinFailure())
-            setLoading(false);
             toast.error('Sign in failed. Please check your credentials and try again.');
         }
-        setFormData({
-            name: '',
-            email: '',
-            password: '',
-            confirmPassword: '',
-        });
     }
     const googleAuth = async (code: string) => {
         try {
@@ -108,6 +102,7 @@ const SigninForm = (props: any) => {
     const responseGoogle = async (authResult: any) => {
         try {
             if (authResult['code']) {
+                setLoading(true);
                 const resp = await googleAuth(authResult['code']);
                 if (resp && resp.data && resp.data.user) {
                     dispatch(signinSuccess(resp.data.user));
@@ -116,6 +111,8 @@ const SigninForm = (props: any) => {
             }
         } catch (error) {
             console.error("error while requesting the code : ", error)
+        } finally {
+            setLoading(false);
         }
     }
 
@@ -125,11 +122,12 @@ const SigninForm = (props: any) => {
         flow: 'auth-code'
     })
 
-    if (loading) {
-        return <div className="flex justify-center items-center h-screen">
-            <CircularProgress size={"4rem"} />
-        </div>
-    }
+    // if (loading) {
+    //     return (
+    //         <div className="flex justify-center items-center h-screen">
+    //             <CircularProgress size={"4rem"} />
+    //         </div>)
+    // }
 
     return (
         <div>
@@ -209,6 +207,7 @@ const SigninForm = (props: any) => {
 
             {toggleSignin &&
                 <Modal isOpen={props.isModalOpen} onClose={() => props.setIsModalOpen(false)} >
+                    {loading && <CircularProgress size={"4rem"} className="absolute left-[40%] top-[45%]" />}
                     <h1 className="text-3xl font-bold text-center mb-2 text-blue-600">HabitTracker</h1>
                     <h2 className="text-xl font-semibold mb-6 text-center">Welcome Back</h2>
                     <form onSubmit={handleSignIn} className="space-y-4">

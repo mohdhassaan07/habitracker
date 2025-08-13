@@ -15,7 +15,7 @@ const TABS = [
   { label: 'Evening', value: 'Evening', icon: <Sunset /> },
 ];
 
-const ManageHabits = ({toggleSidebar}: any) => {
+const ManageHabits = ({ toggleSidebar }: any) => {
   const { habitData, updateHabits } = useHabitData();
   const [selectedTab, setSelectedTab] = useState('all');
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -101,7 +101,7 @@ const ManageHabits = ({toggleSidebar}: any) => {
               onClick={() => setSelectedTab(tab.value)}
             >
               {tab.icon && <span className="lg:mr-2">{tab.icon}</span>}
-              <span className='hidden lg:flex'>{tab.label}</span> 
+              <span className='hidden lg:flex'>{tab.label}</span>
             </button>
           ))}
         </div>
@@ -128,8 +128,9 @@ const ManageHabits = ({toggleSidebar}: any) => {
                   </div>
                   <div className="ml-3 flex border-b border-gray-300 pb-2 justify-between w-full">
                     <div>
-                      <h5 className="font-semibold">
+                      <h5 className="font-semibold gap-2 flex">
                         {habit.name}
+                        <button className='text-sm bg-gray-100 p-1 rounded-4xl font-normal text-gray-600' >{habit.frequency}</button>
                       </h5>
                       <p className="text-sm text-gray-600">
                         {habit.currentValue} / {habit.unitValue} <span className='text-gray-400 ml-4' >created on {new Date(habit.createdAt).toLocaleDateString()} | last updated on {new Date(habit.updatedAt).toLocaleDateString()}</span>
