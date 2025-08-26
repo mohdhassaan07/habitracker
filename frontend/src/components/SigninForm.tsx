@@ -122,12 +122,12 @@ const SigninForm = (props: any) => {
         flow: 'auth-code'
     })
 
-    // if (loading) {
-    //     return (
-    //         <div className="flex justify-center items-center h-screen">
-    //             <CircularProgress size={"4rem"} />
-    //         </div>)
-    // }
+    if (loading) {
+        return (
+            <div className="flex justify-center items-center h-screen">
+                <CircularProgress size={"4rem"} />
+            </div>)
+    }
 
     return (
         <div>
@@ -207,7 +207,7 @@ const SigninForm = (props: any) => {
 
             {toggleSignin &&
                 <Modal isOpen={props.isModalOpen} onClose={() => props.setIsModalOpen(false)} >
-                    {loading && <CircularProgress size={"4rem"} className="absolute left-[40%] top-[45%]" />}
+                    {/* {loading && <CircularProgress size={"4rem"} className="absolute left-[40%] top-[45%]" />} */}
                     <h1 className="text-3xl font-bold text-center mb-2 text-blue-600">HabitTracker</h1>
                     <h2 className="text-xl font-semibold mb-6 text-center">Welcome Back</h2>
                     <form onSubmit={handleSignIn} className="space-y-4">
