@@ -12,7 +12,7 @@ const buildPrompt = async (docs, question) => {
 };
 
 const generateAnswer = async (prompt) => {
-  const model = ai.getGenerativeModel({ model: "gemini-2.5-flash" });
+  const model = ai.getGenerativeModel({ model: "gemini-2.5-pro" });
 
   const res = await model.generateContent(prompt);
 
