@@ -20,7 +20,7 @@ const Header = ({ toggleSidebar }: HeaderProps) => {
     const [loading, setLoading] = useState(false);
     const [isMoodModalOpen, setisMoodModalOpen] = useState(false)
     const [todayMood, settodayMood] = useState("")
-    const { habitData, setsearchHabits, query, setquery } = useHabitData();
+    const { addNewHabit, setsearchHabits, query, setquery } = useHabitData();
 
     const navigate = useNavigate();
     const [selectedTimes, setSelectedTimes] = useState({
@@ -68,9 +68,9 @@ const Header = ({ toggleSidebar }: HeaderProps) => {
             const response = await api.post('/habit/createHabit', formData)
             console.log(response.data);
             setModalOpen(false)
-            habitData.unshift(response.data)
             if (response.status === 200) {
                 toast.success('Habit created successfully!')
+                addNewHabit(response.data)
             }
 
         } catch (error) {

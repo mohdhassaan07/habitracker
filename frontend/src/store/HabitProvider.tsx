@@ -13,6 +13,7 @@ interface JournalDataContextType {
   updateHabitValue: any;
   updateHabitCurrentValue: (habitId: string, increment: number) => void;
   updateHabits: (habitId: string) => void;
+  addNewHabit : (newHabit: any) => void;
   loading: boolean;
   setloading: React.Dispatch<React.SetStateAction<boolean>>;
   query: string;
@@ -66,6 +67,10 @@ const HabitProvider = ({ children }: { children: React.ReactNode }) => {
     } finally {
       setloading(false);
     }
+  }
+
+  const addNewHabit  = (newHabit: any) => {
+    setHabitData((prevHabits: any[]) => [...prevHabits, newHabit]);
   }
 
   const onLogout = ()=>{
@@ -138,7 +143,7 @@ const HabitProvider = ({ children }: { children: React.ReactNode }) => {
     <HabitDataContext.Provider value={{
       habitData, fetchHabitData, timeOfDayData, fetchTimeOfDayData,
       loading, setloading, updateHabitValue, updateHabitCurrentValue,
-      updateHabits, searchHabits, setsearchHabits, query, setquery, removeData, resetData,onLogout
+      updateHabits,addNewHabit, searchHabits, setsearchHabits, query, setquery, removeData, resetData,onLogout
     }}>
       {children}
     </HabitDataContext.Provider>
