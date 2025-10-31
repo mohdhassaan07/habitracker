@@ -216,8 +216,8 @@ const Header = ({ toggleSidebar }: HeaderProps) => {
                     </Menu>
                 </div>
                 <Modal isOpen={isModalOpen} onClose={() => setModalOpen(false)}  >
-                    <h2 className="text-xl font-bold mb-4">New Habit</h2>
-                    <form onClick={() => setOpen(false)} onSubmit={handleSubmit}>
+                    <h2 className="text-xl text-black font-bold mb-4">New Habit</h2>
+                    <form onClick={() => setOpen(false)} className='text-black' onSubmit={handleSubmit}>
                         <div className="mb-4">
                             <h5 className="block text-sm font-medium mb-3 text-gray-500">Habit Name</h5>
                             <input type="text" name="name" onChange={handleChange} className="w-full border border-gray-300 p-2 rounded-md " placeholder="Enter habit name" required />

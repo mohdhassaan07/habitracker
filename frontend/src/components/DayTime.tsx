@@ -215,7 +215,7 @@ const DayTime = ({ tab, toggleSidebar }: DayTimeProps) => {
   return (
     <>
       {currentUser && (
-        <div className="relative w-full lg:m-2 lg:rounded-2xl bg-white max-h-screen">
+        <div className="relative dark:bg-gray-900 w-full lg:m-2 lg:rounded-2xl bg-white max-h-screen">
           <EditHabit isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} habitId={habitId} />
           <Header toggleSidebar={toggleSidebar} />
 
@@ -234,7 +234,7 @@ const DayTime = ({ tab, toggleSidebar }: DayTimeProps) => {
 
           <div className="element px-4 py-4 h-[90.5vh] overflow-y-auto">
             <div className="flex justify-between ">
-              <h2 className="text-xl font-bold mb-4">{tab}</h2>
+              <h2 className="text-xl font-bold dark:text-white mb-4">{tab}</h2>
               <Menu as="div" className="relative text-left">
                 <div>
                   <MenuButton
@@ -380,7 +380,7 @@ const DayTime = ({ tab, toggleSidebar }: DayTimeProps) => {
                   <div className="ml-3 flex justify-between w-full border-b border-gray-300 pb-2">
                     <div>
                       <h5
-                        className={`font-semibold`}
+                        className={`font-semibold dark:text-white`}
                       >
                         {habit.name}
                       </h5>
@@ -390,15 +390,15 @@ const DayTime = ({ tab, toggleSidebar }: DayTimeProps) => {
                     </div>
                     <div className="flex relative gap-2">
                       {(habit.unitType === "times" ?
-                        <button disabled={disabled} onClick={(e) => { e.stopPropagation(), logHabit(habit.id) }} className='border-1 mx-2 border-gray-300 h-8 flex gap-1 p-1 w-[43px] items-center justify-center font-semibold px-2 active:bg-gray-100' >
-                          <Plus width={15} />1</button> : <Link to={`/journal/timer/${habit.id}`} onClick={(e) => e.stopPropagation()} className='border-1 mx-2 border-gray-300 w-[43px] h-8 flex p-1 items-center justify-center font-semibold px-2 ' ><Timer width={19} /></Link>)
+                        <button disabled={disabled} onClick={(e) => { e.stopPropagation(), logHabit(habit.id) }} className='border-1 mx-2 dark:text-white border-gray-300 h-8 flex gap-1 p-1 w-[43px] items-center justify-center font-semibold px-2 active:bg-gray-100' >
+                          <Plus width={15} />1</button> : <Link to={`/journal/timer/${habit.id}`} onClick={(e) => e.stopPropagation()} className='border-1 mx-2 dark:text-white border-gray-300 w-[43px] h-8 flex p-1 items-center justify-center font-semibold px-2 ' ><Timer width={19} /></Link>)
                       }
 
                       <Menu as="div" className="relative inline-block text-left">
                         <div>
                           <MenuButton
                             onClick={(e) => e.stopPropagation()}
-                            className="inline-flex relative border-1 border-gray-300 items-center w-full justify-center gap-x-1  px-1 py-1 text-sm font-semibold"
+                            className="inline-flex relative dark:text-white border-1 border-gray-300 items-center w-full justify-center gap-x-1  px-1 py-1 text-sm font-semibold"
                           >
                             <EllipsisVertical width={16} />
                           </MenuButton>

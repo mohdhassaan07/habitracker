@@ -193,7 +193,7 @@ const RightSidebar = ({ habit, onClose }: any) => {
 
   if (!habit || Object.keys(habit).length === 0) {
     return (
-      <div className="quote w-full lg:flex hidden lg:w-[600px] text-gray-400 flex-col p-3 m-2 max-h-screen bg-white rounded-2xl items-center justify-center">
+      <div className="quote w-full lg:flex hidden lg:w-[600px] dark:bg-gray-900 text-gray-400 flex-col p-3 m-2 max-h-screen bg-white rounded-2xl items-center justify-center">
         <div className="quote-box font-mono text-lg lg:text-2xl font-semibold text-center">
           <p className="mb-4">{quote}</p>
         </div>
@@ -205,10 +205,10 @@ const RightSidebar = ({ habit, onClose }: any) => {
   return (
     <>
       <EditHabit isModalOpen={isModalOpen} setIsModalOpen={setisModalOpen} habitId={habit.id} />
-      <div className="element flex max-h-screen overflow-auto bg-white lg:m-2 m-0 lg:rounded-2xl rounded-none">
+      <div className="element flex max-h-screen dark:bg-gray-900 dark:text-white  overflow-auto bg-white lg:m-2 m-0 lg:rounded-2xl rounded-none">
         {/* Resizable Right Sidebar */}
-        <div style={{ width: `${width}px` }} className="relative">
-          <div className=" flex justify-between border-b border-gray-300 px-2 py-[10px] items-center sticky top-0 bg-white">
+        <div style={{ width: `${width}px` }} className="relative ">
+          <div className=" flex justify-between border-b dark:bg-gray-900 border-gray-300 px-2 py-[10px] items-center sticky top-0 bg-white">
             <h2 className="text-lg lg:text-xl font-bold" >{habit.name}</h2>
             <div className="flex gap-2">
               <button onClick={() => setisModalOpen(true)} className="inline-flex relative border-1 border-gray-300 items-center  justify-center gap-x-1  px-2  text-sm font-semibold">
@@ -263,7 +263,7 @@ const RightSidebar = ({ habit, onClose }: any) => {
             </div>
 
 
-            <div className="border p-2 border-gray-300 rounded-lg overflow-hidden">
+            <div className="border p-2 border-gray-300 dark:bg-gray-400 rounded-lg overflow-hidden">
 
               <HeatMap
                 value={values.length > 0 ? values : value}
@@ -282,7 +282,7 @@ const RightSidebar = ({ habit, onClose }: any) => {
                 }}
               />
             </div>
-            <div className="border border-gray-300 rounded-lg">
+            <div className="border dark:bg-gray-400 border-gray-300 rounded-lg">
               <BarChart
                 borderRadius={5}
                 xAxis={[

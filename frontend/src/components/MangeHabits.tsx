@@ -72,7 +72,7 @@ const ManageHabits = ({ toggleSidebar }: any) => {
 
   return (
     <>
-      <div className="relative w-full bg-white lg:m-2 lg:rounded-2xl max-h-screen flex">
+      <div className="relative w-full dark:bg-gray-900 dark:text-white bg-white lg:m-2 lg:rounded-2xl max-h-screen flex">
         {/* Right Sidebar for screens less than lg - positioned on top */}
         {openRightSidebar && (
           <div className="lg:hidden absolute top-0 left-0 w-full h-full z-10">

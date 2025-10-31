@@ -255,12 +255,12 @@ const Habits = ({ toggleSidebar }: HabitsProps) => {
                   <div className="py-1">
 
                     <MenuItem  >
-                      <a onClick={() => setsortBy("newest")} className={`flex gap-2 px-4 py-2 text-sm cursor-pointer ${sortBy === "newest" ? "bg-gray-100" : ""}`}>
+                      <a onClick={() => setsortBy("newest")} className={`flex gap-2 px-4 py-2 text-sm text-black cursor-pointer ${sortBy === "newest" ? "bg-gray-100" : ""}`}>
                         Newest First
                       </a>
                     </MenuItem>
                     <MenuItem  >
-                      <a onClick={() => setsortBy("oldest")} className={`flex gap-2 px-4 py-2 text-sm cursor-pointer ${sortBy === "oldest" ? "bg-gray-100" : ""}`}>
+                      <a onClick={() => setsortBy("oldest")} className={`flex gap-2 px-4 py-2 text-sm text-black cursor-pointer ${sortBy === "oldest" ? "bg-gray-100" : ""}`}>
                         Oldest First
                       </a>
                     </MenuItem>
@@ -347,7 +347,7 @@ const Habits = ({ toggleSidebar }: HabitsProps) => {
                                       <div className="py-1">
 
                                         <MenuItem  >
-                                          <a onClick={() => undoLog(habit.id, habit.logs[habit.logs.length - 1].id)} className={`flex gap-2 px-4 py-2 text-sm cursor-pointer`}>
+                                          <a onClick={() => undoLog(habit.id, habit.logs[habit.logs.length - 1].id)} className={`flex gap-2 px-4 py-2 text-sm text-black cursor-pointer`}>
                                             <Undo width={16} /> Undo Log
                                           </a>
                                         </MenuItem>
