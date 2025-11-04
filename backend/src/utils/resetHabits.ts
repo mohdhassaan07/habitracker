@@ -2,7 +2,7 @@ import cron from 'node-cron'
 import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
-export const resetHabits = async () => {
+const resetHabits = async () => {
     const today = new Date()
     const habits = await prisma.habit.findMany()
 
@@ -33,9 +33,15 @@ export const resetHabits = async () => {
     }
     console.log('✅ Habit progress reset:', today);
 }
-resetHabits()
-cron.schedule('0 0 * * *', () => {
-  resetHabits().catch((err) => {
-    console.error('❌ Error resetting habits:', err);
-  });
-});
+
+export const resetallHabits = async (req,res) => {
+    await resetHabits();
+    res.status(200).send('Habits reset successfully');
+}
+
+// resetHabits()
+// cron.schedule('0 0 * * *', () => {
+//   resetHabits().catch((err) => {
+//     console.error('❌ Error resetting habits:', err);
+//   });
+// });
