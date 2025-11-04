@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 
 const isLoggedin = (req, res, next) => {
-    if (req.path === '/api/habit/reset') return next()
+    if (req.path === '/reset') return next()
     if (req.cookies.token) {
         const token = req.cookies.token;
         // Verify the token
