@@ -33,7 +33,7 @@ const LeftSidebar = () => {
                     <Menu as="div" className=" relative w-full inline-block text-left">
                         <MenuButton className="flex w-full gap-2 items-center mt-4 p-2 rounded-md border border-gray-300 hover:cursor-pointer">
                             <img className="rounded-full overflow-hidden w-7 h-7 " src={currentUser.profilePic} alt="image" />
-                            <h4 className=" text-sm font-semibold tracking-tight text-white" >{currentUser.name}</h4>
+                            <h4 className=" text-sm font-semibold tracking-tight dark:text-white" >{currentUser.name}</h4>
                         </MenuButton>
                         <MenuItems
                             transition
