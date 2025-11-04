@@ -35,6 +35,7 @@ const resetHabits = async () => {
 }
 
 export const resetallHabits = async (req,res) => {
+    console.log('🔥 resetallHabits triggered');
     await resetHabits();
     res.status(200).send('Habits reset successfully');
 }
