@@ -8,7 +8,7 @@ dotenv.config();
 const app = express();
 app.use(cors(
     {
-        origin: ['https://habitron-seven.vercel.app', 'http://localhost:5173'],
+        origin: ['https://habitron-seven.vercel.app', 'http://localhost:5173', 'https://cron-job.org'],
         credentials: true
     }
 ));
