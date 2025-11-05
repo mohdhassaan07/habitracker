@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 
 const isLoggedin = (req, res, next) => {
     console.log('isLoggedin ->', req.path, req.originalUrl)
-    if (req.path === '/reset') return next()
+    // if (req.path === '/reset') return next()
     if (req.cookies.token) {
         const token = req.cookies.token;
         // Verify the token

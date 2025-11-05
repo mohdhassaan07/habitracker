@@ -4,6 +4,7 @@ import habitRouter from './routes/habit';
 import userRouter from './routes/user';
 import dotenv from 'dotenv';
 import cookieparser from 'cookie-parser';
+import { resetallHabits } from './utils/resetHabits';
 dotenv.config();
 const app = express();
 app.use(cors(
@@ -20,7 +21,7 @@ const PORT = process.env.PORT || 3000;
 app.get('/', (req, res) => {
     res.send('Hello World!');
 });
-
+app.get('/api/reset', resetallHabits);
 app.use('/api/user', userRouter)
 app.use('/api/habit', habitRouter);
 
