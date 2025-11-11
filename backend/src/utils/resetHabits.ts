@@ -35,15 +35,3 @@ export const resetallHabits = async (req, res) => {
     return res.status(200).json('Habits reset successfully');
 }
 
-// export const resetallHabits = async (req,res) => {
-//     console.log('🔥 resetallHabits triggered');
-//     await resetHabits();
-//     res.status(200).send('Habits reset successfully');
-// }
-
-// resetHabits()
-// cron.schedule('0 0 * * *', () => {
-//   resetHabits().catch((err) => {
-//     console.error('❌ Error resetting habits:', err);
-//   });
-// });

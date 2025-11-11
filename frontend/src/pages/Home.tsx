@@ -241,7 +241,7 @@ function Home() {
     };
     
     return (
-        <div className="min-h-screen bg-white dark:bg-gray-900 font-sans text-gray-900 dark:text-gray-100">
+        <div className="min-h-screen bg-white dark:bg-gray-900 font-sans text-gray-900 dark:text-gray-400">
             <SigninForm isModalOpen = {isModalOpen} setIsModalOpen = {setModalOpen} />
             {/* Navbar */}
             <nav className={`fixed w-full z-20 transition-all duration-300 ${isScrolled ? 'bg-white dark:bg-gray-800 shadow-md py-2' : 'bg-transparent py-4'}`}>
@@ -250,10 +250,10 @@ function Home() {
                         <span className="text-2xl font-bold text-blue-600">Habitron</span>
 
                         <div className="hidden md:flex items-center space-x-4">
-                            <a href="#features" className="text-gray-800 dark:text-gray-100 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">Features</a>
-                            <a href="#testimonials" className="text-gray-800 dark:text-gray-100 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">Testimonials</a>
-                            <a href="#pricing" className="text-gray-800 dark:text-gray-100 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">Pricing</a>
-                            <a href="#faq" className="text-gray-800 dark:text-gray-100 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">FAQ</a>
+                            <a href="#features" className="text-gray-800 dark:text-gray-400 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">Features</a>
+                            <a href="#testimonials" className="text-gray-800 dark:text-gray-400 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">Testimonials</a>
+                            <a href="#pricing" className="text-gray-800 dark:text-gray-400 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">Pricing</a>
+                            <a href="#faq" className="text-gray-800 dark:text-gray-400 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">FAQ</a>
                             <button onClick={() => setModalOpen(true)} className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium">
                                 Get Started
                             </button>
