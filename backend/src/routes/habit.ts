@@ -2,7 +2,7 @@ import express from 'express';
 import { createHabit, deleteAllData, deleteHabit, editHabit, getHabits, getLoggedData,
      logHabit, resetHabits, searchData, undoLog } from '../controllers/habitController';
 import isLoggedIn from '../middlewares/isLoggedin'
-import { chatbotController, chatwithAI } from '../controllers/chatbotController';
+import { chatwithAI } from '../controllers/chatbotController';
 const router = express.Router();
 
 router.get('/search',isLoggedIn, searchData)

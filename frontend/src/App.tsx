@@ -1,12 +1,13 @@
 import Journal from "./pages/Journal"
 import Home from "./pages/Home"
 import Logout from "./pages/Logout"
+import Timer from "./pages/Timer"
+import { signout } from "./redux/userSlice"
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux"
 import { useEffect } from "react"
-import { signout } from "./redux/userSlice"
-import Timer from "./pages/Timer"
 import { GoogleOAuthProvider } from "@react-oauth/google"
+import AiAssistant from "./components/AiAssistant"
 const App = () => {
   const { currentUser, loginTime } = useSelector((state: any) => state.user)
   const dispatch = useDispatch()
@@ -33,6 +34,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<GoogleAuthWrapper />} />
         <Route path="/journal" element={<Journal />} />
+        <Route path="/ai" element={<AiAssistant />} />
         <Route path="/logout" element={<Logout />} />
         <Route path="*" element={<div className="w-full h-screen flex justify-center items-center text-3xl font-semibold">404 Not Found</div>} />
         <Route path="/journal/timer/:habitId" element={<Timer />} />
