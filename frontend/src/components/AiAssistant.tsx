@@ -11,8 +11,9 @@ const AiAssistant = () => {
     }
     const currentUser = useSelector((state: any) => state.user.currentUser);
     const [message, setMessage] = useState("");
+    const [typing, setTyping] = useState(false)
     const [chat, setChat] = useState([] as Message[]);
-     const socket = io("http://localhost:5000", {
+    const socket = io("http://localhost:5000", {
         transports: ["websocket"]
     })
     const chatEndRef = useRef<HTMLDivElement | null>(null);
@@ -21,6 +22,8 @@ const AiAssistant = () => {
         chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
     }, [chat]);
     useEffect(() => {
+        socket.on("typing", (state) => setTyping(state));
+
         socket.on("aiReply", (data) => {
             console.log("aiReply:", data);
             setChat((prev) => [...prev, { id: uuid(), sender: "bot", text: data }]);
@@ -53,13 +56,16 @@ const AiAssistant = () => {
 
                         className={`max-w-[70%] p-2 rounded-xl text-white ${msg.sender === "user"
                             ? "bg-indigo-500 ml-auto rounded-br-none"
-                            : "bg-gray-700 mr-auto rounded-bl-none"
+                            : "bg-gray-800 mr-auto rounded-bl-none"
                             }`}
                     >
                         {msg.text}
                     </div>
                 ))}
                 <div ref={chatEndRef} />
+            {typing && (
+                <div className="mr-auto text-gray-600 italic">AI is typing…</div>
+            )}
             </div>
 
             {/* Input Box */}

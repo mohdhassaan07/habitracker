@@ -52,12 +52,13 @@ io.on("connection", (socket) => {
 Your goal is to give friendly insights, motivation, and answers based on the user's
 habit data. User Data: ${summary} User Question:"${message}"
 Respond in a positive and human-like tone in only 20 to 30 words.`
-
+            socket.emit("typing", true);
             const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
             const result = await model.generateContent(prompt);
             const aiReply = result.response.text();
             // send message back to frontend
             socket.emit("aiReply", aiReply);
+            socket.emit("typing", false);
             
 
         } catch (err) {
