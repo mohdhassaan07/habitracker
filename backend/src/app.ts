@@ -53,7 +53,7 @@ Your goal is to give friendly insights, motivation, and answers based on the use
 habit data. User Data: ${summary} User Question:"${message}"
 Respond in a positive and human-like tone in only 20 to 30 words.`
 
-            const model = genAI.getGenerativeModel({ model: "gemini-2.5-pro" });
+            const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
             const result = await model.generateContent(prompt);
             const aiReply = result.response.text();
             // send message back to frontend
