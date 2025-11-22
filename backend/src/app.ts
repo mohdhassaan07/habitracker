@@ -15,9 +15,20 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
-    cors: { origin: "*" }
+    cors: {origin: ['https://habitron-seven.vercel.app', 'http://localhost:5173', 'https://cron-job.org']}
 });
 
+
+app.use(cors(
+    {
+        origin: ['https://habitron-seven.vercel.app', 'http://localhost:5173', 'https://cron-job.org'],
+        credentials: true
+    }
+));
+app.use(cookieparser())
+app.use(express.json({ limit: '50mb' }))
+app.use(express.urlencoded({ limit: '50mb', extended: true }))
+const PORT = process.env.PORT || 3000;
 io.on("connection", (socket) => {
     console.log("A user connected:", socket.id);
     socket.emit("message", { message: "Hello from server" })
@@ -59,7 +70,6 @@ Respond in a positive and human-like tone in only 20 to 30 words.`
             // send message back to frontend
             socket.emit("aiReply", aiReply);
             socket.emit("typing", false);
-            
 
         } catch (err) {
             console.error(err);
@@ -67,21 +77,6 @@ Respond in a positive and human-like tone in only 20 to 30 words.`
         }
     })
 })
-server.listen(5000, () => {
-    console.log("Socket server is running on port 5000");
-})
-
-app.use(cors(
-    {
-        origin: ['https://habitron-seven.vercel.app', 'http://localhost:5173', 'https://cron-job.org'],
-        credentials: true
-    }
-));
-app.use(cookieparser())
-app.use(express.json({ limit: '50mb' }))
-app.use(express.urlencoded({ limit: '50mb', extended: true }))
-const PORT = process.env.PORT || 3000;
-
 app.get('/', (req, res) => {
     res.send('Hello World!');
 });
@@ -89,6 +84,6 @@ app.get('/api/reset', resetallHabits);
 app.use('/api/user', userRouter)
 app.use('/api/habit', habitRouter);
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });

@@ -13,7 +13,7 @@ const AiAssistant = () => {
     const [message, setMessage] = useState("");
     const [typing, setTyping] = useState(false)
     const [chat, setChat] = useState([] as Message[]);
-    const socket = io("http://localhost:5000", {
+    const socket = io("http://localhost:3000", {
         transports: ["websocket"]
     })
     const chatEndRef = useRef<HTMLDivElement | null>(null);
