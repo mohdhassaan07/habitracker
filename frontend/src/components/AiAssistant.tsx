@@ -13,7 +13,10 @@ const AiAssistant = () => {
     const [message, setMessage] = useState("");
     const [typing, setTyping] = useState(false)
     const [chat, setChat] = useState([] as Message[]);
-    const socket = io("http://localhost:3000", {
+    const baseURL = process.env.NODE_ENV === "production"
+    ? "https://habitron-api.onrender.com"
+    : "http://localhost:3000"
+    const socket = io(baseURL, {
         transports: ["websocket"]
     })
     const chatEndRef = useRef<HTMLDivElement | null>(null);
