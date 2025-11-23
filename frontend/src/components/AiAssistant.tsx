@@ -23,7 +23,7 @@ const AiAssistant = () => {
 
     useEffect(() => {
         chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
-    }, [chat]);
+    }, [socket]);
     useEffect(() => {
         socket.on("typing", (state) => setTyping(state));
 
@@ -31,7 +31,7 @@ const AiAssistant = () => {
             console.log("aiReply:", data);
             setChat((prev) => [...prev, { id: uuid(), sender: "bot", text: data }]);
         });
-    });
+    },[socket]);
     const userId = currentUser.id;
 
     const sendMessage = () => {

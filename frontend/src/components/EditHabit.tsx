@@ -31,7 +31,7 @@ const EditHabit = (props: any) => {
                     unitValue: habitData[i].unitValue,
                     unitType: habitData[i].unitType,
                     frequency: habitData[i].frequency,
-                    timeOfDay: habitData[i].timeOfDay.map((time: any) => {
+                    timeOfDay: habitData[i].timeOfDay?.map((time: any) => {
                         return time.label;
                     }),
                 })
