@@ -17,7 +17,7 @@ function Home() {
     }, [currentUser]);
     
 
-    useEffect(() => {
+    useEffect(() => {   
         const handleScroll = () => {
             setIsScrolled(window.scrollY > 10);
         };
@@ -280,14 +280,14 @@ function Home() {
             </nav>
 
             {/* Hero Section */}
-            <section className="pt-28 pb-16 md:pt-36 md:pb-24 bg-gradient-to-br from-blue-50 via-white to-secondary-50">
+            <section className="pt-28 pb-16 md:pt-36 md:pb-24 bg-gradient-to-br from-blue-50 via-white to-secondary-50 dark:from-gray-800 dark:via-gray-900 dark:to-gray-800">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="text-center">
                         <div className="animate-slide-down">
                             <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
                                 New Feature <span className="ml-2 h-1.5 w-1.5 rounded-full bg-blue-600"></span>
                             </span>
-                            <h1 className="mt-4 text-4xl tracking-tight font-extrabold text-gray-900 sm:mt-5 sm:text-5xl lg:mt-6 xl:text-6xl">
+                            <h1 className="mt-4 text-4xl tracking-tight font-extrabold dark:text-gray-300 text-gray-900 sm:mt-5 sm:text-5xl lg:mt-6 xl:text-6xl">
                                 <span className="block">Build better habits,</span>
                                 <span className="block text-blue-600">achieve your goals</span>
                             </h1>
@@ -329,11 +329,11 @@ function Home() {
             </section>
 
             {/* Features Section */}
-            <section id="features" className="py-16 md:py-24 bg-white dark:bg-gray-800">
+            <section id="features" className="py-16 md:py-24 bg-white dark:bg-gray-800 dark:text-white">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="text-center">
                         <h2 className="text-base font-semibold text-blue-600 tracking-wide uppercase">Features</h2>
-                        <p className="mt-2 text-3xl font-extrabold text-gray-900 sm:text-4xl">
+                        <p className="mt-2 text-3xl font-extrabold dark:text-gray-300 text-gray-900 sm:text-4xl">
                             Everything you need to build better habits
                         </p>
                         <p className="mt-4 max-w-2xl text-xl text-gray-600 mx-auto">
@@ -400,7 +400,7 @@ function Home() {
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="text-center">
                         <h2 className="text-base font-semibold text-blue-600 tracking-wide uppercase">Testimonials</h2>
-                        <p className="mt-2 text-3xl font-extrabold text-gray-900 sm:text-4xl">
+                        <p className="mt-2 text-3xl font-extrabold dark:text-gray-300 text-gray-900 sm:text-4xl">
                             What our users are saying
                         </p>
                         <p className="mt-4 max-w-2xl text-xl text-gray-600 mx-auto">
@@ -450,7 +450,7 @@ function Home() {
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="text-center">
                         <h2 className="text-base font-semibold text-blue-600 tracking-wide uppercase">Pricing</h2>
-                        <p className="mt-2 text-3xl font-extrabold text-gray-900 sm:text-4xl">
+                        <p className="mt-2 text-3xl font-extrabold dark:text-gray-300 text-gray-900 sm:text-4xl">
                             Simple, transparent pricing
                         </p>
                         <p className="mt-4 max-w-2xl text-xl text-gray-600 mx-auto">
@@ -534,7 +534,7 @@ function Home() {
                 <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="text-center">
                         <h2 className="text-base font-semibold text-blue-600 tracking-wide uppercase">FAQ</h2>
-                        <p className="mt-2 text-3xl font-extrabold text-gray-900 sm:text-4xl">
+                        <p className="mt-2 text-3xl font-extrabold dark:text-gray-300 text-gray-900 sm:text-4xl">
                             Frequently asked questions
                         </p>
                     </div>

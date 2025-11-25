@@ -64,6 +64,7 @@ const SigninForm = (props: any) => {
 
     const handleSignIn = async (e: any) => {
         e.preventDefault();
+        let success = false;
         try {
             setLoading(true);
             dispatch(signinstart());
@@ -78,14 +79,18 @@ const SigninForm = (props: any) => {
             );
             const data = response.data
             console.log(loading)
-            setLoading(false);
             dispatch(signinSuccess(data.user))
-            navigate('/journal');
+            success = true;
+            
 
         } catch (error) {
             console.error('Error during sign in:', error)
             dispatch(signinFailure())
             toast.error('Sign in failed. Please check your credentials and try again.');
+        }
+        finally {
+            setLoading(false);
+            if (success) navigate('/journal');
         }
     }
     const googleAuth = async (code: string) => {
@@ -122,12 +127,12 @@ const SigninForm = (props: any) => {
         flow: 'auth-code'
     })
 
-    if (loading) {
-        return (
-            <div className="flex justify-center items-center h-screen">
-                <CircularProgress size={"4rem"} />
-            </div>)
-    }
+    // if (loading) {
+    //     return (
+    //         <div className="flex justify-center items-center h-screen">
+    //             <CircularProgress size={"4rem"} />
+    //         </div>)
+    // }
 
     return (
         <div>
@@ -237,7 +242,7 @@ const SigninForm = (props: any) => {
                             type="submit"
                             className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition"
                         >
-                            Sign In
+                            {loading ? <CircularProgress size="1.25rem" /> : 'Sign In'}
                         </button>
                         <button
                             type="button"
