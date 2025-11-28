@@ -242,7 +242,7 @@ const SigninForm = (props: any) => {
                             type="submit"
                             className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition"
                         >
-                            {loading ? <CircularProgress size="1.25rem" /> : 'Sign In'}
+                            {loading ? <CircularProgress color="inherit" size="1.25rem" /> : 'Sign In'}
                         </button>
                         <button
                             type="button"
