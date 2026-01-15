@@ -264,14 +264,13 @@ const RightSidebar = ({ habit, onClose }: any) => {
 
 
             <div className="border p-2 border-gray-300 dark:bg-gray-400 rounded-lg overflow-hidden">
-
               <HeatMap
                 value={values.length > 0 ? values : value}
                 width={390}
                 rectSize={13}
 
                 startDate={new Date(`2025/${date.getMonth() - 1}/01`)}
-                endDate={new Date(`2025/${date.getMonth() + 4}/31`)}
+                
                 rectRender={(props, data) => {
                   // if (!data.count) return <rect {...props} />;
                   return (
@@ -282,6 +281,7 @@ const RightSidebar = ({ habit, onClose }: any) => {
                 }}
               />
             </div>
+            
             <div className="border dark:bg-gray-400 border-gray-300 rounded-lg">
               <BarChart
                 borderRadius={5}
