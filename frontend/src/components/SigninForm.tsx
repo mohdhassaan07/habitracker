@@ -191,6 +191,7 @@ const SigninForm = (props: any) => {
                     </button>
                     <button
                         type="button"
+                        onClick={googleLogin}
                         className="w-full flex items-center justify-center gap-2 bg-black text-white py-2 rounded-lg hover:bg-gray-900 border"
                     >
                         <FaGoogle className="w-5 h-5" />
