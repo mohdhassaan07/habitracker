@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { X } from "lucide-react";
-const Modal = ({ isOpen, onClose, children }: any) => {
+const Modal = ({ isOpen, onClose, children, disableClose = false }: any) => {
   const ignoreClick = useRef(true);
 
   useEffect(() => {
@@ -15,7 +15,7 @@ const Modal = ({ isOpen, onClose, children }: any) => {
   }, [isOpen]);
 
   const handleBackdropClick = () => {
-    if (ignoreClick.current) return;   // 🔥 Prevent immediate close on mobile tap
+    if (ignoreClick.current || disableClose) return;   // 🔥 Prevent immediate close on mobile tap
     onClose();
   };
 

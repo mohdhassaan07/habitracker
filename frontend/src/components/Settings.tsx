@@ -40,7 +40,6 @@ const Settings = (props: any) => {
             }
 
         }
-        console.log(file);
     }
 
     const handleSubmit = async (e: any) => {
@@ -57,7 +56,6 @@ const Settings = (props: any) => {
             )
             if (res.status === 200) {
                 dispatch(signinSuccess(res.data.user))
-                console.log(res)
                 toast.success("Details edited successfully")
             }
         } catch (error) {

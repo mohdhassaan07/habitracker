@@ -103,7 +103,7 @@ const DayTime = ({ tab, toggleSidebar }: DayTimeProps) => {
       if (res.status === 200) {
         toast.success('Habit logged successfully!')
       }
-      console.log(res.data)
+     
     } catch (error) {
       console.error(error)
       toast.error('Error logging habit!')
@@ -139,7 +139,7 @@ const DayTime = ({ tab, toggleSidebar }: DayTimeProps) => {
           toast.error('Habit failed!')
         }
       }
-      console.log(res.data)
+      
     } catch (error) {
       console.error(error)
       toast.error('Error logging habit!')
@@ -162,7 +162,7 @@ const DayTime = ({ tab, toggleSidebar }: DayTimeProps) => {
         )
         toast.success('Habit log undone successfully!')
       }
-      console.log(res.data)
+
     } catch (error) {
       console.error(error)
       toast.error('Error undoing habit log!')

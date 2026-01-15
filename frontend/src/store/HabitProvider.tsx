@@ -43,7 +43,6 @@ const HabitProvider = ({ children }: { children: React.ReactNode }) => {
       setloading(true)
       let res = await api.get(`/habit/${currentUser.id}`)
       setHabitData(res.data)
-      console.log("Habit data fetched:", res.data);
 
     } catch (err) {
       console.error("Failed to fetch habits", err);
@@ -59,7 +58,6 @@ const HabitProvider = ({ children }: { children: React.ReactNode }) => {
       setloading(true);
       let res = await api.get(`/habit/${currentUser.id}?time=${time}`);
       if (res.status === 200) {
-        console.log("Time of day habits fetched:", res.data.habits);
         setTimeOfDayData(res.data.habits);
       }
     } catch (err) {

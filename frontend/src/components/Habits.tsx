@@ -111,7 +111,6 @@ const Habits = ({ toggleSidebar }: HabitsProps) => {
         toast.success('Habit logged successfully!')
       }
       settohabit(habit)
-      console.log(res.data)
     } catch (error) {
       console.error(error)
       toast.error('Error logging habit!')
@@ -153,7 +152,6 @@ const Habits = ({ toggleSidebar }: HabitsProps) => {
         }
       }
       settohabit(habit)
-      console.log(res.data)
     } catch (error) {
       console.error(error)
       toast.error('Error logging habit!')
@@ -178,7 +176,6 @@ const Habits = ({ toggleSidebar }: HabitsProps) => {
         )
         toast.success('Habit log undone successfully!')
       }
-      console.log(res.data)
     } catch (error) {
       console.error(error)
       toast.error('Error undoing habit log!')

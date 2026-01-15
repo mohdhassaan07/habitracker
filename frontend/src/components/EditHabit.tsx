@@ -95,7 +95,6 @@ const EditHabit = (props: any) => {
         try {
             setloading(true)
             const response = await api.put(`/habit/editHabit/${props.habitId}`, formData)
-            console.log(response.data)
             if (response.status === 200) {
                 updateHabitValue(props.habitId, formData.unitValue)
                 toast.success('Habit Edited Successfully!')

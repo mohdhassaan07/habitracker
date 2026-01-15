@@ -28,7 +28,6 @@ const AiAssistant = () => {
         socket.on("typing", (state) => setTyping(state));
 
         socket.on("aiReply", (data) => {
-            console.log("aiReply:", data);
             setChat((prev) => [...prev, { id: uuid(), sender: "bot", text: data }]);
         });
     },[socket]);

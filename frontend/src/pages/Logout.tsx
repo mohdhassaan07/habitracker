@@ -15,10 +15,8 @@ const Logout = () => {
             try {
                 setloading(true)
                 const res = await api.get("/user/signout")
-                console.log(res);
                 setloading(false)
                 if (res.status === 200) {
-                    console.log("Logout successful");
                     dispatch(signout())
                     onLogout()
                     navigate("/")

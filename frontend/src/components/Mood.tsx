@@ -27,7 +27,7 @@ const Mood = ({ mood, isModalOpen, setisModalOpen }: any) => {
         e.preventDefault()
         try {
             setloading(true)
-            const res = await api.post(`/user/logMood/${currentUser.id}`,
+            await api.post(`/user/logMood/${currentUser.id}`,
                 {
                     mood: mood,
                     description: formData.description
@@ -36,7 +36,6 @@ const Mood = ({ mood, isModalOpen, setisModalOpen }: any) => {
             setformData({
                 description : ""
             })
-            console.log(res.data)
         } catch (error) {
             console.error(error)
             toast.error("Error Logging today's mood")

@@ -66,7 +66,6 @@ const Header = ({ toggleSidebar }: HeaderProps) => {
         try {
             setLoading(true)
             const response = await api.post('/habit/createHabit', formData)
-            console.log(response.data);
             setModalOpen(false)
             if (response.status === 200) {
                 toast.success('Habit created successfully!')
@@ -89,7 +88,6 @@ const Header = ({ toggleSidebar }: HeaderProps) => {
             if (query) {
                 try {
                     const res = await api.get(`/habit/search?query=${query}`)
-                    console.log(res.data);
                     if (res.status === 200) {
                         setsearchHabits(res.data.habits);
                         // const newdata = habitData.splice(0, habitData.length, ...res.data.habits);

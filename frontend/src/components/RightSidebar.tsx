@@ -128,7 +128,7 @@ const RightSidebar = ({ habit, onClose }: any) => {
           setxAxisData(recentFiltered.map((item: any) => item.date));
           setseriesData(recentFiltered.map((item: any) => item.value));
           // Process loggedData as needed
-          console.log("Logged Data:", res);
+
           loggedData.forEach((log: any) => {
             if (log.status === "completed") {
               setcompleted(log._count.status);

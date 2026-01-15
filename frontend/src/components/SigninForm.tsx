@@ -78,7 +78,6 @@ const SigninForm = (props: any) => {
                 }
             );
             const data = response.data
-            console.log(loading)
             dispatch(signinSuccess(data.user))
             success = true;
             
