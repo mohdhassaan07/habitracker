@@ -65,7 +65,7 @@ const ManageHabits = ({ toggleSidebar }: any) => {
   }
 
   if (!habitData || habitData.length === 0) {
-    return <div className="w-full lg:w-[55%] z-20 bg-white m-2 rounded-2xl h-screen flex justify-center items-center">
+    return <div className="w-full lg:w-full dark:bg-gray-900 z-20 bg-white m-2 rounded-2xl h-screen lg:max-h-[96.5vh] flex justify-center items-center">
       <CircularProgress size={"4rem"} />
     </div>
   }

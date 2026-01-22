@@ -37,17 +37,17 @@ const Timer = () => {
   return (
     <>
       {(currentUser && !isTimerRunning ) && (
-        <div className="w-full gap-3 flex h-screen justify-center items-center" >
+        <div className="w-full gap-3 flex h-screen justify-center items-center bg-white dark:bg-gray-900" >
           <div>
-            <TimerIcon className="w-36 h-36 text-gray-600" />
+            <TimerIcon className="w-36 h-36 text-gray-600 dark:text-gray-400" />
           </div>
           <div className="flex-col justify-center items-center " >
-            <h1 className="text-3xl font-semibold text-gray-600">Timer</h1>
-            <p className="mt-4 text-sm" >select your duration for this session</p>
-            <input className="border text-sm border-gray-400 w-48 my-2 rounded-md p-1" onChange={handleChange} min={1} max={habit.unitValue} value={formData.sessionValue} type="number" name="sessionValue" id="" />
+            <h1 className="text-3xl font-semibold text-gray-600 dark:text-white">Timer</h1>
+            <p className="mt-4 text-sm dark:text-gray-400" >select your duration for this session</p>
+            <input className="border text-sm border-gray-400 dark:border-gray-600 dark:bg-gray-800 dark:text-white w-48 my-2 rounded-md p-1" onChange={handleChange} min={1} max={habit.unitValue} value={formData.sessionValue} type="number" name="sessionValue" id="" />
             <div>
-              <button onClick={()=> formData.sessionValue > habit.unitValue ? alert("value exceeded") :setIsTimerRunning(true)} className="bg-blue-600 text-white text-sm rounded-md p-1 px-3 hover:bg-blue-700 transition duration-200" >Start Session</button>
-              <button className="rounded-md border text-sm mx-2 p-1 px-3 transition duration-200" onClick={()=>navigate(-1)}>Cancel</button>
+              <button onClick={()=> formData.sessionValue > habit.unitValue ? alert("value exceeded") :setIsTimerRunning(true)} className="bg-blue-600 text-white text-sm rounded-md p-1 px-3 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-700 transition duration-200" >Start Session</button>
+              <button className="rounded-md border text-sm mx-2 p-1 px-3 dark:border-gray-600 dark:text-white dark:hover:bg-gray-800 transition duration-200" onClick={()=>navigate(-1)}>Cancel</button>
             </div>
           </div>
         </div>

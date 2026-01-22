@@ -208,9 +208,14 @@ const DayTime = ({ tab, toggleSidebar }: DayTimeProps) => {
   });
 
   if (loading) {
-    return <div className="w-full lg:w-[55%] z-20 bg-white m-2 rounded-2xl h-screen flex justify-center items-center">
-      <CircularProgress size={"4rem"} />
-    </div>
+    return (
+      <div className='flex w-full' >
+        <div className="w-full lg:w-full z-20 bg-white dark:bg-gray-900 m-2 rounded-2xl h-screen lg:max-h-[96.5vh] flex justify-center items-center">
+          <CircularProgress size={"4rem"} />
+        </div>
+        <RightSidebar habit={tohabit} />
+      </div>
+      )
   }
   return (
     <>

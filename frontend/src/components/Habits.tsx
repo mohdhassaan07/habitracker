@@ -211,9 +211,16 @@ const Habits = ({ toggleSidebar }: HabitsProps) => {
   })
 
   if (loadingData) {
-    return <div className="w-full lg:w-[55%] z-20 bg-white m-2 rounded-2xl h-screen lg:max-h-screen flex justify-center items-center">
-      <CircularProgress size={"4rem"} />
-    </div>
+    return (
+      <div className='flex w-full' >
+        <div className="w-full lg:w-full z-20 bg-white dark:bg-gray-900 m-2 rounded-2xl h-screen lg:max-h-[96.5vh] flex justify-center items-center">
+          <CircularProgress size={"4rem"} />
+        </div>
+        <RightSidebar habit={tohabit} />
+      </div>
+      )
+
+
   }
 
   return (
@@ -223,12 +230,12 @@ const Habits = ({ toggleSidebar }: HabitsProps) => {
           {/* <div className="hidden bg-green-100 bg-yellow-100 bg-red-100 bg-blue-200 text-green-400 text-yellow-400 text-red-400 text-blue-400"></div> */}
           <EditHabit isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} habitId={habitId} />
           <Header toggleSidebar={toggleSidebar} />
-          
+
           {/* Right Sidebar for screens less than lg - positioned on top */}
           {toggleRightSidebar && (
             <div className="lg:hidden absolute top-0 left-0 w-full h-full z-10">
-              <RightSidebar 
-                habit={tohabit} 
+              <RightSidebar
+                habit={tohabit}
                 onClose={() => {
                   settoggleRightSidebar(false);
                   settohabit({});
@@ -236,7 +243,7 @@ const Habits = ({ toggleSidebar }: HabitsProps) => {
               />
             </div>
           )}
-          
+
           <div className="element px-2 lg:px-4 py-4 h-[90.5vh] overflow-y-auto">
             <div className="flex lg:flex-row justify-between mb-4 gap-2">
               <h2 className="text-lg lg:text-xl font-bold">All Habits</h2>
@@ -473,7 +480,7 @@ const Habits = ({ toggleSidebar }: HabitsProps) => {
 
       <RightSidebar habit={tohabit} />
 
-      
+
     </>
   )
 }

@@ -34,19 +34,19 @@ const TimerClock = ({ expiryTimestamp, setIsTimerRunning, habitName, habitId, un
     }
 
     return (
-        <div className='flex flex-col h-screen text-center justify-center items-center'>
-            <h1 className='font-bold text-3xl' >{habitName} </h1>
-            <p>Timer</p>
-            <div style={{ fontSize: '100px' }}>
+        <div className='flex flex-col h-screen text-center justify-center items-center bg-white dark:bg-gray-900'>
+            <h1 className='font-bold text-3xl dark:text-white' >{habitName} </h1>
+            <p className='dark:text-gray-400'>Timer</p>
+            <div style={{ fontSize: '100px' }} className='dark:text-white'>
                 <span>{days}</span>:<span>{hours}</span>:<span>{minutes}</span>:<span>{seconds}</span>
             </div>
             <div className='flex gap-2  ' >
-                <button className=' p-1 px-2 border-2 text-white bg-blue-600 rounded-lg' onClick={() => {
+                <button className=' p-1 px-2 border-2 text-white bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-700 rounded-lg' onClick={() => {
                     pause();
                     logHabit(); setIsTimerRunning(false)
                 }}>Stop</button>
-                <button className=' p-1 px-2 border-2 border-blue-600 rounded-lg' onClick={pause}>Pause</button>
-                <button className=' p-1 px-2 border-2 border-blue-600 rounded-lg' onClick={resume}>Resume</button>
+                <button className=' p-1 px-2 border-2 border-blue-600 dark:border-blue-500 dark:text-white dark:hover:bg-blue-600 hover:bg-blue-50 rounded-lg' onClick={pause}>Pause</button>
+                <button className=' p-1 px-2 border-2 border-blue-600 dark:border-blue-500 dark:text-white dark:hover:bg-blue-600 hover:bg-blue-50 rounded-lg' onClick={resume}>Resume</button>
                 {/* <button className=' p-1 px-2 border-2 border-blue-600 rounded-lg' onClick={() => {
 
                         restart(expiryTimestamp)
