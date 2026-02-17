@@ -220,7 +220,7 @@ const DayTime = ({ tab, toggleSidebar }: DayTimeProps) => {
   return (
     <>
       {currentUser && (
-        <div className="relative dark:bg-gray-900 w-full lg:m-2 lg:rounded-2xl bg-white max-h-screen">
+        <div className="relativebg-white/70 dark:bg-gray-900/70 backdrop-blur-xl dark:text-white border border-white/20 dark:border-gray-700/30 w-full lg:m-2 lg:rounded-2xl bg-white max-h-screen">
           <EditHabit isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} habitId={habitId} />
           <Header toggleSidebar={toggleSidebar} />
 

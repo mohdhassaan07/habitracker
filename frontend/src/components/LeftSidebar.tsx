@@ -27,10 +27,11 @@ const LeftSidebar = () => {
 
     return (
         <>
-            {isAiOpen && <AiAssistant/>}
+            {isAiOpen && <AiAssistant />}
             <Settings isModalOpen={isModalOpen} setIsModalOpen={setisModalOpen} />
-            <div className="border-gray-300 border dark:bg-gray-900 lg:border-0 lg:bg-white backdrop-blur-sm z-10 rounded-2xl absolute lg:relative top-14 lg:top-0 left-1 lg:left-0  min-w-56 w-56 m-2 lg:min-h-[97.5vh] lg:max-h-screen">
-                <h1 className="block text-blue-600 font-bold text-xl lg:text-2xl w-full text-center p-2" >Habitron</h1>
+            <div className="border border-white/20 dark:border-gray-700/30 bg-white/70 dark:bg-gray-900/70 backdrop-blur-xl z-10 rounded-2xl absolute lg:relative top-14 lg:top-0 left-1 lg:left-0 min-w-56 w-56 m-2 lg:min-h-[97.5vh] lg:max-h-screen">
+                <h1 className="block bg-linear-to-r 
+                     from-blue-800 via-indigo-500 to-blue-400 text-transparent bg-clip-text  font-bold text-xl lg:text-2xl w-full text-center p-2" >Habitron</h1>
                 <hr className="hidden lg:block text-gray-300" />
                 <div className="p-3 relative">
                     <Menu as="div" className=" relative w-full inline-block text-left">
@@ -73,8 +74,8 @@ const LeftSidebar = () => {
                         <a href='/journal?tab=manageHabits' className="text-gray-500 hover:bg-gray-100 w-full flex gap-2 p-1 mt-2 rounded-md items-center font-semibold text-sm py-2"> <ChartNoAxesGantt /> Manage Habits</a>
                         <div className="text-gray-500 hover:bg-gray-100 w-full flex gap-2 p-1 mt-2 rounded-md items-center font-semibold text-sm py-2"> <SettingsIcon /> App Settings</div>
                     </div>
-                    <button onClick={()=> setisAiOpen(!isAiOpen)} className="lg:absolute mt-2 lg:top-[33rem] inline-flex items-center justify-center px-3 lg:px-5 py-2 text-sm lg:text-base font-semibold text-white bg-gradient-to-br
-                     from-blue-400 via-indigo-500 to-blue-600 rounded-xl border-0 cursor-pointer transition-all duration-300 ease-in-out transform hover:-translate-y-0.5
+                    <button onClick={() => setisAiOpen(!isAiOpen)} className="lg:absolute mt-2 lg:w-[12.5rem] lg:top-[32rem] inline-flex items-center justify-center px-3 lg:px-5 py-2 text-sm lg:text-base font-semibold text-white bg-linear-to-r
+                     from-blue-700 via-indigo-500 to-blue-400 rounded-xl border-0 cursor-pointer transition-all duration-300 ease-in-out transform hover:-translate-y-0.5
                       hover:shadow-xl hover:shadow-blue-500/60 focus:outline-none focus:ring-4 focus:ring-blue-500 focus:ring-opacity-50 shadow-lg shadow-blue-500/40"> <Bot /> Your AI Assistant</button>
                 </div>
             </div>

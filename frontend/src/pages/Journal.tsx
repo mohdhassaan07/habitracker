@@ -52,7 +52,7 @@ const Journal = () => {
   return (
     <>
       {currentUser && (
-        <div className="flex flex-col lg:flex-row h-screen bg-gray-100">
+        <div className="flex flex-col lg:flex-row h-screen dark:bg-gray-700 bg-gray-100">
           {/* Always show on desktop, toggle on mobile */}
           <div className="hidden lg:block">
             <LeftSidebar />

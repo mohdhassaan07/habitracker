@@ -111,7 +111,7 @@ const Header = ({ toggleSidebar }: HeaderProps) => {
     }
 
     return (
-        <>
+        <div>
             <Mood mood={todayMood} isModalOpen={isMoodModalOpen} setisModalOpen={setisMoodModalOpen} />
             <Modal isOpen={isModalOpen} onClose={() => setModalOpen(false)}  >
                     <h2 className="text-xl text-black font-bold mb-4">New Habit</h2>
@@ -269,19 +269,19 @@ const Header = ({ toggleSidebar }: HeaderProps) => {
                     <Toaster position='top-right' />
                     <Menu as="div" className=" relative inline-block text-left">
                         <div>
-                            <MenuButton className="inline-flex  items-center w-full justify-center gap-x-1 rounded-md bg-blue-500 px-2 lg:px-3 py-1 text-xs lg:text-sm font-semibold text-white">
+                            <MenuButton className="inline-flex items-center w-full justify-center gap-x-1 rounded-md bg-blue-500 px-2 lg:px-3 py-1 text-xs lg:text-sm font-semibold text-white">
                                 <Plus width={16} className="lg:w-5" />Add Habit
                             </MenuButton>
                         </div>
 
                         <MenuItems
                             
-                            className="absolute -left-[7rem] lg:left-0 z-30 mt-2 w-50 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black/5 transition focus:outline-hidden data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
+                            className="absolute -left-[7rem] lg:left-0 mt-2 z-10 w-50 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black/5 transition focus:outline-hidden data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
                         >
-                            <div className="py-1">
+                            <div className="py-1 z-10">
                                 <MenuItem  >
                                     <div onClick={() => setModalOpen(true)}
-                                        className="flex cursor-default gap-1 align-middle px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden"
+                                        className="flex cursor-default gap-1 z-10 align-middle px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden"
                                     >
                                         <Infinity /> Create Good Habit
                                     </div>
@@ -291,9 +291,8 @@ const Header = ({ toggleSidebar }: HeaderProps) => {
                         </MenuItems>
                     </Menu>
                 </div>
-                
             </div>
-        </>
+        </div>
     )
 }
 

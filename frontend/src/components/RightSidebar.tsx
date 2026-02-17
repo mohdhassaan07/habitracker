@@ -9,6 +9,7 @@ import EditHabit from "./EditHabit";
 const RightSidebar = ({ habit, onClose }: any) => {
   const [width, setWidth] = useState(850); // Initial width
   const isResizing = useRef(false);
+  const [isDark, setIsDark] = useState(false);
   const [completed, setcompleted] = useState(0)
   const [failed, setfailed] = useState(0)
   const [skipped, setskipped] = useState(0)
@@ -108,6 +109,7 @@ const RightSidebar = ({ habit, onClose }: any) => {
     "Consistency builds trust, momentum, and lasting long-term success.",
     "Distractions destroy action. Stay focused on what really matters."
   ];
+  
   useEffect(() => {
     const fetchLoggedData = async () => {
       try {
@@ -191,9 +193,19 @@ const RightSidebar = ({ habit, onClose }: any) => {
     };
   }, []);
 
+  useEffect(() => {
+    const checkDarkMode = () => {
+      setIsDark(document.documentElement.classList.contains('dark'));
+    };
+    checkDarkMode();
+    const observer = new MutationObserver(checkDarkMode);
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+    return () => observer.disconnect();
+  }, []);
+
   if (!habit || Object.keys(habit).length === 0) {
     return (
-      <div className="quote w-full lg:flex hidden lg:w-[600px] dark:bg-gray-900 text-gray-400 flex-col p-3 m-2 max-h-screen bg-white rounded-2xl items-center justify-center">
+      <div className="quote w-full lg:flex hidden lg:w-[600px] z-10 bg-white/70 dark:bg-gray-900/70 backdrop-blur-xl text-gray-400 flex-col p-3 m-2 max-h-screen rounded-2xl items-center justify-center border border-white/20 dark:border-gray-700/30">
         <div className="quote-box font-mono text-lg lg:text-2xl font-semibold text-center">
           <p className="mb-4">{quote}</p>
         </div>
@@ -205,10 +217,10 @@ const RightSidebar = ({ habit, onClose }: any) => {
   return (
     <>
       <EditHabit isModalOpen={isModalOpen} setIsModalOpen={setisModalOpen} habitId={habit.id} />
-      <div className="element flex max-h-screen dark:bg-gray-900 dark:text-white  overflow-auto bg-white lg:m-2 m-0 lg:rounded-2xl rounded-none">
+      <div className="element flex max-h-screen z-10 bg-white/70 dark:bg-gray-900/70 backdrop-blur-xl dark:text-white overflow-auto lg:m-2 m-0 lg:rounded-2xl rounded-none border border-white/20 dark:border-gray-700/30">
         {/* Resizable Right Sidebar */}
         <div style={{ width: `${width}px` }} className="relative ">
-          <div className=" flex justify-between border-b dark:bg-gray-900 border-gray-300 px-2 py-[10px] items-center sticky top-0 bg-white">
+          <div className="flex justify-between border-b border-gray-300/50 px-2 py-[10px] items-center sticky top-0 bg-white/50 dark:bg-gray-900/70 backdrop-blur-xl">
             <h2 className="text-lg lg:text-xl font-bold" >{habit.name}</h2>
             <div className="flex gap-2">
               <button onClick={() => setisModalOpen(true)} className="inline-flex relative border-1 border-gray-300 items-center  justify-center gap-x-1  px-2  text-sm font-semibold">
@@ -253,7 +265,7 @@ const RightSidebar = ({ habit, onClose }: any) => {
                   <p className="text-sm font-semibold text-red-600 flex gap-0.5" ><ArrowUp width={16} /> {skippedCount} days</p>
                 </div>
               </div>
-              <div className="box min-w-20 flex gap-2 p-2  border border-gray-300 rounded-lg " >
+              <div className="box min-w-20 flex gap-2 p-2 border border-gray-300 rounded-lg " >
                 <div className="flex flex-col " >
                   <p className="text-[12px] font-semibold text-gray-500 flex items-center gap-1" >TOTAL</p>
                   <h4 className="text-xl lg:text-2xl font-semibold" >{habit.totalValue} {habit.unitType === "times" ? "times" : "minutes"}</h4>
@@ -262,13 +274,12 @@ const RightSidebar = ({ habit, onClose }: any) => {
               </div>
             </div>
 
-
-            <div className="border p-2 border-gray-300 dark:bg-gray-400 rounded-lg overflow-hidden">
+            <div className="border p-2 border-gray-300 rounded-lg overflow-hidden">
               <HeatMap
                 value={values.length > 0 ? values : value}
                 width={390}
                 rectSize={13}
-
+                style={{ color: isDark ? '#d1d5db' : '#1f2937' }}
                 startDate={new Date(`2025/${date.getMonth() - 1}/01`)}
                 
                 rectRender={(props, data) => {
@@ -282,19 +293,21 @@ const RightSidebar = ({ habit, onClose }: any) => {
               />
             </div>
             
-            <div className="border dark:bg-gray-400 border-gray-300 rounded-lg">
+            <div className="border text-white border-gray-300 rounded-lg">
               <BarChart
                 borderRadius={5}
                 xAxis={[
                   {
                     id: 'barCategories',
                     data: xAxisData,
+                    tickLabelStyle: { fill: isDark ? '#d1d5db' : undefined },
                   },
                 ]}
                 yAxis={[
                   {
                     min: 0,
-                    max: habit.unitValue, // Set the scale to the habit's unitValue
+                    max: habit.unitValue,
+                    tickLabelStyle: { fill: isDark ? '#d1d5db' : undefined },
                   },
                 ]}
                 series={[

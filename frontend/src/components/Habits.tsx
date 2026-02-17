@@ -226,7 +226,7 @@ const Habits = ({ toggleSidebar }: HabitsProps) => {
   return (
     <>
       {currentUser && (
-        <div className="relative w-full bg-white dark:bg-gray-900 dark:text-white lg:m-2 lg:rounded-2xl">
+        <div className="relative w-full bg-white/70 dark:bg-gray-900/70 backdrop-blur-xl dark:text-white lg:m-2 lg:rounded-2xl border border-white/20 dark:border-gray-700/30">
           {/* <div className="hidden bg-green-100 bg-yellow-100 bg-red-100 bg-blue-200 text-green-400 text-yellow-400 text-red-400 text-blue-400"></div> */}
           <EditHabit isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} habitId={habitId} />
           <Header toggleSidebar={toggleSidebar} />
@@ -244,7 +244,7 @@ const Habits = ({ toggleSidebar }: HabitsProps) => {
             </div>
           )}
 
-          <div className="element px-2 lg:px-4 py-4 h-[90.5vh] overflow-y-auto">
+          <div className="element px-2 lg:px-4 py-4 h-[90vh] overflow-y-auto">
             <div className="flex lg:flex-row justify-between mb-4 gap-2">
               <h2 className="text-lg lg:text-xl font-bold">All Habits</h2>
               <Menu as="div" className="relative text-left">
@@ -375,7 +375,7 @@ const Habits = ({ toggleSidebar }: HabitsProps) => {
               return (
                 <div
                   key={habit.id}
-                  className={`habit flex items-center p-3 rounded-md mb-2 ${loading && "animate-pulse"}`}
+                  className={`habit cursor-pointer flex items-center p-3 rounded-md mb-2 ${loading && "animate-pulse"}`}
                   onClick={() => {
                     if (tohabit && tohabit.id === habit.id) {
                       settoggleRightSidebar(!toggleRightSidebar);
