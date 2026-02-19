@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { signinFailure, signinstart, signinSuccess } from '@/redux/userSlice';
 import { useNavigate, Link } from 'react-router-dom';
 import api from '@/utils/api';
@@ -9,9 +9,9 @@ import { useGoogleLogin } from '@react-oauth/google'
 import CircularProgress from "@mui/material/CircularProgress";
 
 const Signin = () => {
-    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const loading = useSelector((state: any) => state.user.loading);
     const [formData, setFormData] = useState({
         email: '',
         password: '',
@@ -22,9 +22,8 @@ const Signin = () => {
 
     const handleSignIn = async (e: any) => {
         e.preventDefault();
-        setLoading(true);
+        dispatch(signinstart());
         try {
-            dispatch(signinstart());
             let response = await api.post('/user/signin', formData,
                 {
                     headers: {
@@ -40,36 +39,31 @@ const Signin = () => {
             console.error('Error during sign in:', error)
             dispatch(signinFailure())
             toast.error('Sign in failed. Please check your credentials and try again.');
-        }finally{
-            setLoading(false);
         }
     }
 
-    const googleAuth = async (code: string) => {
-        try {
-            return await api.get(`/user/googleLogin?code=${code}`, {
-                withCredentials: true,
-            })
-        } catch (error) {
-            console.error("Error during Google login:", error);
-            toast.error('Google login failed. Please try again.');
-        }
-    }
+    const googleAuth = (code: string) =>
+        api.get(`/user/googleLogin?code=${code}`, {
+            withCredentials: true,
+        });
 
     const responseGoogle = async (authResult: any) => {
         try {
-            if (authResult['code']) {
-                setLoading(true);
-                const resp = await googleAuth(authResult['code']);
-                if (resp && resp.data && resp.data.user) {
+            if (authResult?.code) {
+                dispatch(signinstart());
+                const resp = await googleAuth(authResult.code);
+                if (resp?.data?.user) {
                     dispatch(signinSuccess(resp.data.user));
                     navigate('/journal');
+                } else {
+                    dispatch(signinFailure());
+                    toast.error('Google login failed. Please try again.');
                 }
             }
         } catch (error) {
             console.error("error while requesting the code : ", error)
-        } finally {
-            setLoading(false);
+            dispatch(signinFailure());
+            toast.error('Google login failed. Please try again.');
         }
     }
 
