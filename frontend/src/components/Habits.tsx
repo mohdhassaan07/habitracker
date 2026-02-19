@@ -213,7 +213,7 @@ const Habits = ({ toggleSidebar }: HabitsProps) => {
   if (loadingData) {
     return (
       <div className='flex w-full' >
-        <div className="w-full lg:w-full z-20 bg-white dark:bg-gray-900 m-2 rounded-2xl h-screen lg:max-h-[96.5vh] flex justify-center items-center">
+        <div className="w-full lg:w-full z-20 bg-white/70 dark:bg-gray-900/70 m-2 rounded-2xl h-screen lg:max-h-[96.5vh] flex justify-center items-center">
           <CircularProgress size={"4rem"} />
         </div>
         <RightSidebar habit={tohabit} />

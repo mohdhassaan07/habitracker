@@ -210,7 +210,7 @@ const DayTime = ({ tab, toggleSidebar }: DayTimeProps) => {
   if (loading) {
     return (
       <div className='flex w-full' >
-        <div className="w-full lg:w-full z-20 bg-white dark:bg-gray-900 m-2 rounded-2xl h-screen lg:max-h-[96.5vh] flex justify-center items-center">
+        <div className="w-full lg:w-full z-20 bg-white dark:bg-gray-900/70 m-2 rounded-2xl h-screen lg:max-h-[96.5vh] flex justify-center items-center">
           <CircularProgress size={"4rem"} />
         </div>
         <RightSidebar habit={tohabit} />
@@ -220,7 +220,7 @@ const DayTime = ({ tab, toggleSidebar }: DayTimeProps) => {
   return (
     <>
       {currentUser && (
-        <div className="relativebg-white/70 dark:bg-gray-900/70 backdrop-blur-xl dark:text-white border border-white/20 dark:border-gray-700/30 w-full lg:m-2 lg:rounded-2xl bg-white max-h-screen">
+        <div className="relative bg-white/70 dark:bg-gray-900/70 backdrop-blur-xl dark:text-white border border-white/20 dark:border-gray-700/30 w-full lg:m-2 lg:rounded-2xl  max-h-screen">
           <EditHabit isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} habitId={habitId} />
           <Header toggleSidebar={toggleSidebar} />
 
@@ -237,7 +237,7 @@ const DayTime = ({ tab, toggleSidebar }: DayTimeProps) => {
             </div>
           )}
 
-          <div className="element px-4 py-4 h-[90.5vh] overflow-y-auto">
+          <div className="element px-4 py-4 h-[90vh] overflow-y-auto">
             <div className="flex justify-between ">
               <h2 className="text-xl font-bold dark:text-white mb-4">{tab}</h2>
               <Menu as="div" className="relative text-left">

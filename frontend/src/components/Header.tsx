@@ -276,12 +276,12 @@ const Header = ({ toggleSidebar }: HeaderProps) => {
 
                         <MenuItems
                             
-                            className="absolute -left-[7rem] lg:left-0 mt-2 z-10 w-50 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black/5 transition focus:outline-hidden data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
+                            className="absolute -left-[7rem] lg:-left-16 mt-2 z-30 w-50 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black/5 transition focus:outline-hidden data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
                         >
-                            <div className="py-1 z-10">
+                            <div className="py-1">
                                 <MenuItem  >
                                     <div onClick={() => setModalOpen(true)}
-                                        className="flex cursor-default gap-1 z-10 align-middle px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden"
+                                        className="flex cursor-default gap-1 align-middle px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden"
                                     >
                                         <Infinity /> Create Good Habit
                                     </div>

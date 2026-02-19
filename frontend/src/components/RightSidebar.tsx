@@ -1,15 +1,13 @@
 import api from "@/utils/api";
 import { ArrowRight, ArrowUp, Check, Pencil, X, XCircle } from "lucide-react";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { BarChart } from '@mui/x-charts/BarChart';
 import HeatMap from '@uiw/react-heat-map';
 import Tooltip from '@uiw/react-tooltip';
 import EditHabit from "./EditHabit";
 
 const RightSidebar = ({ habit, onClose }: any) => {
-  const [width, setWidth] = useState(850); // Initial width
-  const isResizing = useRef(false);
-  const [isDark, setIsDark] = useState(false);
+  const [isDark, setIsDark] = useState(false)
   const [completed, setcompleted] = useState(0)
   const [failed, setfailed] = useState(0)
   const [skipped, setskipped] = useState(0)
@@ -109,7 +107,7 @@ const RightSidebar = ({ habit, onClose }: any) => {
     "Consistency builds trust, momentum, and lasting long-term success.",
     "Distractions destroy action. Stay focused on what really matters."
   ];
-  
+
   useEffect(() => {
     const fetchLoggedData = async () => {
       try {
@@ -155,6 +153,17 @@ const RightSidebar = ({ habit, onClose }: any) => {
     generateRandomQuote()
   }, [habit])
 
+  // Detect dark mode
+  useEffect(() => {
+    const checkDarkMode = () => {
+      setIsDark(document.documentElement.classList.contains('dark'));
+    };
+    checkDarkMode();
+    const observer = new MutationObserver(checkDarkMode);
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+    return () => observer.disconnect();
+  }, []);
+
   const values: any = []
   datesValues.length > 0 && (
     datesValues.forEach((data: any) => {
@@ -166,46 +175,10 @@ const RightSidebar = ({ habit, onClose }: any) => {
     {}
   ];
 
-  const handleMouseDown = () => {
-    isResizing.current = true;
-  };
-
-  const handleMouseMove = (e: any) => {
-    if (!isResizing.current) return;
-
-    const newWidth = window.innerWidth - e.clientX;
-    if (newWidth > 800 && newWidth < 1200) {
-      setWidth(newWidth);
-    }
-  };
-
-  const handleMouseUp = () => {
-    isResizing.current = false;
-  };
-
-  useEffect(() => {
-    window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("mouseup", handleMouseUp);
-
-    return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("mouseup", handleMouseUp);
-    };
-  }, []);
-
-  useEffect(() => {
-    const checkDarkMode = () => {
-      setIsDark(document.documentElement.classList.contains('dark'));
-    };
-    checkDarkMode();
-    const observer = new MutationObserver(checkDarkMode);
-    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
-    return () => observer.disconnect();
-  }, []);
 
   if (!habit || Object.keys(habit).length === 0) {
     return (
-      <div className="quote w-full lg:flex hidden lg:w-[600px] z-10 bg-white/70 dark:bg-gray-900/70 backdrop-blur-xl text-gray-400 flex-col p-3 m-2 max-h-screen rounded-2xl items-center justify-center border border-white/20 dark:border-gray-700/30">
+      <div className="quote w-full lg:flex hidden lg:w-[600px] bg-white/70 dark:bg-gray-900/70 backdrop-blur-xl text-gray-400 flex-col p-3 m-2 max-h-screen rounded-2xl items-center justify-center border border-white/20 dark:border-gray-700/30">
         <div className="quote-box font-mono text-lg lg:text-2xl font-semibold text-center">
           <p className="mb-4">{quote}</p>
         </div>
@@ -217,10 +190,10 @@ const RightSidebar = ({ habit, onClose }: any) => {
   return (
     <>
       <EditHabit isModalOpen={isModalOpen} setIsModalOpen={setisModalOpen} habitId={habit.id} />
-      <div className="element flex max-h-screen z-10 bg-white/70 dark:bg-gray-900/70 backdrop-blur-xl dark:text-white overflow-auto lg:m-2 m-0 lg:rounded-2xl rounded-none border border-white/20 dark:border-gray-700/30">
+      <div className="element flex max-h-screen bg-white/70 dark:bg-gray-900/70  dark:text-white overflow-auto lg:m-2 m-0 lg:rounded-2xl rounded-none border border-white/20 dark:border-gray-700/30">
         {/* Resizable Right Sidebar */}
-        <div style={{ width: `${width}px` }} className="relative ">
-          <div className="flex justify-between border-b border-gray-300/50 px-2 py-[10px] items-center sticky top-0 bg-white/50 dark:bg-gray-900/70 backdrop-blur-xl">
+        <div className="relative w-full lg:w-[850px] backdrop-blur-xl">
+          <div className="flex justify-between border-b border-gray-300/50 px-2 py-[10px] items-center sticky top-0 bg-white/50 dark:bg-gray-900/70 backdrop-blur-2xl">
             <h2 className="text-lg lg:text-xl font-bold" >{habit.name}</h2>
             <div className="flex gap-2">
               <button onClick={() => setisModalOpen(true)} className="inline-flex relative border-1 border-gray-300 items-center  justify-center gap-x-1  px-2  text-sm font-semibold">
@@ -274,14 +247,17 @@ const RightSidebar = ({ habit, onClose }: any) => {
               </div>
             </div>
 
-            <div className="border p-2 border-gray-300 rounded-lg overflow-hidden">
+            <div className={`border p-2 border-gray-300 rounded-lg overflow-hidden ${isDark ? 'heatmap-dark' : ''}`}>
               <HeatMap
                 value={values.length > 0 ? values : value}
                 width={390}
                 rectSize={13}
                 style={{ color: isDark ? '#d1d5db' : '#1f2937' }}
                 startDate={new Date(`2025/${date.getMonth() - 1}/01`)}
-                
+                panelColors={isDark 
+                  ? { 0: '#1f2937', 1: '#1e3a5f', 2: '#2563eb', 3: '#3b82f6', 4: '#60a5fa' }
+                  : undefined
+                }
                 rectRender={(props, data) => {
                   // if (!data.count) return <rect {...props} />;
                   return (
@@ -292,7 +268,7 @@ const RightSidebar = ({ habit, onClose }: any) => {
                 }}
               />
             </div>
-            
+
             <div className="border text-white border-gray-300 rounded-lg">
               <BarChart
                 borderRadius={5}
@@ -300,14 +276,14 @@ const RightSidebar = ({ habit, onClose }: any) => {
                   {
                     id: 'barCategories',
                     data: xAxisData,
-                    tickLabelStyle: { fill: isDark ? '#d1d5db' : undefined },
+                    tickLabelStyle: { fill: isDark ? '#d1d5db' : '#374151' },
                   },
                 ]}
                 yAxis={[
                   {
                     min: 0,
                     max: habit.unitValue,
-                    tickLabelStyle: { fill: isDark ? '#d1d5db' : undefined },
+                    tickLabelStyle: { fill: isDark ? '#d1d5db' : '#374151' },
                   },
                 ]}
                 series={[
@@ -317,14 +293,21 @@ const RightSidebar = ({ habit, onClose }: any) => {
                   },
                 ]}
                 height={300}
+                sx={{
+                  // Axis line color
+                  '& .MuiChartsAxis-line': {
+                    stroke: isDark ? '#e2e4e7' : '#d1d5db',
+                  },
+                  // Grid line color
+                  '& .MuiChartsGrid-line': {
+                    stroke: isDark ? '#e2e4e7' : '#e5e7eb',
+                  },
+                }}
               />
             </div>
           </div>
           {/* Resizer Handle on the LEFT edge */}
-          <div
-            onMouseDown={handleMouseDown}
-            className="absolute top-0 left-0 w-[1px] h-[53.5rem] cursor-ew-resize hidden lg:block"
-          />
+          
         </div>
       </div>
     </>

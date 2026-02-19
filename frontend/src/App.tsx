@@ -2,6 +2,8 @@ import Journal from "./pages/Journal"
 import Home from "./pages/Home"
 import Logout from "./pages/Logout"
 import Timer from "./pages/Timer"
+import Signin from "./pages/Signin"
+import Signup from "./pages/Signup"
 import { signout } from "./redux/userSlice"
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux"
@@ -29,10 +31,25 @@ const App = () => {
       </GoogleOAuthProvider>
     )
   }
+
+  const SigninWrapper = () => (
+    <GoogleOAuthProvider clientId={import.meta.env.VITE_CLIENT_ID}>
+      <Signin />
+    </GoogleOAuthProvider>
+  )
+
+  const SignupWrapper = () => (
+    <GoogleOAuthProvider clientId={import.meta.env.VITE_CLIENT_ID}>
+      <Signup />
+    </GoogleOAuthProvider>
+  )
+
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<GoogleAuthWrapper />} />
+        <Route path="/signin" element={<SigninWrapper />} />
+        <Route path="/signup" element={<SignupWrapper />} />
         <Route path="/journal" element={<Journal />} />
         <Route path="/ai" element={<AiAssistant />} />
         <Route path="/logout" element={<Logout />} />

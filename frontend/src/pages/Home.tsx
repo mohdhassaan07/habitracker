@@ -1,12 +1,11 @@
 import { useState, useEffect } from 'react';
 import { ArrowRight, CheckCircle, Bell, Zap, PieChart, Clock, Target, LineChart, Flame, Menu, X, Facebook, Twitter, Instagram, Linkedin, Github, Star } from 'lucide-react';
 import {  useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import SigninForm from '@/components/SigninForm';
+import { useNavigate, Link } from 'react-router-dom';
+
 function Home() {
     const [isOpen, setIsOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
-    const [isModalOpen, setModalOpen] = useState(false);
 
     const currentUser = useSelector((state: any) => state.user.currentUser);
     const navigate = useNavigate();
@@ -242,7 +241,6 @@ function Home() {
     
     return (
         <div className="min-h-screen bg-white dark:bg-gray-900 font-sans text-gray-900 dark:text-gray-400">
-            <SigninForm isModalOpen = {isModalOpen} setIsModalOpen = {setModalOpen} />
             {/* Navbar */}
             <nav className={`fixed w-full z-20 transition-all duration-300 ${isScrolled ? 'bg-white dark:bg-gray-800 shadow-md py-2' : 'bg-transparent py-4'}`}>
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -254,9 +252,9 @@ function Home() {
                             <a href="#testimonials" className="text-gray-800 dark:text-gray-400 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">Testimonials</a>
                             <a href="#pricing" className="text-gray-800 dark:text-gray-400 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">Pricing</a>
                             <a href="#faq" className="text-gray-800 dark:text-gray-400 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">FAQ</a>
-                            <button onClick={() => setModalOpen(true)} className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium">
+                            <Link to="/signin" className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium">
                                 Get Started
-                            </button>
+                            </Link>
                         </div>
 
                         <button onClick={() => setIsOpen(!isOpen)} className="md:hidden p-2 rounded-md text-gray-700 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-gray-800">
@@ -273,7 +271,7 @@ function Home() {
                             <a href="#testimonials" className="block px-3 py-2 rounded-md text-base font-medium text-gray-800 hover:text-blue-600">Testimonials</a>
                             <a href="#pricing" className="block px-3 py-2 rounded-md text-base font-medium text-gray-800 hover:text-blue-600">Pricing</a>
                             <a href="#faq" className="block px-3 py-2 rounded-md text-base font-medium text-gray-800 hover:text-blue-600">FAQ</a>
-                            <a href="#signup" className="block px-3 py-2 rounded-md text-base font-medium text-white bg-blue-600 hover:bg-blue-700" onClick={() => setModalOpen(true)} >Get Started</a>
+                            <Link to="/signin" className="block px-3 py-2 rounded-md text-base font-medium text-white bg-blue-600 hover:bg-blue-700">Get Started</Link>
                         </div>
                     </div>
                 )}
@@ -298,10 +296,10 @@ function Home() {
 
                         <div className="mt-8 sm:mt-12 animate-slide-up">
                             <div className="flex justify-center space-x-4">
-                                <button onClick={() => setModalOpen(true)} className="flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 md:py-4 md:text-lg md:px-10">
+                                <Link to="/signin" className="flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 md:py-4 md:text-lg md:px-10">
                                     Get started
                                     <ArrowRight className="ml-2 -mr-1 w-5 h-5" />
-                                </button>
+                                </Link>
                                 <a href="#features" className="flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-blue-700 bg-blue-100 hover:bg-blue-200 md:py-4 md:text-lg md:px-10">
                                     Learn more
                                 </a>
