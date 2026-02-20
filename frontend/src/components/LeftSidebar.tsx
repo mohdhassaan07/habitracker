@@ -1,7 +1,7 @@
 import { NotepadText, Sunset, Sunrise, ChartNoAxesGantt, SettingsIcon, Bot, SunDim } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import Settings from './Settings';
 import { useTimeOfDay } from '@/store/TimeofDay';
@@ -13,6 +13,11 @@ const LeftSidebar = () => {
     const [icon, seticon] = useState(<Sunrise />)
     //@ts-ignore
     const currentUser = useSelector((state: any) => state.user.currentUser);
+    const location = useLocation();
+    const tab = new URLSearchParams(location.search).get('tab');
+    const isAllHabits = location.pathname === '/journal' && !tab;
+    const isTimeTab = tab === time;
+    const isManageHabits = tab === 'manageHabits';
 
     useEffect(() => {
         if (time === 'Morning') {
@@ -65,14 +70,14 @@ const LeftSidebar = () => {
                     </Menu>
                     <div >
                     </div>
-                    <Link to='/journal' > <button className="text-gray-500  hover:bg-gray-100 w-full flex gap-2 p-1 mt-5 rounded-md items-center font-semibold text-sm py-2" > <NotepadText /> All Habits</button></Link>
-                    <Link to={`/journal?tab=${time}`} > <div className="text-gray-500 focus:bg-blue-600 focus:text-white hover:bg-gray-100 w-full flex gap-2 p-1 mt-2 rounded-md items-center font-semibold text-sm py-2"> {icon} {time} </div></Link>
+                    <Link to='/journal' > <button className={`w-full flex gap-2 p-1 mt-5 rounded-md items-center font-semibold text-sm py-2 ${isAllHabits ? 'bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400' : 'text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700/30'}`} > <NotepadText /> All Habits</button></Link>
+                    <Link to={`/journal?tab=${time}`} > <div className={`cursor-default w-full flex gap-2 p-1 mt-2 rounded-md items-center font-semibold text-sm py-2 ${isTimeTab ? 'bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400' : 'text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700/30'}`}> {icon} {time} </div></Link>
 
 
                     <div className="preferences mt-3">
-                        <p className='text-gray-500 w-full flex gap-2 mt-2 rounded-md items-center font-semibold text-sm py-2' >Preferences</p>
-                        <a href='/journal?tab=manageHabits' className="text-gray-500 hover:bg-gray-100 w-full flex gap-2 p-1 mt-2 rounded-md items-center font-semibold text-sm py-2"> <ChartNoAxesGantt /> Manage Habits</a>
-                        <div className="text-gray-500 hover:bg-gray-100 w-full flex gap-2 p-1 mt-2 rounded-md items-center font-semibold text-sm py-2"> <SettingsIcon /> App Settings</div>
+                        <p className='text-gray-500 w-full flex gap-2 mt-2 rounded-md items-center font-semibold text-sm py-2'>Preferences</p>
+                        <Link to='/journal?tab=manageHabits' className={`w-full flex gap-2 p-1 mt-2 rounded-md items-center font-semibold text-sm py-2 cursor-default ${isManageHabits ? 'bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400' : 'text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700/30'}`}> <ChartNoAxesGantt /> Manage Habits</Link>
+                        <div className="text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700/30 w-full flex gap-2 p-1 mt-2 rounded-md items-center font-semibold text-sm py-2"> <SettingsIcon /> App Settings</div>
                     </div>
                     <button onClick={() => setisAiOpen(!isAiOpen)} className="lg:absolute mt-2 lg:w-[12.5rem] lg:top-[32rem] inline-flex items-center justify-center px-3 lg:px-5 py-2 text-sm lg:text-base font-semibold text-white bg-linear-to-r
                      from-blue-700 via-indigo-500 to-blue-400 rounded-xl border-0 cursor-pointer transition-all duration-300 ease-in-out transform hover:-translate-y-0.5

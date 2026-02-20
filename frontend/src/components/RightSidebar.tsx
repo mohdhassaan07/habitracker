@@ -208,7 +208,7 @@ const RightSidebar = ({ habit, onClose }: any) => {
           </div>
 
           <div className="p-3 flex flex-col gap-4">
-            <div className="box flex gap-2 p-4 border border-gray-300 rounded-lg " >
+            <div className="box flex gap-2 p-4 border border-gray-300 dark:border-gray-500 rounded-lg dark:bg-gradient-to-br dark:from-gray-800 dark:to-gray-900" >
               <span className="text-3xl lg:text-4xl" >🔥</span>
               <div>
                 <p className="text-[12px] font-semibold text-gray-500 " >CURRENT STREAK</p>
@@ -217,28 +217,28 @@ const RightSidebar = ({ habit, onClose }: any) => {
             </div>
 
             <div className="grid grid-cols-2 lg:grid-cols-2 w-full gap-3" >
-              <div className="box min-w-20 flex gap-2 p-2  border border-gray-300 rounded-lg " >
+              <div className="box min-w-20 flex gap-2 p-2 border border-gray-300 dark:border-gray-500 rounded-lg dark:bg-gradient-to-br dark:from-gray-800 dark:to-gray-900" >
                 <div className="flex flex-col " >
                   <p className="text-[12px] font-semibold text-gray-500 flex items-center gap-1" ><Check width={17} /> COMPLETE</p>
                   <h4 className="text-xl lg:text-2xl font-semibold" >{completed} days</h4>
                   <p className="text-sm font-semibold text-green-600 flex gap-0.5" ><ArrowUp width={16} /> {habit.streak} days</p>
                 </div>
               </div>
-              <div className="box min-w-20 flex gap-2 p-2  border border-gray-300 rounded-lg " >
+              <div className="box min-w-20 flex gap-2 p-2 border border-gray-300 dark:border-gray-500 rounded-lg dark:bg-gradient-to-br dark:from-gray-800 dark:to-gray-900" >
                 <div className="flex flex-col " >
                   <p className="text-[12px] font-semibold text-gray-500 flex items-center gap-1" ><X width={17} /> FAILED</p>
                   <h4 className="text-xl lg:text-2xl font-semibold" >{failed} days</h4>
                   <p className="text-sm font-semibold text-red-600 flex gap-0.5" ><ArrowUp width={16} />{failedCount} days</p>
                 </div>
               </div>
-              <div className="box min-w-20 flex gap-2 p-2  border border-gray-300 rounded-lg " >
+              <div className="box min-w-20 flex gap-2 p-2 border border-gray-300 dark:border-gray-500 rounded-lg dark:bg-gradient-to-br dark:from-gray-800 dark:to-gray-900" >
                 <div className="flex flex-col " >
                   <p className="text-[12px] font-semibold text-gray-500 flex items-center gap-1" ><ArrowRight width={17} /> SKIPPED</p>
                   <h4 className="text-xl lg:text-2xl font-semibold" >{skipped} days</h4>
                   <p className="text-sm font-semibold text-red-600 flex gap-0.5" ><ArrowUp width={16} /> {skippedCount} days</p>
                 </div>
               </div>
-              <div className="box min-w-20 flex gap-2 p-2 border border-gray-300 rounded-lg " >
+              <div className="box min-w-20 flex gap-2 p-2 border border-gray-300 dark:border-gray-500 rounded-lg dark:bg-gradient-to-br dark:from-gray-800 dark:to-gray-900" >
                 <div className="flex flex-col " >
                   <p className="text-[12px] font-semibold text-gray-500 flex items-center gap-1" >TOTAL</p>
                   <h4 className="text-xl lg:text-2xl font-semibold" >{habit.totalValue} {habit.unitType === "times" ? "times" : "minutes"}</h4>
@@ -247,7 +247,7 @@ const RightSidebar = ({ habit, onClose }: any) => {
               </div>
             </div>
 
-            <div className={`border p-2 border-gray-300 rounded-lg overflow-hidden ${isDark ? 'heatmap-dark' : ''}`}>
+            <div className={`border p-2 border-gray-300 dark:border-gray-500 rounded-lg overflow-hidden dark:bg-gradient-to-br dark:from-gray-800 dark:to-gray-900 ${isDark ? 'heatmap-dark' : ''}`}>
               <HeatMap
                 value={values.length > 0 ? values : value}
                 width={390}
@@ -269,7 +269,7 @@ const RightSidebar = ({ habit, onClose }: any) => {
               />
             </div>
 
-            <div className="border text-white border-gray-300 rounded-lg">
+            <div className="border text-white border-gray-300 dark:border-gray-500 rounded-lg dark:bg-gradient-to-br dark:from-gray-800 dark:to-gray-900">
               <BarChart
                 borderRadius={5}
                 xAxis={[
