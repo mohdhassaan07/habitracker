@@ -1,5 +1,5 @@
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
-import { SmilePlus, Plus, Infinity, Menu as MenuIcon } from 'lucide-react'
+import { SmilePlus, Plus, Infinity, Menu as MenuIcon, Sun, Moon } from 'lucide-react'
 import { useState, useEffect } from 'react';
 import Modal from './Modal'
 import toast, { Toaster } from 'react-hot-toast';
@@ -8,9 +8,10 @@ import { useNavigate } from 'react-router-dom';
 import { useHabitData } from '@/store/HabitProvider';
 import Mood from './Mood';
 import CircularProgress from '@mui/material/CircularProgress';
+import { useTheme } from '@/store/ThemeProvider';
 
 interface HeaderProps {
-  toggleSidebar?: () => void;
+    toggleSidebar?: () => void;
 }
 
 const Header = ({ toggleSidebar }: HeaderProps) => {
@@ -21,6 +22,7 @@ const Header = ({ toggleSidebar }: HeaderProps) => {
     const [isMoodModalOpen, setisMoodModalOpen] = useState(false)
     const [todayMood, settodayMood] = useState("")
     const { addNewHabit, setsearchHabits, query, setquery } = useHabitData();
+    const { theme, toggleTheme } = useTheme();
 
     const navigate = useNavigate();
     const [selectedTimes, setSelectedTimes] = useState({
@@ -114,83 +116,83 @@ const Header = ({ toggleSidebar }: HeaderProps) => {
         <div>
             <Mood mood={todayMood} isModalOpen={isMoodModalOpen} setisModalOpen={setisMoodModalOpen} />
             <Modal isOpen={isModalOpen} onClose={() => setModalOpen(false)}  >
-                    <h2 className="text-xl font-bold mb-4">New Habit</h2>
-                    <form className='' onSubmit={handleSubmit}>
-                        <div className="mb-4">
-                            <h5 className="block text-sm font-medium mb-3 text-gray-500">Habit Name</h5>
-                            <input type="text" name="name" onChange={handleChange} className="w-full border border-gray-300 p-2 rounded-md " placeholder="Enter habit name" required />
-                        </div>
-                        <h5 className="block text-sm font-medium text-gray-500">GOAL</h5>
-                        <div className='flex flex-col lg:flex-row gap-2 lg:gap-4 justify-center mb-2 py-3'>
-                            {isInp == 'minutes' ? <input type="number" defaultValue={1} min={1} className='h-10 w-full lg:w-16 border border-gray-300 p-1 rounded-md ' onChange={handleChange} name="unitValue" /> : <input type="number" defaultValue={1} min={1} step={1} className='h-10 w-full lg:w-16 border border-gray-300 p-1 rounded-md ' onChange={handleChange} name="unitValue" id="" />}
-                            <select onChange={(e) => { setisInp(e.target.value), handleChange(e) }} name="unitType" id="" className='border h-10  border-gray-300  rounded-sm p-2 '>
-                                <option value="times ">Times</option>
-                                <option value="minutes">Mins</option>
-                            </select>
-                            <select name="frequency" id="" onChange={handleChange} className='border h-10  border-gray-300 rounded-sm p-2 '>
-                                <option value="daily">Per Day</option>
-                                <option value="weekly">Per Week</option>
-                                <option value="monthly">Per Month</option>
-                            </select>
-                        </div>
-                        <div className="mb-4">
-                            <h5 className='text-sm font-medium mb-3 text-gray-500' >Time of Day</h5>
-                            <div className="w-full relative" onClick={(e) => e.stopPropagation()}>
-                                {/* Dropdown Button */}
-                                <div
-                                    onClick={toggleDropdown}
-                                    className="border  border-gray-300 w-full px-4 py-2 rounded cursor-pointer bg-white flex justify-between items-center"
+                <h2 className="text-xl font-bold mb-4">New Habit</h2>
+                <form className='' onSubmit={handleSubmit}>
+                    <div className="mb-4">
+                        <h5 className="block text-sm font-medium mb-3 text-gray-500">Habit Name</h5>
+                        <input type="text" name="name" onChange={handleChange} className="w-full border border-gray-300 p-2 rounded-md " placeholder="Enter habit name" required />
+                    </div>
+                    <h5 className="block text-sm font-medium text-gray-500">GOAL</h5>
+                    <div className='flex flex-col lg:flex-row gap-2 lg:gap-4 justify-center mb-2 py-3'>
+                        {isInp == 'minutes' ? <input type="number" defaultValue={1} min={1} className='h-10 w-full lg:w-16 border border-gray-300 p-1 rounded-md ' onChange={handleChange} name="unitValue" /> : <input type="number" defaultValue={1} min={1} step={1} className='h-10 w-full lg:w-16 border border-gray-300 p-1 rounded-md ' onChange={handleChange} name="unitValue" id="" />}
+                        <select onChange={(e) => { setisInp(e.target.value), handleChange(e) }} name="unitType" id="" className='border h-10  border-gray-300  rounded-sm p-2 '>
+                            <option value="times ">Times</option>
+                            <option value="minutes">Mins</option>
+                        </select>
+                        <select name="frequency" id="" onChange={handleChange} className='border h-10  border-gray-300 rounded-sm p-2 '>
+                            <option value="daily">Per Day</option>
+                            <option value="weekly">Per Week</option>
+                            <option value="monthly">Per Month</option>
+                        </select>
+                    </div>
+                    <div className="mb-4">
+                        <h5 className='text-sm font-medium mb-3 text-gray-500' >Time of Day</h5>
+                        <div className="w-full relative" onClick={(e) => e.stopPropagation()}>
+                            {/* Dropdown Button */}
+                            <div
+                                onClick={toggleDropdown}
+                                className="border  border-gray-300 w-full px-4 py-2 rounded cursor-pointer bg-white flex justify-between items-center"
+                            >
+                                <span className="text-gray-700">
+                                    {selectedTimes['Morning'] && selectedTimes['Afternoon'] && selectedTimes['Evening'] ? 'Any Time' : ''}
+                                    {selectedTimes['Morning'] && !selectedTimes['Afternoon'] && !selectedTimes['Evening'] ? 'Morning' : ''}
+                                    {selectedTimes['Afternoon'] && !selectedTimes['Morning'] && !selectedTimes['Evening'] ? 'Afternoon' : ''}
+                                    {selectedTimes['Evening'] && !selectedTimes['Morning'] && !selectedTimes['Afternoon'] ? 'Evening' : ''}
+                                    {selectedTimes['Morning'] && selectedTimes['Afternoon'] && !selectedTimes['Evening'] ? 'Morning, Afternoon' : ''}
+                                    {selectedTimes['Morning'] && !selectedTimes['Afternoon'] && selectedTimes['Evening'] ? 'Morning, Evening' : ''}
+                                    {selectedTimes['Afternoon'] && selectedTimes['Evening'] && !selectedTimes['Morning'] ? 'Afternoon, Evening' : ''}
+                                    {!selectedTimes['Morning'] && !selectedTimes['Afternoon'] && !selectedTimes['Evening'] ? 'Select Time' : ''}
+                                </span>
+                                <svg
+                                    className="w-4 h-4 text-gray-500"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                    xmlns="http://www.w3.org/2000/svg"
                                 >
-                                    <span className="text-gray-700">
-                                        {selectedTimes['Morning'] && selectedTimes['Afternoon'] && selectedTimes['Evening'] ? 'Any Time' : ''}
-                                        {selectedTimes['Morning'] && !selectedTimes['Afternoon'] && !selectedTimes['Evening'] ? 'Morning' : ''}
-                                        {selectedTimes['Afternoon'] && !selectedTimes['Morning'] && !selectedTimes['Evening'] ? 'Afternoon' : ''}
-                                        {selectedTimes['Evening'] && !selectedTimes['Morning'] && !selectedTimes['Afternoon'] ? 'Evening' : ''}
-                                        {selectedTimes['Morning'] && selectedTimes['Afternoon'] && !selectedTimes['Evening'] ? 'Morning, Afternoon' : ''}
-                                        {selectedTimes['Morning'] && !selectedTimes['Afternoon'] && selectedTimes['Evening'] ? 'Morning, Evening' : ''}
-                                        {selectedTimes['Afternoon'] && selectedTimes['Evening'] && !selectedTimes['Morning'] ? 'Afternoon, Evening' : ''}
-                                        {!selectedTimes['Morning'] && !selectedTimes['Afternoon'] && !selectedTimes['Evening'] ? 'Select Time' : ''}
-                                    </span>
-                                    <svg
-                                        className="w-4 h-4 text-gray-500"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth="2"
-                                            d="M19 9l-7 7-7-7"
-                                        ></path>
-                                    </svg>
-                                </div>
-
-                                {/* Dropdown Content */}
-                                {open && (
-                                    <div className="absolute mt-2 w-full border border-gray-300 rounded bg-white shadow-md z-10">
-                                        {Object.keys(selectedTimes).map((time) => (
-                                            <label
-                                                key={time}
-                                                className="flex items-center px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                                            >
-                                                <input
-                                                    type="checkbox"
-                                                    checked={selectedTimes[time as keyof typeof selectedTimes]}
-                                                    onChange={() => handleCheckboxChange(time as keyof typeof selectedTimes)}
-                                                    className="form-checkbox text-indigo-600 rounded mr-3"
-                                                />
-                                                <span className="text-gray-700">{time}</span>
-                                            </label>
-                                        ))}
-                                    </div>
-                                )}
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth="2"
+                                        d="M19 9l-7 7-7-7"
+                                    ></path>
+                                </svg>
                             </div>
+
+                            {/* Dropdown Content */}
+                            {open && (
+                                <div className="absolute mt-2 w-full border border-gray-300 rounded bg-white shadow-md z-10">
+                                    {Object.keys(selectedTimes).map((time) => (
+                                        <label
+                                            key={time}
+                                            className="flex items-center px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                                        >
+                                            <input
+                                                type="checkbox"
+                                                checked={selectedTimes[time as keyof typeof selectedTimes]}
+                                                onChange={() => handleCheckboxChange(time as keyof typeof selectedTimes)}
+                                                className="form-checkbox text-indigo-600 rounded mr-3"
+                                            />
+                                            <span className="text-gray-700">{time}</span>
+                                        </label>
+                                    ))}
+                                </div>
+                            )}
                         </div>
-                        <button type="submit" className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600">Create Habit</button>
-                    </form>
-                </Modal>
+                    </div>
+                    <button type="submit" className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600">Create Habit</button>
+                </form>
+            </Modal>
             <div className="border-b-1 gap-2 lg:gap-3 border-gray-300 w-full h-[48.5px] flex items-center justify-between lg:justify-end px-2 lg:px-4">
                 <button
                     onClick={() => toggleSidebar?.()}
@@ -199,6 +201,22 @@ const Header = ({ toggleSidebar }: HeaderProps) => {
                     <MenuIcon className="w-6 h-6 text-gray-600" />
                 </button>
                 <div className="flex items-center gap-2 lg:gap-3">
+                    <button
+                        onClick={toggleTheme}
+                        className=" rounded-lg text-gray-500 dark:text-gray-400 transition-colors text-sm"
+                        title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+                    >
+                        <div className="relative flex items-center justify-center">
+                            <span className="group relative flex items-center">
+                                {theme === 'dark' ? <Sun /> : <Moon />}
+                                <span
+                                    className="pointer-events-none absolute left-1/2 -translate-x-1/2 top-8 z-50 mb-2 px-2 py-1 text-white bg-blue-500 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap"
+                                >
+                                    {theme === 'dark' ? "Switch to light mode" : "Switch to dark mode"}
+                                </span>
+                            </span>
+                        </div>
+                    </button>
                     <Menu as="div" className="relative inline-block text-left mt-2">
                         <div>
                             <MenuButton className="inline-flex text-gray-500 focus:outline-none items-center w-full justify-center rounded-md text-sm">
@@ -275,7 +293,7 @@ const Header = ({ toggleSidebar }: HeaderProps) => {
                         </div>
 
                         <MenuItems
-                            
+
                             className="absolute -left-[7rem] lg:-left-16 mt-2 z-30 w-50 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black/5 transition focus:outline-hidden data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
                         >
                             <div className="py-1">

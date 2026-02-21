@@ -89,7 +89,7 @@ const ManageHabits = ({ toggleSidebar }: any) => {
         <div className="lg:w-64 p-2 lg:p-4 flex flex-col border-r border-gray-200">
           <button
             onClick={() => toggleSidebar?.()}
-            className="lg:hidden p-2 rounded-md hover:bg-gray-100 transition-colors"
+            className="lg:hidden p-2 rounded-md hover:bg-gray-100  transition-colors"
           >
             <MenuIcon className="w-6 h-6 text-gray-600" />
           </button>
@@ -97,7 +97,7 @@ const ManageHabits = ({ toggleSidebar }: any) => {
           {TABS.map((tab) => (
             <button
               key={tab.value}
-              className={`text-left flex justify-center lg:justify-normal lg:px-4 py-2 rounded-md mb-1 font-semibold ${selectedTab === tab.value ? 'bg-blue-100 text-blue-700' : 'text-gray-500 hover:bg-gray-100'}`}
+              className={`text-left flex justify-center lg:justify-normal lg:px-4 py-2 rounded-md mb-1 font-semibold ${selectedTab === tab.value ? 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300' : 'text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700/30'}`}
               onClick={() => setSelectedTab(tab.value)}
             >
               {tab.icon && <span className="lg:mr-2">{tab.icon}</span>}
