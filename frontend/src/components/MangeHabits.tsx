@@ -139,7 +139,7 @@ const ManageHabits = ({ toggleSidebar }: any) => {
                     <div className="flex gap-2">
                       <button
                         onClick={(e) => { e.stopPropagation(); handleEdit(habit.id) }}
-                        className="border-1 border-gray-300 h-8 items-center w-full justify-center px-2 text-sm font-semibold relative group"
+                        className="border-1 rounded-md border-gray-300 h-8 items-center w-full justify-center px-2 text-sm font-semibold relative group"
                       >
                         <Pencil width={16} />
                         <span className="pointer-events-none absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 text-xs text-white bg-gray-800 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">
@@ -148,7 +148,7 @@ const ManageHabits = ({ toggleSidebar }: any) => {
                       </button>
                       <button
                         onClick={(e) => { e.stopPropagation(); handleDelete(habit.id) }}
-                        className="border-1 border-gray-300 h-8 items-center w-full justify-center px-2 text-sm font-semibold relative group"
+                        className="border-1 rounded-md border-gray-300 h-8 items-center w-full justify-center px-2 text-sm font-semibold relative group"
                       >
                         <Trash2 width={16} />
                         <span className="pointer-events-none absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 text-xs text-white bg-gray-800 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">

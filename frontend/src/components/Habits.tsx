@@ -346,7 +346,7 @@ const Habits = ({ toggleSidebar }: HabitsProps) => {
                                     <div>
                                       <MenuButton
                                         onClick={(e) => e.stopPropagation()}
-                                        className="inline-flex relative border-1 border-gray-300 items-center w-full justify-center gap-x-1  px-1 py-1 text-sm font-semibold"
+                                        className="inline-flex rounded-md relative border-1 border-gray-300 items-center w-full justify-center gap-x-1  px-1 py-1 text-sm font-semibold"
                                       >
                                         <EllipsisVertical width={16} />
                                       </MenuButton>
@@ -406,14 +406,14 @@ const Habits = ({ toggleSidebar }: HabitsProps) => {
                     </div>
                     <div className="flex gap-2">
                       {(habit.unitType === "times" ?
-                        <button disabled={disabled} onClick={(e) => { e.stopPropagation(), logHabit(habit) }} className='border-1 border-gray-300 h-8 flex gap-1 p-1  items-center justify-center font-semibold px-2 active:bg-gray-100' >
-                          <Plus width={16} />1</button> : <Link to={`/journal/timer/${habit.id}`} onClick={(e) => e.stopPropagation()} className='border-1 border-gray-300 w-[43px] h-8 flex p-1 items-center justify-center font-semibold px-2 ' ><Timer width={19} /></Link>)
+                        <button disabled={disabled} onClick={(e) => { e.stopPropagation(), logHabit(habit) }} className='border-1 rounded-md border-gray-300 h-8 flex gap-1 p-1  items-center justify-center font-semibold px-2 active:bg-gray-100' >
+                          <Plus width={16} />1</button> : <Link to={`/journal/timer/${habit.id}`} onClick={(e) => e.stopPropagation()} className='border-1 rounded-md border-gray-300 w-[43px] h-8 flex p-1 items-center justify-center font-semibold px-2 ' ><Timer width={19} /></Link>)
                       }
                       <Menu as="div" className="relative inline-block text-black text-left">
                         <div>
                           <MenuButton
                             onClick={(e) => e.stopPropagation()}
-                            className="inline-flex relative border-1 dark:text-white border-gray-300 items-center w-full justify-center gap-x-1  px-1 py-1 text-sm font-semibold"
+                            className="inline-flex rounded-md relative border-1 dark:text-white border-gray-300 items-center w-full justify-center gap-x-1  px-1 py-1 text-sm font-semibold"
                           >
                             <EllipsisVertical width={16} />
                           </MenuButton>
@@ -480,7 +480,7 @@ const Habits = ({ toggleSidebar }: HabitsProps) => {
 
           </div>
           
-          <button onClick={() => setisAiOpen(!isAiOpen)} className="absolute lg:hidden mt-2 right-1 lg:left-0 top-[30rem] lg:top-[32rem] inline-flex items-center justify-center p-4 lg:px-5 lg:py-2 text-sm lg:text-base font-semibold text-white bg-linear-to-r
+          <button onClick={() => setisAiOpen(!isAiOpen)} className="absolute lg:hidden mt-2 right-1 lg:left-0 top-[30rem] lg:bottom-[1rem] inline-flex items-center justify-center p-4 lg:px-5 lg:py-2 text-sm lg:text-base font-semibold text-white bg-linear-to-r
                      from-blue-700 via-indigo-500 to-blue-400 rounded-full border-0 cursor-pointer transition-all duration-300 ease-in-out transform hover:-translate-y-0.5
                       hover:shadow-xl hover:shadow-blue-500/60 focus:outline-none focus:ring-4 focus:ring-blue-500 focus:ring-opacity-50 shadow-lg shadow-blue-500/40"> <Bot /></button>
         </div>

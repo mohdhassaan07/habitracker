@@ -204,7 +204,7 @@ const RightSidebar = ({ habit, onClose }: any) => {
           <div className="flex justify-between border-b border-gray-300/50 px-2 py-[10px] items-center sticky top-0 bg-white/50 dark:bg-gray-900/70 backdrop-blur-2xl">
             <h2 className="text-lg lg:text-xl font-bold" >{habit.name}</h2>
             <div className="flex gap-2">
-              <button onClick={() => setisModalOpen(true)} className="inline-flex relative border-1 border-gray-300 items-center  justify-center gap-x-1  px-2  text-sm font-semibold">
+              <button onClick={() => setisModalOpen(true)} className="inline-flex relative rounded-md border-1 border-gray-500 items-center  justify-center gap-x-1  px-2  text-sm font-semibold">
                 <Pencil width={16} />
               </button>
               {onClose && (

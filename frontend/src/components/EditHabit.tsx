@@ -145,7 +145,7 @@ const EditHabit = (props: any) => {
     }
 
     return (
-        <div>
+        <div className="dark:text-white">
             <Modal isOpen={props.isModalOpen} onClose={() => props.setIsModalOpen(false)}  >
                 <h2 className="text-xl font-bold mb-4">Edit Habit</h2>
                 <form onSubmit={handleSubmit} onClick={() => setOpen(false)}>

@@ -336,7 +336,7 @@ const DayTime = ({ tab, toggleSidebar }: DayTimeProps) => {
                                     <div>
                                       <MenuButton
                                         onClick={(e) => e.stopPropagation()}
-                                        className="inline-flex relative border-1 border-gray-300 items-center w-full justify-center gap-x-1  px-1 py-1 text-sm font-semibold"
+                                        className="inline-flex rounded-md relative border-1 border-gray-300 items-center w-full justify-center gap-x-1  px-1 py-1 text-sm font-semibold"
                                       >
                                         <EllipsisVertical width={16} />
                                       </MenuButton>
@@ -395,15 +395,15 @@ const DayTime = ({ tab, toggleSidebar }: DayTimeProps) => {
                     </div>
                     <div className="flex relative gap-2">
                       {(habit.unitType === "times" ?
-                        <button disabled={disabled} onClick={(e) => { e.stopPropagation(), logHabit(habit.id) }} className='border-1 mx-2 dark:text-white border-gray-300 h-8 flex gap-1 p-1 w-[43px] items-center justify-center font-semibold px-2 active:bg-gray-100' >
-                          <Plus width={15} />1</button> : <Link to={`/journal/timer/${habit.id}`} onClick={(e) => e.stopPropagation()} className='border-1 mx-2 dark:text-white border-gray-300 w-[43px] h-8 flex p-1 items-center justify-center font-semibold px-2 ' ><Timer width={19} /></Link>)
+                        <button disabled={disabled} onClick={(e) => { e.stopPropagation(), logHabit(habit.id) }} className='border-1 rounded-md mx-2 dark:text-white border-gray-300 h-8 flex gap-1 p-1 w-[43px] items-center justify-center font-semibold px-2 active:bg-gray-100' >
+                          <Plus width={15} />1</button> : <Link to={`/journal/timer/${habit.id}`} onClick={(e) => e.stopPropagation()} className='border-1 rounded-md mx-2 dark:text-white border-gray-300 w-[43px] h-8 flex p-1 items-center justify-center font-semibold px-2 ' ><Timer width={19} /></Link>)
                       }
 
                       <Menu as="div" className="relative inline-block text-left">
                         <div>
                           <MenuButton
                             onClick={(e) => e.stopPropagation()}
-                            className="inline-flex relative dark:text-white border-1 border-gray-300 items-center w-full justify-center gap-x-1  px-1 py-1 text-sm font-semibold"
+                            className="inline-flex rounded-md relative dark:text-white border-1 border-gray-300 items-center w-full justify-center gap-x-1  px-1 py-1 text-sm font-semibold"
                           >
                             <EllipsisVertical width={16} />
                           </MenuButton>
