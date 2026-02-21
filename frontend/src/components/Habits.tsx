@@ -1,7 +1,7 @@
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import { useState, useEffect } from 'react'
 import Header from "./Header"
-import { ChevronDown, Plus, EllipsisVertical, ArrowRight, Check, X, Pencil, Timer, Undo, BarChart } from "lucide-react"
+import { ChevronDown, Plus, EllipsisVertical, ArrowRight, Check, X, Pencil, Timer, Undo, BarChart, Bot } from "lucide-react"
 import '../App.css'
 import CircularProgress from '@mui/material/CircularProgress';
 import { toast } from 'react-hot-toast'
@@ -14,6 +14,7 @@ import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import { FaSort } from 'react-icons/fa'
 import { motion, AnimatePresence } from "framer-motion";
+import AiAssistant from './AiAssistant'
 
 interface HabitsProps {
   toggleSidebar?: () => void;
@@ -26,6 +27,7 @@ const Habits = ({ toggleSidebar }: HabitsProps) => {
   const [habitId, sethabitId] = useState("")
   const [tohabit, settohabit] = useState<any>({})
   const [sortBy, setsortBy] = useState("newest")
+  const [isAiOpen, setisAiOpen] = useState(false)
   const navigate = useNavigate()
   type Status = 'completed' | 'skipped' | 'failed' | 'pending';
   const [openGroups, setOpenGroups] = useState<{ [key in Status]: boolean }>({
@@ -226,7 +228,9 @@ const Habits = ({ toggleSidebar }: HabitsProps) => {
   return (
     <>
       {currentUser && (
+        
         <div className="relative w-full bg-white/70 dark:bg-gray-900/70 backdrop-blur-xl dark:text-white lg:m-2 lg:rounded-2xl border border-white/20 dark:border-gray-700/30">
+          {isAiOpen && <span className='lg:hidden'><AiAssistant /></span> }
           {/* <div className="hidden bg-green-100 bg-yellow-100 bg-red-100 bg-blue-200 text-green-400 text-yellow-400 text-red-400 text-blue-400"></div> */}
           <EditHabit isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} habitId={habitId} />
           <Header toggleSidebar={toggleSidebar} />
@@ -475,7 +479,12 @@ const Habits = ({ toggleSidebar }: HabitsProps) => {
             )}
 
           </div>
+          
+          <button onClick={() => setisAiOpen(!isAiOpen)} className="absolute lg:hidden mt-2 right-1 lg:left-0 top-[30rem] lg:top-[32rem] inline-flex items-center justify-center p-4 lg:px-5 lg:py-2 text-sm lg:text-base font-semibold text-white bg-linear-to-r
+                     from-blue-700 via-indigo-500 to-blue-400 rounded-full border-0 cursor-pointer transition-all duration-300 ease-in-out transform hover:-translate-y-0.5
+                      hover:shadow-xl hover:shadow-blue-500/60 focus:outline-none focus:ring-4 focus:ring-blue-500 focus:ring-opacity-50 shadow-lg shadow-blue-500/40"> <Bot /></button>
         </div>
+
       )}
 
       <RightSidebar habit={tohabit} />

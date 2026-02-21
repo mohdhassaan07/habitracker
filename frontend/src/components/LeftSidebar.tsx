@@ -34,7 +34,7 @@ const LeftSidebar = () => {
         <>
             {isAiOpen && <AiAssistant />}
             <Settings isModalOpen={isModalOpen} setIsModalOpen={setisModalOpen} />
-            <div className="border border-white/20 dark:border-gray-700/30 bg-white/70 dark:bg-gray-900/70 backdrop-blur-xl z-10 rounded-2xl absolute lg:relative top-14 lg:top-0 left-1 lg:left-0 min-w-56 w-56 m-2 lg:min-h-[97.5vh] lg:max-h-screen">
+            <div className="border border-white/20 dark:border-gray-700/30 bg-white/70 dark:bg-gray-900/70 backdrop-blur-xl z-10 rounded-2xl absolute lg:relative top-11 lg:top-0 left-1 lg:left-0 min-w-56 w-56 m-2 lg:min-h-[97.5vh] min-h-[87vh] lg:max-h-screen">
                 <h1 className="block bg-linear-to-r 
                      from-blue-800 via-indigo-500 to-blue-400 text-transparent bg-clip-text  font-bold text-xl lg:text-2xl w-full text-center p-2" >Habitron</h1>
                 <hr className="hidden lg:block text-gray-300" />
@@ -77,9 +77,9 @@ const LeftSidebar = () => {
                     <div className="preferences mt-3">
                         <p className='text-gray-500 w-full flex gap-2 mt-2 rounded-md items-center font-semibold text-sm py-2'>Preferences</p>
                         <Link to='/journal?tab=manageHabits' className={`w-full flex gap-2 p-1 mt-2 rounded-md items-center font-semibold text-sm py-2 cursor-default ${isManageHabits ? 'bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400' : 'text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700/30'}`}> <ChartNoAxesGantt /> Manage Habits</Link>
-                        <div className="text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700/30 w-full flex gap-2 p-1 mt-2 rounded-md items-center font-semibold text-sm py-2"> <SettingsIcon /> App Settings</div>
+                        <div onClick={() => setisModalOpen(true)} className="text-gray-500 cursor-default hover:bg-gray-100 dark:hover:bg-gray-700/30 w-full flex gap-2 p-1 mt-2 rounded-md items-center font-semibold text-sm py-2"> <SettingsIcon /> Settings</div>
                     </div>
-                    <button onClick={() => setisAiOpen(!isAiOpen)} className="lg:absolute mt-2 lg:w-[12.5rem] lg:top-[32rem] inline-flex items-center justify-center px-3 lg:px-5 py-2 text-sm lg:text-base font-semibold text-white bg-linear-to-r
+                    <button onClick={() => setisAiOpen(!isAiOpen)} className="absolute mt-2 w-[12.5rem] top-[24rem] lg:top-[32rem] inline-flex items-center justify-center px-3 lg:px-5 py-2 text-sm lg:text-base font-semibold text-white bg-linear-to-r
                      from-blue-700 via-indigo-500 to-blue-400 rounded-xl border-0 cursor-pointer transition-all duration-300 ease-in-out transform hover:-translate-y-0.5
                       hover:shadow-xl hover:shadow-blue-500/60 focus:outline-none focus:ring-4 focus:ring-blue-500 focus:ring-opacity-50 shadow-lg shadow-blue-500/40"> <Bot /> Your AI Assistant</button>
                 </div>

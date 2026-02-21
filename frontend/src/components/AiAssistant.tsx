@@ -46,7 +46,7 @@ const AiAssistant = () => {
 
 
     return (
-        <div className="backdrop-blur-lg dark:bg-gray-700 dark:text-white absolute z-20 top-[7rem] left-[13rem] w-[20rem] h-[30rem] rounded-2xl shadow-md flex flex-col">
+        <div className="backdrop-blur-lg bg-white/70 dark:bg-gray-700/70 dark:text-white absolute z-30 top-[5rem] right-[1rem] lg:left-[3rem] lg:w-[20rem] w-[16rem] lg:h-[30rem] h-[25rem] rounded-2xl shadow-md flex flex-col">
             <div className="p-4 flex justify-center items-center gap-1 text-indigo-600 text-xl font-semibold">
                 <Bot /> Habit Assistant
             </div>
@@ -75,7 +75,7 @@ const AiAssistant = () => {
                 <input
                     type="text"
                     placeholder="Ask anything about your habits…"
-                    className="flex-1 border border-gray-400 rounded-xl px-4 py-2 outline-none"
+                    className="flex-1 w-24 lg:w-full  border border-gray-400 rounded-xl px-4 py-2 outline-none"
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
                     onKeyDown={(e) => e.key === "Enter"}

@@ -86,7 +86,7 @@ const ManageHabits = ({ toggleSidebar }: any) => {
           </div>
         )}
 
-        <div className="lg:w-64 p-2 lg:p-4 flex flex-col border-r border-gray-200">
+        <div className="lg:w-64 p-1 lg:p-4 flex flex-col border-r border-gray-200">
           <button
             onClick={() => toggleSidebar?.()}
             className="lg:hidden p-2 rounded-md hover:bg-gray-100  transition-colors"
@@ -123,7 +123,7 @@ const ManageHabits = ({ toggleSidebar }: any) => {
                   className="habit flex items-center lg:p-3 rounded-md mb-2"
                   onClick={() => { setopenRightSidebar(!openRightSidebar); settoHabit(habit) }}
                 >
-                  <div className={`circle bg-gray-100 text-gray-400 flex items-center justify-center font-bold w-10 h-10 rounded-full`}>
+                  <div className={`circle hidden bg-gray-100 text-gray-400 lg:flex items-center justify-center font-bold w-10 h-10 rounded-full`}>
                     {habit.name.split(" ").map((word: string) => word.charAt(0).toUpperCase()).join("").slice(0, 2)}
                   </div>
                   <div className="ml-3 flex border-b border-gray-300 pb-2 justify-between w-full">
