@@ -310,7 +310,7 @@ const Habits = ({ toggleSidebar }: HabitsProps) => {
                           return (
                             <div
                               key={habit.id}
-                              className={`habit flex items-center p-3 rounded-md mb-2`}
+                              className={`habit flex items-center p-2 rounded-md mb-5`}
                               onClick={() => {
                                 if (tohabit && tohabit.id === habit.id) {
                                   settoggleRightSidebar(!toggleRightSidebar);
@@ -348,7 +348,7 @@ const Habits = ({ toggleSidebar }: HabitsProps) => {
                                       </MenuButton>
                                     </div>
                                     <MenuItems onClick={(e) => e.stopPropagation()} className="absolute z-10 mt-2 w-44 -left-36 rounded-md bg-white shadow-lg ring-1 ring-black/5 transition focus:outline-hidden data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in ">
-                                      <div className="py-1">
+                                      <div className="">
 
                                         <MenuItem  >
                                           <a onClick={() => undoLog(habit.id, habit.logs[habit.logs.length - 1].id)} className={`flex gap-2 px-4 py-2 text-sm text-black cursor-pointer`}>
@@ -375,7 +375,7 @@ const Habits = ({ toggleSidebar }: HabitsProps) => {
               return (
                 <div
                   key={habit.id}
-                  className={`habit cursor-pointer flex items-center p-3 rounded-md mb-2 ${loading && "animate-pulse"}`}
+                  className={`habit cursor-pointer flex items-center p-2 rounded-md mb-2 ${loading && "animate-pulse"}`}
                   onClick={() => {
                     if (tohabit && tohabit.id === habit.id) {
                       settoggleRightSidebar(!toggleRightSidebar);

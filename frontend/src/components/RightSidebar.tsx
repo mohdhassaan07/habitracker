@@ -180,7 +180,15 @@ const RightSidebar = ({ habit, onClose }: any) => {
     return (
       <div className="quote w-full lg:flex hidden lg:w-[600px] bg-white/70 dark:bg-gray-900/70 backdrop-blur-xl text-gray-400 flex-col p-3 m-2 max-h-screen rounded-2xl items-center justify-center border border-white/20 dark:border-gray-700/30">
         <div className="quote-box font-mono text-lg lg:text-2xl font-semibold text-center">
-          <p className="mb-4">{quote}</p>
+          <p className="mb-6">{quote}</p>
+          <div className="w-14 h-14 rounded-full bg-gray-600 flex items-center justify-center mx-auto">
+            <svg className="w-8 h-8 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122" />
+            </svg>
+          </div>
+          <p className="text-zinc-600 text-xl dark:text-zinc-400">
+            Select a habit to view details
+          </p>
         </div>
 
       </div>
@@ -254,7 +262,7 @@ const RightSidebar = ({ habit, onClose }: any) => {
                 rectSize={13}
                 style={{ color: isDark ? '#d1d5db' : '#1f2937' }}
                 startDate={new Date(`2025/${date.getMonth() - 1}/01`)}
-                panelColors={isDark 
+                panelColors={isDark
                   ? { 0: '#1f2937', 1: '#1e3a5f', 2: '#2563eb', 3: '#3b82f6', 4: '#60a5fa' }
                   : undefined
                 }
@@ -307,7 +315,7 @@ const RightSidebar = ({ habit, onClose }: any) => {
             </div>
           </div>
           {/* Resizer Handle on the LEFT edge */}
-          
+
         </div>
       </div>
     </>

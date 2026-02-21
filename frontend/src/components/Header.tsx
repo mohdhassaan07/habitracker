@@ -114,8 +114,8 @@ const Header = ({ toggleSidebar }: HeaderProps) => {
         <div>
             <Mood mood={todayMood} isModalOpen={isMoodModalOpen} setisModalOpen={setisMoodModalOpen} />
             <Modal isOpen={isModalOpen} onClose={() => setModalOpen(false)}  >
-                    <h2 className="text-xl text-black font-bold mb-4">New Habit</h2>
-                    <form className='text-black' onSubmit={handleSubmit}>
+                    <h2 className="text-xl font-bold mb-4">New Habit</h2>
+                    <form className='' onSubmit={handleSubmit}>
                         <div className="mb-4">
                             <h5 className="block text-sm font-medium mb-3 text-gray-500">Habit Name</h5>
                             <input type="text" name="name" onChange={handleChange} className="w-full border border-gray-300 p-2 rounded-md " placeholder="Enter habit name" required />
@@ -123,8 +123,8 @@ const Header = ({ toggleSidebar }: HeaderProps) => {
                         <h5 className="block text-sm font-medium text-gray-500">GOAL</h5>
                         <div className='flex flex-col lg:flex-row gap-2 lg:gap-4 justify-center mb-2 py-3'>
                             {isInp == 'minutes' ? <input type="number" defaultValue={1} min={1} className='h-10 w-full lg:w-16 border border-gray-300 p-1 rounded-md ' onChange={handleChange} name="unitValue" /> : <input type="number" defaultValue={1} min={1} step={1} className='h-10 w-full lg:w-16 border border-gray-300 p-1 rounded-md ' onChange={handleChange} name="unitValue" id="" />}
-                            <select onChange={(e) => { setisInp(e.target.value), handleChange(e) }} name="unitType" id="" className='border h-10  border-gray-300 rounded-sm p-2 '>
-                                <option value="times">Times</option>
+                            <select onChange={(e) => { setisInp(e.target.value), handleChange(e) }} name="unitType" id="" className='border h-10  border-gray-300  rounded-sm p-2 '>
+                                <option value="times ">Times</option>
                                 <option value="minutes">Mins</option>
                             </select>
                             <select name="frequency" id="" onChange={handleChange} className='border h-10  border-gray-300 rounded-sm p-2 '>

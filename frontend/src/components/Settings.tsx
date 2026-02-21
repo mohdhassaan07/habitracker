@@ -7,6 +7,7 @@ import api from "@/utils/api"
 import { signinstart, signinSuccess } from "@/redux/userSlice"
 import { useHabitData } from "@/store/HabitProvider"
 import CircularProgress from "@mui/material/CircularProgress"
+import { Camera, RotateCcw, Trash2, UserX } from "lucide-react"
 const Settings = (props: any) => {
     const navigate = useNavigate()
     const currentUser = useSelector((state: any) => state.user.currentUser);
@@ -122,34 +123,97 @@ const Settings = (props: any) => {
         <div>
             <Modal isOpen={props.isModalOpen} onClose={() => props.setIsModalOpen(false)} >
                 {loading && 
-                    <CircularProgress size={"4rem"} className="absolute left-[40%] top-[42%]" />
-                
-                }
-                {!loading && <div>
-                    <h2 className="text-3xl font-semibold mb-5 w-full text-center ">Profile</h2>
-                    <div className="flex justify-center items-center my-10 gap-3 h-full">
-                        <img draggable="false" onClick={() => imageRef.current.click()} onChange={handleImageChange} className="rounded-full cursor-pointer w-28 h-28 mb-3" src={image ? image : currentUser.profilePic} alt="profile" />
-                        <input ref={imageRef} type="file" accept='image/*' onChange={handleImageChange} hidden />
-                        <form action="" onSubmit={handleSubmit} className="flex flex-col gap-2" >
-                            <input type="text" onChange={handleChange} value={formData.name} name="name" className="border border-gray-300  rounded-md p-1 px-3 tracking-tight w-full focus:outline-none focus:ring focus:ring-blue-500" placeholder="Enter your name" />
-                            <input type="email" disabled value={currentUser.email} className="border border-gray-300 text-gray-500 tracking-tight rounded-md p-1 px-3 w-full focus:outline-none focus:ring focus:ring-blue-500" placeholder="Enter your email" />
-                            <input type="submit" value="Save" className="bg-blue-500 text-white rounded-md p-1 w-24 cursor-pointer hover:bg-blue-600 transition duration-200 " />
-                        </form>
+                    <div className="flex items-center justify-center min-h-[20rem]">
+                        <CircularProgress size={"3rem"} />
                     </div>
-                    <div className="border border-gray-200 p-2 rounded-lg" >
-                        <div className="flex justify-between items-center p-2 border-b border-gray-200" >
-                            <h3 className=" tracking-tight " >Reset Habit data</h3>
-                            <button onClick={()=> resetHabitData()} className="text-red-500 tracking-tighter border-red-500 rounded-md p-1 px-2" >Reset</button>
-                        </div>
-                        <div className="flex justify-between items-center p-2 border-b border-gray-200" >
-                            <h3 className="tracking-tight " >Delete All Data</h3>
-                            <button className=" border-red-500 text-red-500 tracking-tighter rounded-md p-1 px-2" onClick={()=> deleteAllData()} >Delete</button>
-                        </div>
-                        <div className="flex justify-between items-center p-2 border-b border-gray-200" >
-                            <h3 className="tracking-tight " >Delete Account</h3>
-                            <button onClick={()=> deleteAccount()} className="text-red-500  border-red-500 tracking-tighter rounded-md p-1 px-2" >Delete</button>
+                }
+                {!loading && <div className="space-y-4  ">
+                    {/* Header */}
+                    <h2 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white text-center">Profile Settings</h2>
+
+                    {/* Avatar + Form Section */}
+                    <div className="flex flex-col items-center gap-5">
+                        {/* Avatar */}
+                        <div className="relative group cursor-pointer" onClick={() => imageRef.current.click()}>
+                            <img 
+                                draggable="false" 
+                                className="rounded-full w-24 h-24 object-cover ring-4 ring-blue-100 dark:ring-blue-900/50 shadow-lg transition-transform group-hover:scale-105" 
+                                src={image ? image : currentUser.profilePic} 
+                                alt="profile" 
+                            />
+                            <div className="absolute inset-0 rounded-full bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                <Camera className="w-6 h-6 text-white" />
+                            </div>
+                            <input ref={imageRef} type="file" accept='image/*' onChange={handleImageChange} hidden />
                         </div>
 
+                        {/* Form */}
+                        <form onSubmit={handleSubmit} className="w-full space-y-3">
+                            <div>
+                                <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1 ml-1">Name</label>
+                                <input 
+                                    type="text" 
+                                    onChange={handleChange} 
+                                    value={formData.name} 
+                                    name="name" 
+                                    className="border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 dark:text-white rounded-xl p-2.5 px-4 text-sm tracking-tight w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-shadow" 
+                                    placeholder="Enter your name" 
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1 ml-1">Email</label>
+                                <input 
+                                    type="email" 
+                                    disabled 
+                                    value={currentUser.email} 
+                                    className="border border-gray-200 dark:border-gray-700 bg-gray-100 dark:bg-gray-800/60 text-gray-400 dark:text-gray-500 rounded-xl p-2.5 px-4 text-sm tracking-tight w-full cursor-not-allowed" 
+                                    placeholder="Enter your email" 
+                                />
+                            </div>
+                            <button 
+                                type="submit" 
+                                className="w-full bg-gradient-to-r from-blue-600 to-indigo-500 hover:from-blue-700 hover:to-indigo-600 text-white font-semibold text-sm rounded-xl py-2.5 cursor-pointer transition-all duration-200 shadow-md hover:shadow-lg hover:shadow-blue-500/25"
+                            >
+                                Save Changes
+                            </button>
+                        </form>
+                    </div>
+
+                    {/* Danger Zone */}
+                    <div>
+                        <h3 className="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2 ml-1">Danger Zone</h3>
+                        <div className="border border-red-200 dark:border-red-900/40 rounded-xl overflow-hidden divide-y divide-red-100 dark:divide-red-900/30">
+                            <div className="flex justify-between items-center px-4 py-3 hover:bg-red-50/50 dark:hover:bg-red-950/20 transition-colors">
+                                <div className="flex items-center gap-2.5">
+                                    <RotateCcw className="w-4 h-4 text-red-400" />
+                                    <div>
+                                        <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300">Reset Habit Data</h4>
+                                        <p className="text-xs text-gray-400 dark:text-gray-500">Reset all progress to zero</p>
+                                    </div>
+                                </div>
+                                <button onClick={() => resetHabitData()} className="text-xs font-semibold text-red-500 hover:text-white hover:bg-red-500 border border-red-300 dark:border-red-800 rounded-lg px-3 py-1.5 transition-all duration-200">Reset</button>
+                            </div>
+                            <div className="flex justify-between items-center px-4 py-3 hover:bg-red-50/50 dark:hover:bg-red-950/20 transition-colors">
+                                <div className="flex items-center gap-2.5">
+                                    <Trash2 className="w-4 h-4 text-red-400" />
+                                    <div>
+                                        <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300">Delete All Data</h4>
+                                        <p className="text-xs text-gray-400 dark:text-gray-500">Remove all habits and logs</p>
+                                    </div>
+                                </div>
+                                <button onClick={() => deleteAllData()} className="text-xs font-semibold text-red-500 hover:text-white hover:bg-red-500 border border-red-300 dark:border-red-800 rounded-lg px-3 py-1.5 transition-all duration-200">Delete</button>
+                            </div>
+                            <div className="flex justify-between items-center px-4 py-3 hover:bg-red-50/50 dark:hover:bg-red-950/20 transition-colors">
+                                <div className="flex items-center gap-2.5">
+                                    <UserX className="w-4 h-4 text-red-400" />
+                                    <div>
+                                        <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300">Delete Account</h4>
+                                        <p className="text-xs text-gray-400 dark:text-gray-500">Permanently remove your account</p>
+                                    </div>
+                                </div>
+                                <button onClick={() => deleteAccount()} className="text-xs font-semibold text-red-500 hover:text-white hover:bg-red-500 border border-red-300 dark:border-red-800 rounded-lg px-3 py-1.5 transition-all duration-200">Delete</button>
+                            </div>
+                        </div>
                     </div>
                 </div>}
             </Modal>
