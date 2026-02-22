@@ -1,6 +1,6 @@
 import api from "@/utils/api";
-import { ArrowRight, ArrowUp, Check, Pencil, X, XCircle } from "lucide-react";
-import { useEffect, useState } from "react";
+import { ArrowLeft, ArrowRight, ArrowUp, Calendar, Check, Pencil, X, XCircle } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
 import { BarChart } from '@mui/x-charts/BarChart';
 import HeatMap from '@uiw/react-heat-map';
 import Tooltip from '@uiw/react-tooltip';
@@ -15,6 +15,7 @@ const RightSidebar = ({ habit, onClose }: any) => {
   const [skippedCount, setskippedCount] = useState(0)
   const [datesValues, setdatesValues] = useState<any>([])
   const [isModalOpen, setisModalOpen] = useState(false)
+  const [showMonthlyDashboard, setShowMonthlyDashboard] = useState(false)
   const [quote, setquote] = useState("")
   let date = new Date()
   const [xAxisData, setxAxisData] = useState<any>([`${date.toISOString().slice(0, 7)}`, `${date.toISOString().slice(0, 7)}`])
@@ -175,6 +176,44 @@ const RightSidebar = ({ habit, onClose }: any) => {
     {}
   ];
 
+  // Monthly dashboard stats computed from logs
+  const monthlyStats = useMemo(() => {
+    const now = new Date();
+    const currentMonth = now.getMonth();
+    const currentYear = now.getFullYear();
+    let monthCompleted = 0;
+    let monthFailed = 0;
+    let monthSkipped = 0;
+    let monthTotal = 0;
+    const monthValues: any[] = [];
+
+    if (habit && habit.logs && habit.logs.length > 0) {
+      habit.logs.forEach((log: any) => {
+        const logDate = new Date(log.date);
+        if (logDate.getMonth() === currentMonth && logDate.getFullYear() === currentYear) {
+          if (log.status === "completed") monthCompleted++;
+          else if (log.status === "failed") monthFailed++;
+          else if (log.status === "skipped") monthSkipped++;
+          monthTotal++;
+        }
+      });
+    }
+
+    if (datesValues.length > 0) {
+      datesValues.forEach((data: any) => {
+        const d = new Date(data.date);
+        if (d.getMonth() === currentMonth && d.getFullYear() === currentYear) {
+          monthValues.push({ date: data.date.split('T')[0], count: data.totalValue > 0 ? data.totalValue : -1 });
+        }
+      });
+    }
+
+    const monthName = now.toLocaleString('default', { month: 'long' });
+    const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+
+    return { monthCompleted, monthFailed, monthSkipped, monthTotal, monthValues, monthName, currentYear, currentMonth, daysInMonth };
+  }, [habit, datesValues]);
+
 
   if (!habit || Object.keys(habit).length === 0) {
     return (
@@ -199,12 +238,21 @@ const RightSidebar = ({ habit, onClose }: any) => {
     <>
       <EditHabit isModalOpen={isModalOpen} setIsModalOpen={setisModalOpen} habitId={habit.id} />
       <div className="element flex max-h-screen bg-white/70 dark:bg-gray-900/70  dark:text-white overflow-auto lg:m-2 m-0 lg:rounded-2xl rounded-none border border-white/20 dark:border-gray-700/30">
-        {/* Resizable Right Sidebar */}
+        
         <div className="relative w-full lg:w-[850px] backdrop-blur-xl">
           <div className="flex justify-between border-b border-gray-300/50 px-2 py-[10px] items-center sticky top-0 bg-white/50 dark:bg-gray-900/70 backdrop-blur-2xl">
             <h2 className="text-lg lg:text-xl font-bold" >{habit.name}</h2>
             <div className="flex gap-2">
-              <button onClick={() => setisModalOpen(true)} className="inline-flex relative rounded-md border-1 border-gray-500 items-center  justify-center gap-x-1  px-2  text-sm font-semibold">
+              <button
+                title={showMonthlyDashboard ? "Back to habit details" : "Monthly Dashboard"}
+                onClick={() => setShowMonthlyDashboard(!showMonthlyDashboard)}
+                className={`inline-flex relative rounded-md border-1 items-center justify-center gap-x-1 px-2 text-sm font-semibold ${
+                  showMonthlyDashboard ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/30 text-blue-600' : 'border-gray-500'
+                }`}
+              >
+                {showMonthlyDashboard ? <ArrowLeft width={16} /> : <Calendar width={16} />}
+              </button>
+              <button title="Edit Habit" onClick={() => setisModalOpen(true)} className="inline-flex relative rounded-md border-1 border-gray-500 items-center  justify-center gap-x-1  px-2  text-sm font-semibold">
                 <Pencil width={16} />
               </button>
               {onClose && (
@@ -216,6 +264,93 @@ const RightSidebar = ({ habit, onClose }: any) => {
           </div>
 
           <div className="p-3 flex flex-col gap-4">
+            {showMonthlyDashboard ? (
+              /* ===== Monthly Dashboard View ===== */
+              <div className="h-screen flex flex-col gap-4">
+                <div className="box flex gap-2 p-4 border border-gray-300 dark:border-gray-500 rounded-lg dark:bg-gradient-to-br dark:from-gray-800 dark:to-gray-900">
+                  <span className="text-3xl lg:text-4xl">📅</span>
+                  <div>
+                    <p className="text-[12px] font-semibold text-gray-500">MONTHLY OVERVIEW</p>
+                    <h4 className="text-lg lg:text-xl font-semibold">{monthlyStats.monthName} {monthlyStats.currentYear}</h4>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 w-full gap-3">
+                  <div className="box min-w-20 flex gap-2 p-3 border border-gray-300 dark:border-gray-500 rounded-lg dark:bg-gradient-to-br dark:from-gray-800 dark:to-gray-900">
+                    <div className="flex flex-col">
+                      <p className="text-[12px] font-semibold text-gray-500 flex items-center gap-1"><Check width={17} /> COMPLETED</p>
+                      <h4 className="text-xl lg:text-2xl font-semibold">{monthlyStats.monthCompleted} <span className="text-sm text-gray-500">days</span></h4>
+                      <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 mt-1">
+                        <div className="bg-green-500 h-2 rounded-full" style={{ width: `${monthlyStats.monthTotal > 0 ? (monthlyStats.monthCompleted / monthlyStats.monthTotal) * 100 : 0}%` }} />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="box min-w-20 flex gap-2 p-3 border border-gray-300 dark:border-gray-500 rounded-lg dark:bg-gradient-to-br dark:from-gray-800 dark:to-gray-900">
+                    <div className="flex flex-col">
+                      <p className="text-[12px] font-semibold text-gray-500 flex items-center gap-1"><X width={17} /> FAILED</p>
+                      <h4 className="text-xl lg:text-2xl font-semibold">{monthlyStats.monthFailed} <span className="text-sm text-gray-500">days</span></h4>
+                      <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 mt-1">
+                        <div className="bg-red-500 h-2 rounded-full" style={{ width: `${monthlyStats.monthTotal > 0 ? (monthlyStats.monthFailed / monthlyStats.monthTotal) * 100 : 0}%` }} />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="box min-w-20 flex gap-2 p-3 border border-gray-300 dark:border-gray-500 rounded-lg dark:bg-gradient-to-br dark:from-gray-800 dark:to-gray-900">
+                    <div className="flex flex-col">
+                      <p className="text-[12px] font-semibold text-gray-500 flex items-center gap-1"><ArrowRight width={17} /> SKIPPED</p>
+                      <h4 className="text-xl lg:text-2xl font-semibold">{monthlyStats.monthSkipped} <span className="text-sm text-gray-500">days</span></h4>
+                      <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 mt-1">
+                        <div className="bg-yellow-500 h-2 rounded-full" style={{ width: `${monthlyStats.monthTotal > 0 ? (monthlyStats.monthSkipped / monthlyStats.monthTotal) * 100 : 0}%` }} />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="box min-w-20 flex gap-2 p-3 border border-gray-300 dark:border-gray-500 rounded-lg dark:bg-gradient-to-br dark:from-gray-800 dark:to-gray-900">
+                    <div className="flex flex-col">
+                      <p className="text-[12px] font-semibold text-gray-500 flex items-center gap-1">TOTAL LOGGED</p>
+                      <h4 className="text-xl lg:text-2xl font-semibold">{monthlyStats.monthTotal} <span className="text-sm text-gray-500">days</span></h4>
+                      <p className="text-sm font-semibold text-blue-600 flex gap-0.5">of {monthlyStats.daysInMonth} days</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Completion rate */}
+                <div className="box p-4 border border-gray-300 dark:border-gray-500 rounded-lg dark:bg-gradient-to-br dark:from-gray-800 dark:to-gray-900">
+                  <p className="text-[12px] font-semibold text-gray-500 mb-2">COMPLETION RATE</p>
+                  <div className="flex items-center gap-3">
+                    <div className="flex-1 bg-gray-200 dark:bg-gray-700 rounded-full h-4">
+                      <div className="bg-blue-500 h-4 rounded-full transition-all duration-500" style={{ width: `${monthlyStats.monthTotal > 0 ? Math.round((monthlyStats.monthCompleted / monthlyStats.monthTotal) * 100) : 0}%` }} />
+                    </div>
+                    <span className="text-xl font-bold">{monthlyStats.monthTotal > 0 ? Math.round((monthlyStats.monthCompleted / monthlyStats.monthTotal) * 100) : 0}%</span>
+                  </div>
+                </div>
+
+                {/* Month heatmap */}
+                <div className={`border p-2 border-gray-300 dark:border-gray-500 rounded-lg overflow-hidden dark:bg-gradient-to-br dark:from-gray-800 dark:to-gray-900 ${isDark ? 'heatmap-dark' : ''}`}>
+                  <p className="text-[12px] font-semibold text-gray-500 mb-2 px-1">{monthlyStats.monthName.toUpperCase()} HEATMAP</p>
+                  <HeatMap
+                    value={monthlyStats.monthValues.length > 0 ? monthlyStats.monthValues : [{}]}
+                    width={390}
+                    rectSize={16}
+                    space={3}
+                    style={{ color: isDark ? '#d1d5db' : '#1f2937' }}
+                    startDate={new Date(monthlyStats.currentYear, monthlyStats.currentMonth, 1)}
+                    endDate={new Date(monthlyStats.currentYear, monthlyStats.currentMonth, monthlyStats.daysInMonth)}
+                    panelColors={isDark
+                      ? { 0: '#1f2937', 1: '#1e3a5f', 2: '#2563eb', 3: '#3b82f6', 4: '#60a5fa' }
+                      : undefined
+                    }
+                    rectRender={(props, data) => {
+                      return (
+                        <Tooltip placement="top" content={`${data.date}: ${data.count || 0}`}>
+                          <rect {...props} />
+                        </Tooltip>
+                      );
+                    }}
+                  />
+                </div>
+              </div>
+            ) : (
+              /* ===== Default Habit Detail View ===== */
+              <>
             <div className="box flex gap-2 p-4 border border-gray-300 dark:border-gray-500 rounded-lg dark:bg-gradient-to-br dark:from-gray-800 dark:to-gray-900" >
               <span className="text-3xl lg:text-4xl" >🔥</span>
               <div>
@@ -227,7 +362,7 @@ const RightSidebar = ({ habit, onClose }: any) => {
             <div className="grid grid-cols-2 lg:grid-cols-2 w-full gap-3" >
               <div className="box min-w-20 flex gap-2 p-2 border border-gray-300 dark:border-gray-500 rounded-lg dark:bg-gradient-to-br dark:from-gray-800 dark:to-gray-900" >
                 <div className="flex flex-col " >
-                  <p className="text-[12px] font-semibold text-gray-500 flex items-center gap-1" ><Check width={17} /> COMPLETE</p>
+                  <p className="text-[12px] font-semibold text-gray-500 flex items-center gap-1" ><Check width={17} /> COMPLETED</p>
                   <h4 className="text-xl lg:text-2xl font-semibold" >{completed} days</h4>
                   <p className="text-sm font-semibold text-green-600 flex gap-0.5" ><ArrowUp width={16} /> {habit.streak} days</p>
                 </div>
@@ -269,7 +404,7 @@ const RightSidebar = ({ habit, onClose }: any) => {
                 rectRender={(props, data) => {
                   // if (!data.count) return <rect {...props} />;
                   return (
-                    <Tooltip placement="top" content={`count: ${data.count || 0}`}>
+                    <Tooltip placement="top" content={`${data.date}: ${data.count || 0}`}>
                       <rect {...props} />
                     </Tooltip>
                   );
@@ -313,6 +448,8 @@ const RightSidebar = ({ habit, onClose }: any) => {
                 }}
               />
             </div>
+              </>
+            )}
           </div>
           {/* Resizer Handle on the LEFT edge */}
 

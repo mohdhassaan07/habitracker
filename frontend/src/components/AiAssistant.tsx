@@ -46,7 +46,7 @@ const AiAssistant = () => {
 
 
     return (
-        <div className="backdrop-blur-lg bg-white/70 dark:bg-gray-700/70 dark:text-white absolute z-30 top-[9.5rem] right-[1rem] lg:left-[3rem] lg:w-[20rem] w-[16rem] lg:h-[30rem] h-[25rem] rounded-2xl shadow-md flex flex-col">
+        <div className="backdrop-blur-lg bg-white/70 dark:bg-gray-700/70 dark:text-white absolute z-30 top-[12rem] lg:top-[5rem] right-[1rem] lg:left-[3rem] lg:w-[20rem] w-[16rem] lg:h-[30rem] h-[25rem] rounded-2xl shadow-md flex flex-col">
             <div className="p-4 flex justify-center items-center gap-1 text-indigo-600 text-xl font-semibold">
                 <Bot /> Habit Assistant
             </div>
