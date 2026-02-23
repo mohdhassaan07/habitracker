@@ -126,7 +126,7 @@ const ManageHabits = ({ toggleSidebar }: any) => {
                   <div className={`circle hidden bg-gray-100 text-gray-400 lg:flex items-center justify-center font-bold w-10 h-10 rounded-full`}>
                     {habit.name.split(" ").map((word: string) => word.charAt(0).toUpperCase()).join("").slice(0, 2)}
                   </div>
-                  <div className="ml-3 flex border-b border-gray-300 pb-2 justify-between w-full">
+                  <div className="ml-3 cursor-pointer flex border-b border-gray-300 pb-2 justify-between w-full">
                     <div>
                       <h5 className="font-semibold gap-2 flex">
                         {habit.name}
