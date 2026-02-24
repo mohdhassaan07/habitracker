@@ -37,7 +37,7 @@ const TimerClock = ({ expiryTimestamp, setIsTimerRunning, habitName, habitId, un
         <div className='flex flex-col h-screen text-center justify-center items-center bg-white dark:bg-gray-900'>
             <h1 className='font-bold text-3xl dark:text-white' >{habitName} </h1>
             <p className='dark:text-gray-400'>Timer</p>
-            <div style={{ fontSize: '100px' }} className='dark:text-white'>
+            <div style={{ fontSize: '80px' }} className='dark:text-white' >
                 <span>{days}</span>:<span>{hours}</span>:<span>{minutes}</span>:<span>{seconds}</span>
             </div>
             <div className='flex gap-2  ' >

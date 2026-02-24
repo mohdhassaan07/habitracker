@@ -334,7 +334,7 @@ function Home() {
                         <p className="mt-2 text-3xl font-extrabold dark:text-gray-300 text-gray-900 sm:text-4xl">
                             Everything you need to build better habits
                         </p>
-                        <p className="mt-4 max-w-2xl text-xl text-gray-600 mx-auto">
+                        <p className="mt-4 max-w-2xl text-xl text-gray-600 dark:text-gray-500 mx-auto">
                             Powerful analytics and tracking tools to help you create lasting change.
                         </p>
                     </div>
@@ -401,7 +401,7 @@ function Home() {
                         <p className="mt-2 text-3xl font-extrabold dark:text-gray-300 text-gray-900 sm:text-4xl">
                             What our users are saying
                         </p>
-                        <p className="mt-4 max-w-2xl text-xl text-gray-600 mx-auto">
+                        <p className="mt-4 max-w-2xl text-xl text-gray-600 dark:text-gray-500 mx-auto">
                             Join thousands of people who have transformed their habits with Habitron.
                         </p>
                     </div>
@@ -451,7 +451,7 @@ function Home() {
                         <p className="mt-2 text-3xl font-extrabold dark:text-gray-300 text-gray-900 sm:text-4xl">
                             Simple, transparent pricing
                         </p>
-                        <p className="mt-4 max-w-2xl text-xl text-gray-600 mx-auto">
+                        <p className="mt-4 max-w-2xl text-xl text-gray-600 dark:text-gray-500 mx-auto">
                             Start for free, upgrade when you're ready. All plans come with a 14-day free trial.
                         </p>
                     </div>
@@ -542,7 +542,7 @@ function Home() {
                             {faqs.map((faq, index) => (
                                 <div key={index} className="py-6">
                                     <h3 className="text-lg font-medium text-gray-900">{faq.question}</h3>
-                                    <p className="mt-2 text-base text-gray-600">{faq.answer}</p>
+                                    <p className="mt-2 text-base text-gray-600 dark:text-gray-500">{faq.answer}</p>
                                 </div>
                             ))}
                         </div>

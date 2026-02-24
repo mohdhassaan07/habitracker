@@ -1,7 +1,7 @@
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import { useState, useEffect } from 'react'
 import Header from "./Header"
-import { ChevronDown, Plus, EllipsisVertical, ArrowRight, Check, X, Pencil, Timer, Undo, BarChart, Bot } from "lucide-react"
+import { ChevronDown, Plus, EllipsisVertical, ArrowRight, Check, X, Pencil, Timer, Undo, BarChart, Bot, Sparkles } from "lucide-react"
 import '../App.css'
 import { toast } from 'react-hot-toast'
 import RightSidebar from "../components/RightSidebar";
@@ -505,9 +505,24 @@ const Habits = ({ toggleSidebar }: HabitsProps) => {
 
           </div>
 
-          <button onClick={() => setisAiOpen(!isAiOpen)} className="absolute lg:hidden mt-2 right-1 lg:left-0 bottom-[3rem] inline-flex items-center justify-center p-4 lg:px-5 lg:py-2 text-sm lg:text-base font-semibold text-white bg-linear-to-r
-                     from-blue-700 via-indigo-500 to-blue-400 rounded-full border-0 cursor-pointer transition-all duration-300 ease-in-out transform hover:-translate-y-0.5
-                      hover:shadow-xl hover:shadow-blue-500/60 focus:outline-none focus:ring-4 focus:ring-blue-500 focus:ring-opacity-50 shadow-lg shadow-blue-500/40"> <Bot /></button>
+          <button
+            onClick={() => setisAiOpen(!isAiOpen)}
+            className="group absolute lg:hidden right-4 bottom-6 z-20 flex items-center justify-center w-14 h-14
+              bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500
+              rounded-full border-0 cursor-pointer
+              transition-all duration-300 ease-in-out
+              hover:-translate-y-1 hover:shadow-xl hover:shadow-purple-500/40
+              focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 dark:focus:ring-offset-gray-900
+              shadow-lg shadow-purple-500/30
+              active:scale-95"
+          >
+            <span className="absolute inset-0 rounded-full bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            <span className="absolute -top-0.5 -right-0.5 flex h-3.5 w-3.5">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-pink-400 opacity-75" />
+              <Sparkles className="relative inline-flex rounded-full h-3.5 w-3.5 text-pink-200" />
+            </span>
+            <Bot className="relative w-6 h-6 text-white" />
+          </button>
         </div>
 
       )}
