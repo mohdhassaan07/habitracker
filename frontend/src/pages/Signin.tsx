@@ -78,7 +78,7 @@ const Signin = () => {
             <Toaster position="top-right" />
             <div className="bg-white dark:bg-gray-800 rounded-xl shadow-xl p-6 lg:p-8 w-full max-w-md">
                 <div className="text-center mb-8">
-                    <h1 className="text-3xl font-bold text-blue-600">HabitTron</h1>
+                    <h1 className="text-3xl font-bold text-blue-600">Habitron</h1>
                     <h2 className="text-xl font-semibold mt-2 text-gray-700 dark:text-gray-300">Welcome Back</h2>
                 </div>
 
