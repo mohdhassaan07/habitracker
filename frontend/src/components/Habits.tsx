@@ -213,40 +213,42 @@ const Habits = ({ toggleSidebar }: HabitsProps) => {
 
   if (loadingData) {
     return (
-      <div className='flex w-full'>
-        <div className="w-full lg:w-full z-20 bg-white/70 dark:bg-gray-900/70 lg:m-2 lg:rounded-2xl border border-white/20 dark:border-gray-700/30 h-screen lg:h-[97.5vh]">
-          {/* Skeleton Header */}
-          <div className="flex items-center justify-between px-4 py-4 border-b border-gray-200 dark:border-gray-700/30">
-            <div className="w-full flex gap-2 justify-end items-end">
-              <div className="h-8 w-8 bg-gray-200 dark:bg-gray-700 rounded-full animate-pulse" />
-              <div className="h-8 w-8 bg-gray-200 dark:bg-gray-700 rounded-full animate-pulse" />
-              <div className="h-8 w-20 bg-gray-200 dark:bg-gray-700 rounded-md animate-pulse" />
+      <>
+        <div className='flex w-full'>
+          <div className="w-full z-20 bg-white/70 dark:bg-gray-900/70 lg:m-2 lg:rounded-2xl border border-white/20 dark:border-gray-700/30 h-screen lg:h-[97.5vh]">
+            {/* Skeleton Header */}
+            <div className="flex items-center justify-between px-4 py-4 border-b border-gray-200 dark:border-gray-700/30">
+              <div className="w-full flex gap-2 justify-end items-end">
+                <div className="h-8 w-8 bg-gray-200 dark:bg-gray-700 rounded-full animate-pulse" />
+                <div className="h-8 w-8 bg-gray-200 dark:bg-gray-700 rounded-full animate-pulse" />
+                <div className="h-8 w-20 bg-gray-200 dark:bg-gray-700 rounded-md animate-pulse" />
 
+              </div>
+            </div>
+            {/* Skeleton Title */}
+            <div className="px-4 pt-4 pb-2">
+              <div className="h-5 w-24 bg-gray-200 dark:bg-gray-700 rounded-md animate-pulse" />
+            </div>
+            {/* Skeleton Habit Cards */}
+            <div className="px-4 py-2 flex flex-col gap-2">
+              {Array.from({ length: 6 }).map((_, i) => (
+                <div key={i} className="flex items-center p-2 rounded-md animate-pulse">
+                  <div className="w-10 h-10 bg-gray-200 dark:bg-gray-700 rounded-full shrink-0" />
+                  <div className="ml-3 flex flex-col gap-2 w-full border-b border-gray-200 dark:border-gray-700/30 pb-3">
+                    <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded-md w-2/5" />
+                    <div className="h-3 bg-gray-200 dark:bg-gray-700 rounded-md w-1/4" />
+                  </div>
+                  <div className="ml-auto flex gap-2 shrink-0">
+                    <div className="h-8 w-10 bg-gray-200 dark:bg-gray-700 rounded-md" />
+                    <div className="h-8 w-8 bg-gray-200 dark:bg-gray-700 rounded-md" />
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
-          {/* Skeleton Title */}
-          <div className="px-4 pt-4 pb-2">
-            <div className="h-5 w-24 bg-gray-200 dark:bg-gray-700 rounded-md animate-pulse" />
-          </div>
-          {/* Skeleton Habit Cards */}
-          <div className="px-4 py-2 flex flex-col gap-2">
-            {Array.from({ length: 6 }).map((_, i) => (
-              <div key={i} className="flex items-center p-2 rounded-md animate-pulse">
-                <div className="w-10 h-10 bg-gray-200 dark:bg-gray-700 rounded-full shrink-0" />
-                <div className="ml-3 flex flex-col gap-2 w-full border-b border-gray-200 dark:border-gray-700/30 pb-3">
-                  <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded-md w-2/5" />
-                  <div className="h-3 bg-gray-200 dark:bg-gray-700 rounded-md w-1/4" />
-                </div>
-                <div className="ml-auto flex gap-2 shrink-0">
-                  <div className="h-8 w-10 bg-gray-200 dark:bg-gray-700 rounded-md" />
-                  <div className="h-8 w-8 bg-gray-200 dark:bg-gray-700 rounded-md" />
-                </div>
-              </div>
-            ))}
-          </div>
         </div>
-        <RightSidebar habit={tohabit} />
-      </div>
+          <RightSidebar habit={tohabit} />
+      </>
     )
   }
 

@@ -240,7 +240,7 @@ const RightSidebar = ({ habit, onClose }: any) => {
       <div className="element flex max-h-screen bg-white/70 dark:bg-gray-900/70  dark:text-white overflow-auto lg:m-2 m-0 lg:rounded-2xl rounded-none border border-white/20 dark:border-gray-700/30">
         
         <div className="relative w-full lg:w-[850px] backdrop-blur-xl">
-          <div className="flex justify-between border-b border-gray-300/50 px-2 py-[10px] items-center sticky top-0 bg-white/50 dark:bg-gray-900/70 backdrop-blur-2xl">
+          <div className="flex justify-between border-b border-gray-300/50 px-2 py-[10px] items-center sticky top-0 z-10 bg-white dark:bg-gray-900/70 backdrop-blur-2xl">
             <h2 className="text-lg lg:text-xl font-bold" >{habit.name}</h2>
             <div className="flex gap-2">
               <button

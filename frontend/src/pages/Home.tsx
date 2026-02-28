@@ -286,7 +286,7 @@ function Home() {
       {/* ░░ hero ░░ */}
       <section className="relative flex min-h-screen items-center justify-center overflow-hidden">
         {/* ambient glow */}
-        <div className="absolute left-1/2 top-1/4 h-[600px] w-[800px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-400/[0.08] dark:bg-blue-500/[0.07] blur-[140px]" />
+        <div className="absolute left-1/2 top-1/4 h-[600px] w-[800px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-400/[0.08] dark:bg-blue-500/[0.2] blur-[140px]" />
         <div className="absolute bottom-0 right-0 h-[400px] w-[400px] rounded-full bg-amber-300/[0.06] dark:bg-amber-500/[0.04] blur-[100px]" />
         <div className="absolute left-0 top-0 h-[300px] w-[300px] rounded-full bg-blue-300/[0.06] dark:bg-blue-600/[0.04] blur-[80px]" />
 
