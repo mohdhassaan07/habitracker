@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 import { X } from "lucide-react";
 const Modal = ({ isOpen, onClose, children, disableClose = false }: any) => {
   const ignoreClick = useRef(true);
@@ -21,13 +22,13 @@ const Modal = ({ isOpen, onClose, children, disableClose = false }: any) => {
 
   if (!isOpen) return null;
 
-  return (
+  return createPortal(
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4"
       onClick={handleBackdropClick}
     >
       <div
-        className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700/50 rounded-2xl shadow-2xl p-5 lg:p-7 w-full min-h-[22rem] max-w-sm lg:max-w-md relative animate-in fade-in zoom-in duration-200"
+        className="bg-white dark:bg-gray-900 dark:text-white border border-gray-200 dark:border-gray-700/50 rounded-2xl shadow-2xl p-5 lg:p-7 w-full min-h-[22rem] max-w-sm lg:max-w-md relative animate-in fade-in zoom-in duration-200"
         onClick={(e) => e.stopPropagation()}
       >
         <button
@@ -39,7 +40,8 @@ const Modal = ({ isOpen, onClose, children, disableClose = false }: any) => {
 
         {children}
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };
 
