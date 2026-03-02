@@ -167,14 +167,17 @@ const RightSidebar = ({ habit, onClose }: any) => {
 
   const values: any = []
   datesValues.length > 0 && (
-    datesValues.forEach((data: any) => {
-      values.push({ date: data.date.split('T')[0], count: data.totalValue > 0 ? data.totalValue : -1 })
-    })
+    datesValues
+      .map((data: any) => ({ date: data.date.split('T')[0], count: Math.max(data.totalValue || 0, 0) }))
+      .sort((a: any, b: any) => new Date(a.date).getTime() - new Date(b.date).getTime())
+      .forEach((item: any) => values.push(item))
   )
 
   const value = [
     {}
   ];
+
+  const heatmapStartDate = values.length > 0 ? new Date(values[0].date) : new Date();
 
   // Monthly dashboard stats computed from logs
   const monthlyStats = useMemo(() => {
@@ -396,7 +399,7 @@ const RightSidebar = ({ habit, onClose }: any) => {
                 width={390}
                 rectSize={13}
                 style={{ color: isDark ? '#d1d5db' : '#1f2937' }}
-                startDate={new Date(`2025/${date.getMonth() - 1}/01`)}
+                startDate={heatmapStartDate}
                 panelColors={isDark
                   ? { 0: '#1f2937', 1: '#1e3a5f', 2: '#2563eb', 3: '#3b82f6', 4: '#60a5fa' }
                   : undefined
