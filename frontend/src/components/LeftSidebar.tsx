@@ -34,7 +34,7 @@ const LeftSidebar = () => {
         <>
             {isAiOpen && <AiAssistant />}
             <Settings isModalOpen={isModalOpen} setIsModalOpen={setisModalOpen} />
-            <div className="flex flex-col border border-white/20 dark:border-gray-700/30 bg-white/70 dark:bg-gray-900/70 backdrop-blur-xl z-10 rounded-2xl absolute lg:relative top-11 lg:top-0 left-1 lg:left-0 min-w-56 w-56 m-2 lg:min-h-[97.5vh] min-h-[70vh] lg:max-h-screen">
+            <div className="flex flex-col border border-white/20 dark:border-gray-700/30 bg-white/50 dark:bg-gray-900/70 backdrop-blur-xl z-10 rounded-2xl absolute lg:relative top-11 lg:top-0 left-1 lg:left-0 min-w-56 w-56 m-2 lg:min-h-[97.5vh] min-h-[70vh] lg:max-h-screen">
                 <h1 className="block dark:text-white tracking-tight font-bold text-xl lg:text-2xl w-full text-center p-2 font-display" >Habitron</h1>
                 <hr className="hidden lg:block text-gray-300" />
                 <div className="p-3 relative flex-1">
@@ -82,7 +82,7 @@ const LeftSidebar = () => {
                 <div className="p-3 pt-0">
                     <button
                         onClick={() => setisAiOpen(!isAiOpen)}
-                        className="group relative w-full flex items-center gap-3 px-4 py-2 rounded-xl text-sm font-semibold
+                        className="group relative w-full hidden lg:flex items-center gap-3 px-4 py-2 rounded-xl text-sm font-semibold
                         bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500
                         text-white cursor-pointer
                         transition-all duration-300 ease-in-out

@@ -246,7 +246,7 @@ const DayTime = ({ tab, toggleSidebar }: DayTimeProps) => {
   return (
     <>
       {currentUser && (
-        <div className="relative bg-white/70 dark:bg-gray-900/70 backdrop-blur-xl dark:text-white border border-white/20 dark:border-gray-700/30 w-full lg:m-2 lg:rounded-2xl  max-h-screen">
+        <div className="relative bg-white/70 lg:w-[160rem] dark:bg-gray-900/70 backdrop-blur-xl dark:text-white border border-white/20 dark:border-gray-700/30 w-full lg:m-2 lg:rounded-2xl  max-h-screen">
           <EditHabit isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} habitId={habitId} />
           <Header toggleSidebar={toggleSidebar} />
 
@@ -501,8 +501,9 @@ const DayTime = ({ tab, toggleSidebar }: DayTimeProps) => {
 
       {/* Right Sidebar for lg screens and above */}
 
-      <RightSidebar habit={tohabit} />
-
+      <div className="hidden lg:flex">
+        <RightSidebar habit={tohabit} />
+      </div>
 
     </>
   )

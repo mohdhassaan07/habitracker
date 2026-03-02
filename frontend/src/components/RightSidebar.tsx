@@ -220,7 +220,7 @@ const RightSidebar = ({ habit, onClose }: any) => {
 
   if (!habit || Object.keys(habit).length === 0) {
     return (
-      <div className="quote w-full lg:flex hidden lg:w-[600px] bg-white/70 dark:bg-gray-900/70 backdrop-blur-xl text-gray-400 flex-col p-3 m-2 max-h-screen rounded-2xl items-center justify-center border border-white/20 dark:border-gray-700/30">
+      <div className="quote w-full lg:flex hidden lg:max-w-[350px] lg:min-w-[350px]  bg-white/70 dark:bg-gray-900/70 backdrop-blur-xl text-gray-400 flex-col p-3 m-2 max-h-screen rounded-2xl items-center justify-center border border-white/20 dark:border-gray-700/30">
         <div className="quote-box font-mono text-lg lg:text-2xl font-semibold text-center">
           <p className="mb-6">{quote}</p>
           <div className="w-14 h-14 rounded-full bg-gray-300 dark:bg-gray-600 flex items-center justify-center mx-auto">
@@ -232,7 +232,6 @@ const RightSidebar = ({ habit, onClose }: any) => {
             Select a habit to view details
           </p>
         </div>
-
       </div>
     )
   }
@@ -240,9 +239,8 @@ const RightSidebar = ({ habit, onClose }: any) => {
   return (
     <>
       <EditHabit isModalOpen={isModalOpen} setIsModalOpen={setisModalOpen} habitId={habit.id} />
-      <div className="element flex max-h-screen bg-white/70 dark:bg-gray-900/70  dark:text-white overflow-auto lg:m-2 m-0 lg:rounded-2xl rounded-none border border-white/20 dark:border-gray-700/30">
-        
-        <div className="relative w-full lg:w-[850px] backdrop-blur-xl">
+      <div className="element flex lg:max-w-[500px] lg:min-w-[450px] lg:max-h-screen  bg-white/70 dark:bg-gray-900/70  dark:text-white overflow-auto lg:m-2 m-0 lg:rounded-2xl rounded-none border border-white/20 dark:border-gray-700/30">
+        <div className="relative w-full  backdrop-blur-xl">
           <div className="flex justify-between border-b border-gray-300/50 px-2 py-[10px] items-center sticky top-0 z-10 bg-white dark:bg-gray-900/70 backdrop-blur-2xl">
             <h2 className="text-lg lg:text-xl font-bold" >{habit.name}</h2>
             <div className="flex gap-2">

@@ -247,7 +247,7 @@ const Habits = ({ toggleSidebar }: HabitsProps) => {
             </div>
           </div>
         </div>
-          <RightSidebar habit={tohabit} />
+        <RightSidebar habit={tohabit} />
       </>
     )
   }
@@ -257,7 +257,7 @@ const Habits = ({ toggleSidebar }: HabitsProps) => {
       <EditHabit isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} habitId={habitId} />
       {currentUser && (
 
-        <div className="relative w-full bg-white/70 dark:bg-gray-900/70 backdrop-blur-xl dark:text-white lg:m-2 lg:rounded-2xl border border-white/20 dark:border-gray-700/30">
+        <div className="relative w-full lg:w-[160rem] bg-white/70 dark:bg-gray-900/70 backdrop-blur-xl dark:text-white lg:m-2 lg:rounded-2xl border border-white/20 dark:border-gray-700/30">
           {isAiOpen && <span className='lg:hidden'><AiAssistant /></span>}
           {/* <div className="hidden bg-green-100 bg-yellow-100 bg-red-100 bg-blue-200 text-green-400 text-yellow-400 text-red-400 text-blue-400"></div> */}
           <Header toggleSidebar={toggleSidebar} />
@@ -530,8 +530,6 @@ const Habits = ({ toggleSidebar }: HabitsProps) => {
       )}
 
       <RightSidebar habit={tohabit} />
-
-
     </>
   )
 }
