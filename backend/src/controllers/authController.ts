@@ -1,11 +1,10 @@
-import { PrismaClient } from "@prisma/client"
+import prisma from "../lib/prisma"
 import jwt from "jsonwebtoken"
 import bcrypt from "bcrypt"
 import { oauth2client } from "../utils/googleConfig"
 import axios from 'axios'
 import Stripe from "stripe"
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string)
-const prisma = new PrismaClient()
 
 const googleLogin = async (req, res) => {
     try {
