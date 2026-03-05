@@ -1,8 +1,10 @@
 import { motion } from 'framer-motion';
 import { CheckCircle } from 'lucide-react';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 const Plans = ()=> {
+    const currentUser = useSelector((state: any) => state.user.currentUser);
     const plans = [
     {
       name: 'Starter',
@@ -122,7 +124,7 @@ const Plans = ()=> {
                 </ul>
 
                 <Link
-                  to={`${plan.link}`}
+                  to={`${plan.link}?prefilled_email=${currentUser?.email || ''}`}
                   className={`mt-8 block rounded-full py-3 text-center text-sm font-semibold transition-all duration-300 ${
                     plan.highlight
                       ? 'bg-blue-500 text-white dark:text-stone-950 hover:bg-blue-400 hover:shadow-lg hover:shadow-blue-500/25'

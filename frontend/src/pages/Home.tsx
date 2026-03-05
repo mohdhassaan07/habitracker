@@ -7,6 +7,7 @@ import {
   Flame, Menu, X, Star, ChevronDown, Sparkles,
   BarChart3, Clock,
 } from 'lucide-react';
+// import api from '@/utils/api';
 
 /* ── animation variants ─────────────────────────────────── */
 const fadeUp = {
@@ -130,13 +131,13 @@ function Home() {
     {
       name: 'Starter',
       price: '0',
+      priceId : 'N/A',
+      link : '/signin',
       description: 'Perfect for getting started',
       features: [
         'Track up to 3 habits',
         'Basic statistics',
-        'Daily reminders',
         '7-day history',
-        'Mobile access',
       ],
       cta: 'Get Started',
       highlight: false,
@@ -144,6 +145,8 @@ function Home() {
     {
       name: 'Premium',
       price: '9.99',
+      priceId : 'price_1T6rduJWghtPYWYOdFOrnPpt',
+      link : 'https://buy.stripe.com/test_fZu3cw5CGh2Pg6X8HV9IQ00',
       description: 'For serious habit builders',
       features: [
         'Unlimited habits',
@@ -151,7 +154,6 @@ function Home() {
         'Smart reminders',
         'Unlimited history',
         'Cloud backup',
-        'CSV export',
         'Priority support',
       ],
       cta: 'Start Free Trial',
@@ -160,6 +162,8 @@ function Home() {
     {
       name: 'Family',
       price: '19.99',
+      priceId : 'price_1T6rebJWghtPYWYOEImMjSmk',
+      link : 'https://buy.stripe.com/test_aFaaEYaX0aEr9IzbU79IQ01',
       description: 'For households building together',
       features: [
         'Everything in Premium',
@@ -172,6 +176,8 @@ function Home() {
       highlight: false,
     },
   ];
+
+  
 
   const faqs = [
     {
@@ -196,6 +202,20 @@ function Home() {
     },
   ];
 
+  // const handleSubscribe = async(priceId: string) => {
+  //   try {
+  //     if(priceId === "N/A") {
+  //       navigate('/signin');
+  //       return;
+  //     }
+  //     const res = await api.post('/user/create-checkout-session', { priceId });
+  //     const session = await res.data;
+  //     window.location.href = session.url;
+  //     console.log('Checkout session created:', session);
+  //   } catch (error) {
+  //     console.error('Subscription error:', error);
+  //   }
+  // }
   /* ── render ──────────────────────────────────────────── */
   return (
     <div className="min-h-screen bg-stone-50 dark:bg-stone-950 text-stone-700 dark:text-stone-300 font-body overflow-x-hidden">
@@ -286,7 +306,7 @@ function Home() {
       {/* ░░ hero ░░ */}
       <section className="relative flex min-h-screen items-center justify-center overflow-hidden">
         {/* ambient glow */}
-        <div className="absolute left-1/2 top-1/4 h-[600px] w-[800px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-400/[0.08] dark:bg-blue-500/[0.2] blur-[140px]" />
+        <div className="absolute left-1/2 top-1/4 h-[600px] w-[800px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-400/[0.08] dark:bg-blue-400/[0.2] blur-[140px]" />
         <div className="absolute bottom-0 right-0 h-[400px] w-[400px] rounded-full bg-amber-300/[0.06] dark:bg-amber-500/[0.04] blur-[100px]" />
         <div className="absolute left-0 top-0 h-[300px] w-[300px] rounded-full bg-blue-300/[0.06] dark:bg-blue-600/[0.04] blur-[80px]" />
 
@@ -560,11 +580,12 @@ function Home() {
                 </ul>
 
                 <Link
-                  to="/signin"
+                  to={'/signin'}
                   className={`mt-8 block rounded-full py-3 text-center text-sm font-semibold transition-all duration-300 ${
                     plan.highlight
                       ? 'bg-blue-500 text-white dark:text-stone-950 hover:bg-blue-400 hover:shadow-lg hover:shadow-blue-500/25'
                       : 'bg-stone-100 dark:bg-stone-800 text-stone-800 dark:text-white hover:bg-stone-200 dark:hover:bg-stone-700'
+  
                   }`}
                 >
                   {plan.cta}

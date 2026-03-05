@@ -10,6 +10,7 @@ import { useSelector, useDispatch } from "react-redux"
 import { useEffect } from "react"
 import { GoogleOAuthProvider } from "@react-oauth/google"
 import AiAssistant from "./components/AiAssistant"
+import Plans from "./pages/Plans"
 const App = () => {
   const { currentUser, loginTime } = useSelector((state: any) => state.user)
   const dispatch = useDispatch()
@@ -55,6 +56,7 @@ const App = () => {
         <Route path="/logout" element={<Logout />} />
         <Route path="*" element={<div className="w-full h-screen flex justify-center items-center text-3xl font-semibold">404 Not Found</div>} />
         <Route path="/journal/timer/:habitId" element={<Timer />} />
+        <Route path="/plans" element={<Plans/>} />
       </Routes>
 
     </BrowserRouter>

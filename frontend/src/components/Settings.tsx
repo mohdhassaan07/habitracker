@@ -7,7 +7,7 @@ import api from "@/utils/api"
 import { signinstart, signinSuccess } from "@/redux/userSlice"
 import { useHabitData } from "@/store/HabitProvider"
 import CircularProgress from "@mui/material/CircularProgress"
-import { Camera, RotateCcw, Trash2, UserX } from "lucide-react"
+import { Camera, Crown, RotateCcw, Trash2, UserX } from "lucide-react"
 const Settings = (props: any) => {
     const navigate = useNavigate()
     const currentUser = useSelector((state: any) => state.user.currentUser);
@@ -127,12 +127,12 @@ const Settings = (props: any) => {
                         <CircularProgress size={"3rem"} />
                     </div>
                 }
-                {!loading && <div className="space-y-4  ">
+                {!loading && <div className="space-y-2">
                     {/* Header */}
-                    <h2 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white text-center">Profile Settings</h2>
+                    <h2 className="text-2xl mb-5 font-bold tracking-tight text-gray-900 dark:text-white text-center">Profile Settings</h2>
 
                     {/* Avatar + Form Section */}
-                    <div className="flex flex-col items-center gap-5">
+                    <div className="flex flex-col items-center gap-3">
                         {/* Avatar */}
                         <div className="relative group cursor-pointer" onClick={() => imageRef.current.click()}>
                             <img 
@@ -178,6 +178,15 @@ const Settings = (props: any) => {
                             </button>
                         </form>
                     </div>
+
+                    {/* Upgrade Plan */}
+                    <button 
+                        onClick={() => { props.setIsModalOpen(false); navigate("/plans"); }}
+                        className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-semibold text-sm rounded-xl py-2.5 cursor-pointer transition-all duration-200 shadow-md hover:shadow-lg hover:shadow-amber-500/25"
+                    >
+                        <Crown className="w-4 h-4" />
+                        Upgrade Plan
+                    </button>
 
                     {/* Danger Zone */}
                     <div>
