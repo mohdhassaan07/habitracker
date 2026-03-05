@@ -6,6 +6,7 @@ import habitRouter from './routes/habit';
 import userRouter from './routes/user';
 import dotenv from 'dotenv';
 import cookieparser from 'cookie-parser';
+import { webhook } from './controllers/authController';
 import { resetallHabits } from './utils/resetHabits';
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { PrismaClient } from "@prisma/client";
@@ -26,6 +27,9 @@ app.use(cors(
     }
 ));
 app.use(cookieparser())
+
+// webhook route for stripe
+app.post('/api/user/webhook', express.raw({ type: 'application/json' }), webhook)
 app.use(express.json({ limit: '50mb' }))
 app.use(express.urlencoded({ limit: '50mb', extended: true }))
 const PORT = process.env.PORT || 3000;
@@ -81,6 +85,7 @@ app.get('/', (req, res) => {
     res.send('Hello World!');
 });
 app.get('/api/reset', resetallHabits);
+
 app.use('/api/user', userRouter)
 app.use('/api/habit', habitRouter);
 

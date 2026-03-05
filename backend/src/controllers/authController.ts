@@ -3,6 +3,8 @@ import jwt from "jsonwebtoken"
 import bcrypt from "bcrypt"
 import { oauth2client } from "../utils/googleConfig"
 import axios from 'axios'
+import Stripe from "stripe"
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string)
 const prisma = new PrismaClient()
 
 const googleLogin = async (req, res) => {
@@ -32,7 +34,7 @@ const googleLogin = async (req, res) => {
                 }
             })
         }
-        
+
         const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET)
         res.cookie("token", token, {
             httpOnly: true,
@@ -137,10 +139,104 @@ const SignOut = ((req, res) => {
     return res.status(200).json({ message: "User logged out successfully" });
 })
 
+const subscription = async (req, res) => {
+    try {
+        const { priceId } = req.body;
+        if (!priceId || typeof priceId !== "string") {
+            return res.status(400).json({ error: "Valid priceId is required" });
+        }
+        if (!priceId.startsWith("price_")) {
+            return res.status(400).json({ error: "Invalid Stripe priceId format" });
+        }
+
+        const session = await stripe.checkout.sessions.create({
+            mode: "subscription",
+            payment_method_types: ["card"],
+            line_items: [
+                {
+                    price: priceId,
+                    quantity: 1
+                }
+            ],
+            success_url: "http://localhost:5173/success?session_id={CHECKOUT_SESSION_ID}",
+            cancel_url: "http://localhost:5173/signup"
+        })
+
+        return res.status(200).json({ url: session.url })
+    } catch (error) {
+        if (error instanceof Stripe.errors.StripeError && error.code === "resource_missing") {
+            return res.status(400).json({
+                error: "Stripe price not found. Use a valid priceId from the same Stripe account and mode (test/live)."
+            })
+        }
+        return res.status(500).json({ error: "Error in subscription" });
+    }
+}
+
+const webhook = async (req, res) => {
+    const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET as string;
+    const signatureHeader = req.headers['stripe-signature'];
+    const signature = Array.isArray(signatureHeader) ? signatureHeader[0] : signatureHeader;
+
+    if (!endpointSecret) {
+        return res.status(500).json({ error: "Missing STRIPE_WEBHOOK_SECRET" });
+    }
+
+    if (!signature) {
+        return res.status(400).json({ error: "Missing stripe-signature header" });
+    }
+
+    let event: Stripe.Event;
+    try {
+        event = stripe.webhooks.constructEvent(
+            req.body,
+            signature,
+            endpointSecret
+        );
+    } catch (error: any) {
+        console.error("Webhook signature verification failed:", error.message);
+        return res.status(400).json({ error: "Webhook Error: " + error.message });
+    }
+    let eventType = event.type;
+
+    console.log("Stripe webhook received:", eventType);
+
+    try {
+        switch (eventType) {
+            case "checkout.session.completed": {
+                const checkoutSession = event.data.object as Stripe.Checkout.Session;
+                const session = await stripe.checkout.sessions.retrieve(checkoutSession.id, {
+                    expand: ["line_items"]
+                });
+
+                const customerId = typeof session.customer === "string" ? session.customer : session.customer?.id;
+
+                console.log("customer id:", customerId ?? "No customer id");
+
+                if (customerId) {
+                    const customer = await stripe.customers.retrieve(customerId);
+                    console.log("Customer details:", customer);
+                } else {
+                    console.log("Customer details: not available on session");
+                }
+                break;
+            }
+            // Handle other relevant Stripe events as needed
+            default:
+                console.log(`Unhandled event type: ${eventType}`);
+        }
+        return res.status(200).json({ received: true });
+    } catch (error: any) {
+        console.error("Error handling webhook event:", error);
+        return res.status(500).json({ error: "Error handling webhook event: " + error.message });
+    }
+}
 
 export {
     createUser,
     signin,
     SignOut,
-    googleLogin
+    googleLogin,
+    subscription,
+    webhook
 }

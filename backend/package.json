@@ -29,7 +29,8 @@
     "jsonwebtoken": "^9.0.2",
     "node-cron": "^4.1.1",
     "openai": "^5.18.1",
-    "socket.io": "^4.8.1"
+    "socket.io": "^4.8.1",
+    "stripe": "^20.4.0"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",
