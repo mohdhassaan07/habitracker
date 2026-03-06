@@ -278,12 +278,12 @@ const DayTime = ({ tab, toggleSidebar }: DayTimeProps) => {
                   <div className="py-1">
 
                     <MenuItem  >
-                      <a onClick={() => setsortBy("newest")} className={`flex gap-2 px-4 py-2 text-sm cursor-pointer ${sortBy === "newest" ? "bg-gray-100" : ""}`}>
+                      <a onClick={() => setsortBy("newest")} className={`flex gap-2 px-4 py-2 text-sm text-black cursor-pointer ${sortBy === "newest" ? "bg-gray-100" : ""}`}>
                         Newest First
                       </a>
                     </MenuItem>
                     <MenuItem  >
-                      <a onClick={() => setsortBy("oldest")} className={`flex gap-2 px-4 py-2 text-sm cursor-pointer ${sortBy === "oldest" ? "bg-gray-100" : ""}`}>
+                      <a onClick={() => setsortBy("oldest")} className={`flex gap-2 px-4 py-2 text-sm text-black  cursor-pointer ${sortBy === "oldest" ? "bg-gray-100" : ""}`}>
                         Oldest First
                       </a>
                     </MenuItem>
@@ -394,7 +394,7 @@ const DayTime = ({ tab, toggleSidebar }: DayTimeProps) => {
               return (
                 <div
                   key={habit.id}
-                  className={`habit flex items-center p-3 rounded-md mb-2`}
+                  className={`habit flex items-center p-2 rounded-md mb-2`}
                   onClick={() => {
                     if (tohabit && tohabit.id === habit.id) {
                       settoggleRightSidebar(!toggleRightSidebar);
@@ -405,7 +405,7 @@ const DayTime = ({ tab, toggleSidebar }: DayTimeProps) => {
                     }
                   }}
                 >
-                  <div className="circle bg-gray-200 text-gray-500 text-sm  flex items-center justify-center font-bold w-10 h-10 rounded-full">
+                  <div className="circle bg-gray-200 text-gray-500  flex items-center justify-center font-bold w-10 h-10 rounded-full">
                     {habit.name.split(" ").map((word: string) => word.charAt(0).toUpperCase()).join("").slice(0, 2)}
                   </div>
                   <div className="ml-3 flex justify-between w-full border-b border-gray-300 pb-2">
@@ -419,7 +419,7 @@ const DayTime = ({ tab, toggleSidebar }: DayTimeProps) => {
                         {habit.currentValue} / {habit.unitValue} {habit.unitType}
                       </p>
                     </div>
-                    <div className="flex relative gap-2">
+                    <div className="flex relative ">
                       {(habit.unitType === "times" ?
                         <button disabled={disabled} onClick={(e) => { e.stopPropagation(), logHabit(habit.id) }} className='border-1 rounded-md mx-2 dark:text-white border-gray-300 h-8 flex gap-1 p-1 w-[43px] items-center justify-center font-semibold px-2 active:bg-gray-100' >
                           <Plus width={15} />1</button> : <Link to={`/journal/timer/${habit.id}`} onClick={(e) => e.stopPropagation()} className='border-1 rounded-md mx-2 dark:text-white border-gray-300 w-[43px] h-8 flex p-1 items-center justify-center font-semibold px-2 ' ><Timer width={19} /></Link>)

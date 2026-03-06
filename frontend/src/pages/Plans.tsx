@@ -1,25 +1,12 @@
 import { motion } from 'framer-motion';
-import { CheckCircle } from 'lucide-react';
+import { ArrowLeft, CheckCircle } from 'lucide-react';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Plans = ()=> {
     const currentUser = useSelector((state: any) => state.user.currentUser);
+    const navigate = useNavigate();
     const plans = [
-    {
-      name: 'Starter',
-      price: '0',
-      priceId : 'N/A',
-      link : '/signin',
-      description: 'Perfect for getting started',
-      features: [
-        'Track up to 3 habits',
-        'Basic statistics',
-        '7-day history',
-      ],
-      cta: 'Get Started',
-      highlight: false,
-    },
     {
       name: 'Premium',
       price: '9.99',
@@ -56,7 +43,14 @@ const Plans = ()=> {
   ];
 
   return (
-        <div className="mx-auto md:h-screen p-2 lg:py-5 lg:px-6 dark:bg-stone-950">
+        <div className="mx-auto md:h-screen flex flex-col justify-center items-center p-2 lg:py-5 lg:px-6 dark:bg-stone-950">
+          <button
+            onClick={() => navigate(-1)}
+            className="self-start fixed top-5 left-20 ml-2 hidden mb-4 md:flex items-center gap-1 text-sm font-medium text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-white transition-colors"
+          >
+            <ArrowLeft className="h-4 w-4" />
+            Back
+          </button>
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -75,7 +69,7 @@ const Plans = ()=> {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-3 lg:mx-20">
+          <div className="flex gap-5 max-w-3xl m-2 flex-col md:flex-row w-full">
             {plans.map((plan, i) => (
               <motion.div
                 key={plan.name}
@@ -83,7 +77,7 @@ const Plans = ()=> {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.12, duration: 0.5 }}
-                className={`relative rounded-2xl p-8 transition-all duration-300 ${
+                className={`relative rounded-2xl p-8 transition-all w-full duration-300 ${
                   plan.highlight
                     ? 'border-2 border-blue-500/40 bg-gradient-to-b from-blue-500/10 to-white dark:to-stone-900/80 shadow-xl shadow-blue-500/5'
                     : 'border border-stone-200 dark:border-stone-800/50 bg-white/60 dark:bg-stone-900/50 hover:border-stone-300 dark:hover:border-stone-700/60'
@@ -125,6 +119,7 @@ const Plans = ()=> {
 
                 <Link
                   to={`${plan.link}?prefilled_email=${currentUser?.email || ''}`}
+                  target='blank'
                   className={`mt-8 block rounded-full py-3 text-center text-sm font-semibold transition-all duration-300 ${
                     plan.highlight
                       ? 'bg-blue-500 text-white dark:text-stone-950 hover:bg-blue-400 hover:shadow-lg hover:shadow-blue-500/25'

@@ -433,7 +433,7 @@ const Habits = ({ toggleSidebar }: HabitsProps) => {
                     </div>
                     <div className="flex gap-2">
                       {(habit.unitType === "times" ?
-                        <button disabled={disabled} onClick={(e) => { e.stopPropagation(), logHabit(habit) }} className='border-1 rounded-md border-gray-300 h-8 flex gap-1 p-1  items-center justify-center font-semibold px-2 active:bg-gray-100' >
+                        <button disabled={disabled} onClick={(e) => { e.stopPropagation(), logHabit(habit) }} className='border-1 rounded-md border-gray-300 h-8 flex gap-1 p-1  items-center justify-center font-semibold px-2 active:bg-gray-100 dark:active:bg-gray-700' >
                           <Plus width={16} />1</button> : <Link to={`/journal/timer/${habit.id}`} onClick={(e) => e.stopPropagation()} className='border-1 rounded-md border-gray-300 w-[43px] h-8 flex p-1 items-center justify-center font-semibold px-2 ' ><Timer width={19} /></Link>)
                       }
                       <Menu as="div" className="relative inline-block text-black text-left">
