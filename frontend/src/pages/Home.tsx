@@ -218,7 +218,7 @@ function Home() {
   // }
   /* ── render ──────────────────────────────────────────── */
   return (
-    <div className="min-h-screen bg-stone-50 dark:bg-stone-950 text-stone-700 dark:text-stone-300 font-body overflow-x-hidden">
+    <div className="min-h-screen element bg-stone-50 dark:bg-stone-950 text-stone-700 dark:text-stone-300 font-body overflow-x-hidden">
       {/* ░░ grain overlay ░░ */}
       <div
         className="pointer-events-none fixed inset-0 z-50 opacity-[0.018] dark:opacity-[0.025]"
@@ -341,7 +341,7 @@ function Home() {
               transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
               className="mx-auto mt-8 max-w-2xl text-lg leading-relaxed text-stone-500 dark:text-stone-400 md:text-xl"
             >
-              Simple daily tracking, insightful analytics, and gentle reminders
+              Simple daily tracking, insightful analytics, and progress tracking
               that help you become who you want to be.
             </motion.p>
 

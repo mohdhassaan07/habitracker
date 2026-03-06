@@ -4,7 +4,17 @@
 }
 
 .element {
-
   -ms-overflow-style: none;
   /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+html:has(.element)::-webkit-scrollbar {
+  display: none;
+}
+
+html:has(.element) {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
