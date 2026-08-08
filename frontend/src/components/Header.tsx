@@ -117,7 +117,7 @@ const Header = ({ toggleSidebar }: HeaderProps) => {
             <Mood mood={todayMood} isModalOpen={isMoodModalOpen} setisModalOpen={setisMoodModalOpen} />
             <Modal isOpen={isModalOpen} onClose={() => setModalOpen(false)}  >
                 <h2 className="text-xl font-bold mb-4">New Habit</h2>
-                <form className='' onSubmit={handleSubmit}>
+                <form className='dark:text-gray-400' onSubmit={handleSubmit}>
                     <div className="mb-4">
                         <h5 className="block text-sm font-medium mb-3 text-gray-500">Habit Name</h5>
                         <input type="text" name="name" onChange={handleChange} className="w-full border border-gray-300 p-2 rounded-md " placeholder="Enter habit name" required />
@@ -125,11 +125,11 @@ const Header = ({ toggleSidebar }: HeaderProps) => {
                     <h5 className="block text-sm font-medium text-gray-500">GOAL</h5>
                     <div className='flex flex-col lg:flex-row gap-2 lg:gap-4 justify-center mb-2 py-3'>
                         {isInp == 'minutes' ? <input type="number" defaultValue={1} min={1} className='h-10 w-full lg:w-16 border border-gray-300 p-1 rounded-md ' onChange={handleChange} name="unitValue" /> : <input type="number" defaultValue={1} min={1} step={1} className='h-10 w-full lg:w-16 border border-gray-300 p-1 rounded-md ' onChange={handleChange} name="unitValue" id="" />}
-                        <select onChange={(e) => { setisInp(e.target.value), handleChange(e) }} name="unitType" id="" className='border h-10  border-gray-300  rounded-sm p-2 '>
+                        <select onChange={(e) => { setisInp(e.target.value), handleChange(e) }} name="unitType" id="" className='border h-10  border-gray-300 dark:bg-gray-900 rounded-sm p-2 '>
                             <option value="times ">Times</option>
                             <option value="minutes">Mins</option>
                         </select>
-                        <select name="frequency" id="" onChange={handleChange} className='border h-10  border-gray-300 rounded-sm p-2 '>
+                        <select name="frequency" id="" onChange={handleChange} className='border h-10 dark:bg-gray-900 border-gray-300 rounded-sm p-2 '>
                             <option value="daily">Per Day</option>
                             <option value="weekly">Per Week</option>
                             <option value="monthly">Per Month</option>
@@ -141,9 +141,9 @@ const Header = ({ toggleSidebar }: HeaderProps) => {
                             {/* Dropdown Button */}
                             <div
                                 onClick={toggleDropdown}
-                                className="border  border-gray-300 w-full px-4 py-2 rounded cursor-pointer bg-white flex justify-between items-center"
+                                className="border  border-gray-300 w-full px-4 py-2 rounded cursor-pointer bg-white dark:bg-gray-900 flex justify-between items-center"
                             >
-                                <span className="text-gray-700">
+                                <span className="text-gray-700 dark:text-gray-400">
                                     {selectedTimes['Morning'] && selectedTimes['Afternoon'] && selectedTimes['Evening'] ? 'Any Time' : ''}
                                     {selectedTimes['Morning'] && !selectedTimes['Afternoon'] && !selectedTimes['Evening'] ? 'Morning' : ''}
                                     {selectedTimes['Afternoon'] && !selectedTimes['Morning'] && !selectedTimes['Evening'] ? 'Afternoon' : ''}
@@ -171,7 +171,7 @@ const Header = ({ toggleSidebar }: HeaderProps) => {
 
                             {/* Dropdown Content */}
                             {open && (
-                                <div className="absolute mt-2 w-full border border-gray-300 rounded bg-white shadow-md z-10">
+                                <div className="absolute mt-2 w-full border border-gray-300 rounded bg-white dark:bg-gray-900 shadow-md z-10">
                                     {Object.keys(selectedTimes).map((time) => (
                                         <label
                                             key={time}
