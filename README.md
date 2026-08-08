@@ -1,4 +1,4 @@
-<![CDATA[# 🧠 Habitron — AI-Powered Habit Tracker
+# 🧠 Habitron — AI-Powered Habit Tracker
 
 A full-stack habit tracking application that helps users build and maintain positive habits with AI-powered insights, mood journaling, streak tracking, and real-time analytics.
 
