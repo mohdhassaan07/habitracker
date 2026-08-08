@@ -309,4 +309,3 @@ This project is licensed under the **ISC License**.
 <p align="center">
   Built with ❤️ by <a href="https://github.com/mohdhassaan07">mohdhassaan07</a>
 </p>
-]]>
