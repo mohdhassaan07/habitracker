@@ -131,8 +131,8 @@ function Home() {
     {
       name: 'Starter',
       price: '0',
-      priceId : 'N/A',
-      link : '/signin',
+      priceId: 'N/A',
+      link: '/signin',
       description: 'Perfect for getting started',
       features: [
         'Track up to 3 habits',
@@ -145,8 +145,8 @@ function Home() {
     {
       name: 'Premium',
       price: '9.99',
-      priceId : 'price_1T6rduJWghtPYWYOdFOrnPpt',
-      link : 'https://buy.stripe.com/test_fZu3cw5CGh2Pg6X8HV9IQ00',
+      priceId: 'price_1T6rduJWghtPYWYOdFOrnPpt',
+      link: 'https://buy.stripe.com/test_fZu3cw5CGh2Pg6X8HV9IQ00',
       description: 'For serious habit builders',
       features: [
         'Unlimited habits',
@@ -162,8 +162,8 @@ function Home() {
     {
       name: 'Family',
       price: '19.99',
-      priceId : 'price_1T6rebJWghtPYWYOEImMjSmk',
-      link : 'https://buy.stripe.com/test_aFaaEYaX0aEr9IzbU79IQ01',
+      priceId: 'price_1T6rebJWghtPYWYOEImMjSmk',
+      link: 'https://buy.stripe.com/test_aFaaEYaX0aEr9IzbU79IQ01',
       description: 'For households building together',
       features: [
         'Everything in Premium',
@@ -177,7 +177,7 @@ function Home() {
     },
   ];
 
-  
+
 
   const faqs = [
     {
@@ -232,11 +232,10 @@ function Home() {
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-        className={`fixed w-full z-40 transition-all duration-500 ${
-          isScrolled
-            ? 'bg-white/80 dark:bg-stone-950/80 backdrop-blur-xl border-b border-stone-200 dark:border-stone-800/50 py-3'
-            : 'bg-transparent py-5'
-        }`}
+        className={`fixed w-full z-40 transition-all duration-500 ${isScrolled
+          ? 'bg-white/80 dark:bg-stone-950/80 backdrop-blur-xl border-b border-stone-200 dark:border-stone-800/50 py-3'
+          : 'bg-transparent py-5'
+          }`}
       >
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 lg:px-8">
           <span className="font-display text-xl font-bold tracking-tight text-stone-900 dark:text-white">
@@ -256,7 +255,7 @@ function Home() {
             ))}
             <Link
               to="/signin"
-              className="rounded-full bg-blue-500 px-5 py-2.5 text-sm font-semibold text-white dark:text-stone-950 transition-all hover:bg-blue-400 hover:shadow-lg hover:shadow-blue-500/20"
+              className="rounded-full bg-gradient-to-r from-blue-500 to-indigo-500 px-5 py-2.5 text-sm font-semibold text-white transition-all duration-300 hover:scale-105 hover:from-blue-600 hover:to-indigo-600 hover:shadow-lg hover:shadow-blue-500/20"
             >
               Get Started
             </Link>
@@ -353,7 +352,7 @@ function Home() {
             >
               <Link
                 to="/signin"
-                className="group flex items-center gap-2 rounded-full bg-blue-500 px-8 py-4 text-lg font-semibold text-white dark:text-stone-950 transition-all duration-300 hover:bg-blue-400 hover:shadow-xl hover:shadow-blue-500/25"
+                className="group flex items-center gap-2 rounded-full bg-gradient-to-r from-blue-500 to-indigo-500 px-8 py-4 text-lg font-semibold text-white transition-all duration-300 hover:scale-105 hover:from-blue-600 hover:to-indigo-600 hover:shadow-xl hover:shadow-blue-500/25"
               >
                 Start for free
                 <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
@@ -391,7 +390,7 @@ function Home() {
       </section>
 
       {/* ░░ social proof strip ░░ */}
-      
+
 
       {/* ░░ features — bento grid ░░ */}
       <section id="features" className="py-24 md:py-32">
@@ -480,11 +479,10 @@ function Home() {
                   {[...Array(5)].map((_, j) => (
                     <Star
                       key={j}
-                      className={`h-4 w-4 ${
-                        j < t.rating
-                          ? 'fill-amber-400 text-amber-400'
-                          : 'text-stone-300 dark:text-stone-700'
-                      }`}
+                      className={`h-4 w-4 ${j < t.rating
+                        ? 'fill-amber-400 text-amber-400'
+                        : 'text-stone-300 dark:text-stone-700'
+                        }`}
                     />
                   ))}
                 </div>
@@ -539,11 +537,10 @@ function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.12, duration: 0.5 }}
-                className={`relative rounded-2xl p-8 transition-all duration-300 ${
-                  plan.highlight
-                    ? 'border-2 border-blue-500/40 bg-gradient-to-b from-blue-500/10 to-white dark:to-stone-900/80 shadow-xl shadow-blue-500/5'
-                    : 'border border-stone-200 dark:border-stone-800/50 bg-white/60 dark:bg-stone-900/50 hover:border-stone-300 dark:hover:border-stone-700/60'
-                }`}
+                className={`relative rounded-2xl p-8 transition-all duration-300 ${plan.highlight
+                  ? 'border-2 border-blue-500/40 bg-gradient-to-b from-blue-500/10 to-white dark:to-stone-900/80 shadow-xl shadow-blue-500/5'
+                  : 'border border-stone-200 dark:border-stone-800/50 bg-white/60 dark:bg-stone-900/50 hover:border-stone-300 dark:hover:border-stone-700/60'
+                  }`}
               >
                 {plan.highlight && (
                   <div className="absolute -top-3 left-1/2 -translate-x-1/2">
@@ -581,12 +578,11 @@ function Home() {
 
                 <Link
                   to={'/signin'}
-                  className={`mt-8 block rounded-full py-3 text-center text-sm font-semibold transition-all duration-300 ${
-                    plan.highlight
-                      ? 'bg-blue-500 text-white dark:text-stone-950 hover:bg-blue-400 hover:shadow-lg hover:shadow-blue-500/25'
-                      : 'bg-stone-100 dark:bg-stone-800 text-stone-800 dark:text-white hover:bg-stone-200 dark:hover:bg-stone-700'
-  
-                  }`}
+                  className={`mt-8 block rounded-full py-3 text-center text-sm font-semibold transition-all duration-300 ${plan.highlight
+                    ? 'bg-blue-500 text-white hover:bg-blue-600 hover:shadow-lg hover:shadow-blue-500/25'
+                    : 'bg-stone-100 dark:bg-stone-800 text-stone-800 dark:text-white hover:bg-stone-200 dark:hover:bg-stone-700'
+
+                    }`}
                 >
                   {plan.cta}
                 </Link>
@@ -631,9 +627,8 @@ function Home() {
                     {faq.question}
                   </span>
                   <ChevronDown
-                    className={`h-5 w-5 shrink-0 text-stone-400 dark:text-stone-500 transition-transform duration-300 ${
-                      openFaq === i ? 'rotate-180' : ''
-                    }`}
+                    className={`h-5 w-5 shrink-0 text-stone-400 dark:text-stone-500 transition-transform duration-300 ${openFaq === i ? 'rotate-180' : ''
+                      }`}
                   />
                 </button>
                 <AnimatePresence>
@@ -675,7 +670,7 @@ function Home() {
           </p>
           <Link
             to="/signin"
-            className="group mt-8 inline-flex items-center gap-2 rounded-full bg-blue-500 px-10 py-4 text-lg font-semibold text-white dark:text-stone-950 transition-all duration-300 hover:bg-blue-400 hover:shadow-xl hover:shadow-blue-500/25"
+            className="group mt-8 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-blue-500 to-indigo-500 px-10 py-4 text-lg font-semibold text-white transition-all duration-300 hover:from-blue-600 hover:to-indigo-600 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/25"
           >
             Get started — it&rsquo;s free
             <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
