@@ -12,12 +12,13 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import prisma from "./lib/prisma";
 dotenv.config();
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-const app = express();
-const server = http.createServer(app);
-const io = new Server(server, {
-    cors: {origin: ['https://habitron-seven.vercel.app', 'http://localhost:5173', 'https://cron-job.org']}
-});
+export const app = express();
 
+export const server = http.createServer(app);
+
+const io = new Server(server, {
+    cors: { origin: ['https://habitron-seven.vercel.app', 'http://localhost:5173', 'https://cron-job.org'] }
+});
 
 app.use(cors(
     {
@@ -31,7 +32,7 @@ app.use(cookieparser())
 app.post('/api/user/webhook', express.raw({ type: 'application/json' }), webhook)
 app.use(express.json({ limit: '50mb' }))
 app.use(express.urlencoded({ limit: '50mb', extended: true }))
-const PORT = process.env.PORT || 3000;
+export const PORT = process.env.PORT || 3000;
 io.on("connection", (socket) => {
     console.log("A user connected:", socket.id);
     socket.emit("message", { message: "Hello from server" })
@@ -88,6 +89,5 @@ app.get('/api/reset', resetallHabits);
 app.use('/api/user', userRouter)
 app.use('/api/habit', habitRouter);
 
-server.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
-});
+export default app;
+
