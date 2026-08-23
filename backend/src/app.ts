@@ -32,7 +32,6 @@ app.use(cookieparser())
 app.post('/api/user/webhook', express.raw({ type: 'application/json' }), webhook)
 app.use(express.json({ limit: '50mb' }))
 app.use(express.urlencoded({ limit: '50mb', extended: true }))
-export const PORT = process.env.PORT || 3000;
 io.on("connection", (socket) => {
     console.log("A user connected:", socket.id);
     socket.emit("message", { message: "Hello from server" })
@@ -88,6 +87,3 @@ app.get('/api/reset', resetallHabits);
 
 app.use('/api/user', userRouter)
 app.use('/api/habit', habitRouter);
-
-export default app;
-
