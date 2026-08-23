@@ -12,7 +12,7 @@ let app: Express;
 let userId: string;
 let token: string;
 
-const clearDatabase = async () => {
+export const clearDatabase = async () => {
     await prisma.habitLog.deleteMany();
     await prisma.habit.deleteMany();
     await prisma.moodLog.deleteMany();
