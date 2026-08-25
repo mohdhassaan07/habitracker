@@ -8,6 +8,7 @@ import flowbiteReact from "flowbite-react/plugin/vite";
 export default defineConfig({
   plugins: [react(), tsconfigPaths(), tailwindcss(), flowbiteReact()],
   test: {
+    globals: true,
     environment: "jsdom",
     setupFiles: "./src/tests/setup.ts",
   },
