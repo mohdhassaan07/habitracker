@@ -10,6 +10,7 @@ interface TimerClockProps {
     unitValue: number;
 }
 const TimerClock = ({ expiryTimestamp, setIsTimerRunning, habitName, habitId, unitValue }: TimerClockProps) => {
+
     const {
         seconds,
         minutes,
@@ -20,6 +21,7 @@ const TimerClock = ({ expiryTimestamp, setIsTimerRunning, habitName, habitId, un
         resume,
         // restart,
     } = useTimer({ expiryTimestamp, onExpire: () => { logHabit(); console.warn('onExpire called'); setIsTimerRunning(false) }, interval: 20 });
+    
     const { updateHabitCurrentValue } = useHabitData();
     const logHabit = async () => {
         try {
