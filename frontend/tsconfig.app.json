@@ -11,7 +11,8 @@
     "module": "ESNext",
     "skipLibCheck": true,
     "types": [
-      "vitest/globals"
+      "vitest/globals",
+      "node"
     ],
     "paths": {
       "@/*": [
